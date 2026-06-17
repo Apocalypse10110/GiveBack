@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background square with rounded corners, same navy as --dark -->
+  <rect width="32" height="32" rx="5" fill="#0B1D3A"/>
+  <!-- Heart filled with community green, same as --accent -->
+  <path d="M16 24.5l-1.2-1.1C9.6 18.8 6 15.5 6 11.5 6 8.4 8.4 6 11.5 6c1.7 0 3.4.8 4.5 2.1C17.1 6.8 18.8 6 20.5 6 23.6 6 26 8.4 26 11.5c0 4-3.6 7.3-8.8 11.9L16 24.5z" fill="#1A7A4A"/>
+</svg>

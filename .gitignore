@@ -1,0 +1,24 @@
+# ── Secrets — never commit these ─────────────────────────────────────────────
+.env
+
+# ── Local data — contains real org info and generated sites ──────────────────
+*.db
+*.db-wal
+*.db-shm
+
+# ── Generated output — too large for git, rebuilt on demand ──────────────────
+logs/
+generated/          # any locally-saved HTML output before GitHub deploy
+screenshots/
+
+# ── Python boilerplate ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# ── OS noise ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
