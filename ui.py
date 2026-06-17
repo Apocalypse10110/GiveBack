@@ -42,150 +42,60 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
 
 :root {
-  --accent:  #0D7C6E;
-  --dark:    #0B1D3A;
-  --dark2:   #0F2347;
-  --light:   #F4F6F9;
-  --muted:   #64748B;
-  --border:  #E2E8F0;
-  --text:    #0F1E32;
-  --red:     #DC2626;
-  --yellow:  #D97706;
+  --accent:   #0D7C6E;
+  --dark:     #0B1D3A;
+  --dark2:    #0F2347;
+  --dim:      rgba(255,255,255,.08);
 }
 
-html, body, [class*="css"] {
-  font-family: 'DM Sans', sans-serif !important;
-}
+html, body, [class*="css"] { font-family: 'DM Sans', sans-serif !important; }
+h1, h2, h3, h4 { font-family: 'Sora', sans-serif !important; letter-spacing: -.3px; }
 
-h1, h2, h3, h4 {
-  font-family: 'Sora', sans-serif !important;
-  letter-spacing: -.3px;
-}
-
-/* Top header bar */
-.gb-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 22px 0 18px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 28px;
-}
-.gb-logo {
-  width: 36px; height: 36px;
-  background: var(--accent);
-  border-radius: 4px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.gb-title {
-  font-family: 'Sora', sans-serif !important;
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--text);
-  letter-spacing: -.4px;
-  margin: 0;
-}
-.gb-sub {
-  font-size: .78rem;
-  color: var(--muted);
-  margin: 0;
-}
-
-/* Metric cards */
-.metric-card {
+/* Header — full-width dark strip so it reads on any Streamlit theme */
+.gb-header-wrap {
   background: var(--dark);
-  border-radius: 6px;
-  padding: 20px 22px;
-  border-top: 2px solid var(--accent);
+  margin: -1rem -1rem 24px -1rem;
+  padding: 16px 28px;
+  border-bottom: 1px solid var(--dim);
 }
-.metric-num {
-  font-family: 'Sora', sans-serif;
-  font-size: 2rem;
-  font-weight: 800;
-  color: #fff;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-.metric-label {
-  font-size: .72rem;
-  font-weight: 600;
-  color: rgba(255,255,255,.4);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-}
+.gb-header { display:flex; align-items:center; gap:14px; }
+.gb-logo { width:32px; height:32px; background:var(--accent); border-radius:4px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.gb-title { font-family:'Sora',sans-serif !important; font-size:1.05rem; font-weight:800; color:#ffffff; letter-spacing:-.2px; margin:0; line-height:1.2; }
+.gb-sub { font-size:.72rem; color:rgba(255,255,255,.38); margin:0; }
+.gb-pill { background:rgba(13,124,110,.18); border:1px solid rgba(13,124,110,.3); color:#4DD9C8; font-family:'Sora',sans-serif; font-size:.63rem; font-weight:700; padding:3px 8px; border-radius:3px; letter-spacing:.7px; text-transform:uppercase; margin-left:auto; }
 
-/* Tier badges */
-.tier-hot  { background: #FEF2F2; color: #991B1B; border: 1px solid #FECACA; padding: 2px 9px; border-radius: 3px; font-size: .72rem; font-weight: 700; }
-.tier-warm { background: #FFFBEB; color: #92400E; border: 1px solid #FDE68A; padding: 2px 9px; border-radius: 3px; font-size: .72rem; font-weight: 700; }
-.tier-cold { background: #F0F9FF; color: #075985; border: 1px solid #BAE6FD; padding: 2px 9px; border-radius: 3px; font-size: .72rem; font-weight: 700; }
+/* Metrics — flat table layout, no hero-number cliche */
+.metrics-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--dim); border:1px solid var(--dim); border-radius:5px; overflow:hidden; margin-bottom:22px; }
+.metric-cell { background:rgba(11,29,58,.55); padding:14px 18px; display:flex; align-items:center; gap:12px; }
+.metric-val { font-family:'Sora',sans-serif; font-size:1.5rem; font-weight:800; color:#fff; line-height:1; min-width:24px; }
+.metric-label { font-size:.66rem; font-weight:700; color:rgba(255,255,255,.32); text-transform:uppercase; letter-spacing:1px; display:block; }
+.metric-desc  { font-size:.74rem; color:rgba(255,255,255,.52); }
+.metric-cell.hi .metric-val { color:#4DD9C8; }
 
-/* Org review card */
-.org-card {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 22px 24px;
-  margin-bottom: 16px;
-  background: #fff;
-}
-.org-card-name {
-  font-family: 'Sora', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.org-card-meta {
-  font-size: .8rem;
-  color: var(--muted);
-  margin-bottom: 14px;
-}
+/* Badges */
+.tier-hot  { background:#FEF2F2; color:#991B1B; border:1px solid #FECACA; padding:2px 8px; border-radius:3px; font-size:.7rem; font-weight:700; }
+.tier-warm { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; padding:2px 8px; border-radius:3px; font-size:.7rem; font-weight:700; }
+.tier-cold { background:#F0F9FF; color:#075985; border:1px solid #BAE6FD; padding:2px 8px; border-radius:3px; font-size:.7rem; font-weight:700; }
+
+/* Org card */
+.org-card { border:1px solid #E2E8F0; border-radius:4px; padding:18px 22px; margin-bottom:14px; background:#fff; }
+.org-card-name { font-family:'Sora',sans-serif; font-size:.96rem; font-weight:700; color:#0F1E32; margin-bottom:3px; }
+.org-card-meta { font-size:.78rem; color:#64748B; margin-bottom:12px; }
 
 /* Stage pills */
-.stage-pill {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 3px;
-  font-size: .7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .6px;
-}
-.stage-scraped   { background: #F1F5F9; color: #475569; }
-.stage-qualified { background: #EFF6FF; color: #1D4ED8; }
-.stage-built     { background: #FEF9C3; color: #854D0E; }
-.stage-deploying { background: #FDF4FF; color: #7E22CE; }
-.stage-deployed  { background: #F0FDF4; color: #166534; }
-.stage-rejected  { background: #FEF2F2; color: #991B1B; }
-.stage-error     { background: #FEF2F2; color: #991B1B; }
+.stage-pill { display:inline-block; padding:2px 8px; border-radius:3px; font-size:.67rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
+.stage-scraped   { background:#F1F5F9; color:#475569; }
+.stage-qualified { background:#EFF6FF; color:#1D4ED8; }
+.stage-built     { background:#FEF9C3; color:#854D0E; }
+.stage-deploying { background:#FDF4FF; color:#7E22CE; }
+.stage-deployed  { background:#F0FDF4; color:#166534; }
+.stage-rejected  { background:#FEF2F2; color:#991B1B; }
+.stage-error     { background:#FEF2F2; color:#991B1B; }
 
-/* Log window */
-.log-window {
-  background: #0D1117;
-  color: #8DDB8F;
-  font-family: 'SF Mono', 'Fira Code', monospace;
-  font-size: .76rem;
-  line-height: 1.6;
-  padding: 16px;
-  border-radius: 6px;
-  height: 300px;
-  overflow-y: auto;
-  white-space: pre-wrap;
-  border: 1px solid #21262D;
-}
-
-/* Deploy button */
-.stButton button {
-  font-family: 'Sora', sans-serif !important;
-  font-weight: 700 !important;
-  border-radius: 4px !important;
-}
-
-/* Remove Streamlit default top padding */
-.block-container { padding-top: 1rem !important; }
-
-/* Make iframes have a visible border */
-iframe { border: 1px solid var(--border) !important; border-radius: 4px; }
+/* Misc */
+.stButton button { font-family:'Sora',sans-serif !important; font-weight:700 !important; border-radius:4px !important; }
+.block-container { padding-top:0 !important; }
+iframe { border:1px solid #CBD5E1 !important; border-radius:4px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -195,15 +105,18 @@ init_db()
 
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div class="gb-header">
-  <div class="gb-logo">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-    </svg>
-  </div>
-  <div>
-    <p class="gb-title">GiveBack Dashboard</p>
-    <p class="gb-sub">Nonprofit web pipeline · Human-in-the-loop review</p>
+<div class="gb-header-wrap">
+  <div class="gb-header">
+    <div class="gb-logo">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+    </div>
+    <div>
+      <p class="gb-title">GiveBack</p>
+      <p class="gb-sub">Nonprofit web pipeline &nbsp;&middot;&nbsp; Human-in-the-loop review</p>
+    </div>
+    <span class="gb-pill">Internal</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -219,21 +132,38 @@ built      = counts.get('built', 0)
 deployed   = counts.get('deployed', 0)
 needs_review = built  # sites waiting for human approval
 
-c1, c2, c3, c4 = st.columns(4)
-for col, num, label in [
-    (c1, total,        'Orgs Found'),
-    (c2, qualified,    'Ready to Build'),
-    (c3, needs_review, 'Awaiting Review'),
-    (c4, deployed,     'Sites Live'),
-]:
-    col.markdown(f"""
-    <div class="metric-card">
-      <div class="metric-num">{num}</div>
-      <div class="metric-label">{label}</div>
+st.markdown(f"""
+<div class="metrics-row">
+  <div class="metric-cell">
+    <div class="metric-val">{total}</div>
+    <div class="metric-info">
+      <span class="metric-label">Orgs Found</span>
+      <span class="metric-desc">Total in database</span>
     </div>
-    """, unsafe_allow_html=True)
-
-st.markdown('<div style="height:24px"></div>', unsafe_allow_html=True)
+  </div>
+  <div class="metric-cell">
+    <div class="metric-val">{qualified}</div>
+    <div class="metric-info">
+      <span class="metric-label">Ready to Build</span>
+      <span class="metric-desc">Qualified, awaiting builder</span>
+    </div>
+  </div>
+  <div class="metric-cell hi">
+    <div class="metric-val">{needs_review}</div>
+    <div class="metric-info">
+      <span class="metric-label">Awaiting Review</span>
+      <span class="metric-desc">Needs your approval</span>
+    </div>
+  </div>
+  <div class="metric-cell">
+    <div class="metric-val">{deployed}</div>
+    <div class="metric-info">
+      <span class="metric-label">Sites Live</span>
+      <span class="metric-desc">Deployed to GitHub Pages</span>
+    </div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ── Tabs ───────────────────────────────────────────────────────────────────────
 tab_pipeline, tab_review, tab_deployed, tab_stats = st.tabs([
