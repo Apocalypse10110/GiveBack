@@ -29,21 +29,20 @@ import builder
 # ── Page config — must be the very first Streamlit call ───────────────────────
 st.set_page_config(
     page_title='GiveBack Dashboard',
-    page_icon='💚',
+    page_icon='G',
     layout='wide',
     initial_sidebar_state='collapsed',
 )
 
 # ── Custom CSS — matches the site template palette exactly ────────────────────
 # Sora for headings, dark navy background for the sidebar and metric cards,
-# green accent for CTAs. Keeps the dashboard feeling like part of the same
-# product rather than a default Streamlit skin.
+# teal accent for CTAs. Matches the template palette exactly.
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
 
 :root {
-  --accent:  #1A7A4A;
+  --accent:  #0D7C6E;
   --dark:    #0B1D3A;
   --dark2:   #0F2347;
   --light:   #F4F6F9;
@@ -98,7 +97,7 @@ h1, h2, h3, h4 {
   background: var(--dark);
   border-radius: 6px;
   padding: 20px 22px;
-  border-left: 3px solid var(--accent);
+  border-top: 2px solid var(--accent);
 }
 .metric-num {
   font-family: 'Sora', sans-serif;
@@ -238,10 +237,10 @@ st.markdown('<div style="height:24px"></div>', unsafe_allow_html=True)
 
 # ── Tabs ───────────────────────────────────────────────────────────────────────
 tab_pipeline, tab_review, tab_deployed, tab_stats = st.tabs([
-    '⚙️  Run Pipeline',
-    f'👀  Review Queue ({needs_review})',
-    '🌐  Deployed Sites',
-    '📊  Stats',
+    'Run Pipeline',
+    f'Review Queue ({needs_review})',
+    'Deployed Sites',
+    'Stats',
 ])
 
 
@@ -406,7 +405,7 @@ with tab_review:
             {selected_org.get('review_count',0)} Google reviews
           </div>
           <a href="{selected_org.get('google_maps_url','#')}" target="_blank"
-             style="font-size:.78rem;color:#1A7A4A;font-weight:600;">
+             style="font-size:.78rem;color:#0D7C6E;font-weight:600;">
             View on Google Maps ↗
           </a>
         </div>
@@ -591,7 +590,7 @@ with tab_stats:
                     f'<div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">'
                     f'<span class="stage-pill {pill_class}">{stage}</span>'
                     f'<div style="flex:1;background:#F1F5F9;border-radius:2px;height:6px;">'
-                    f'<div style="width:{bar_pct}%;background:#1A7A4A;height:6px;border-radius:2px;"></div>'
+                    f'<div style="width:{bar_pct}%;background:#0D7C6E;height:6px;border-radius:2px;"></div>'
                     f'</div>'
                     f'<span style="font-size:.8rem;font-weight:600;color:#0F1E32;min-width:24px;text-align:right;">{row["c"]}</span>'
                     f'</div>',
@@ -612,7 +611,7 @@ with tab_stats:
                     f'<div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">'
                     f'<span class="{pill_class}" style="min-width:48px;text-align:center;">{tier.upper()}</span>'
                     f'<div style="flex:1;background:#F1F5F9;border-radius:2px;height:6px;">'
-                    f'<div style="width:{bar_pct}%;background:#1A7A4A;height:6px;border-radius:2px;"></div>'
+                    f'<div style="width:{bar_pct}%;background:#0D7C6E;height:6px;border-radius:2px;"></div>'
                     f'</div>'
                     f'<span style="font-size:.8rem;font-weight:600;color:#0F1E32;min-width:24px;text-align:right;">{row["c"]}</span>'
                     f'</div>',
@@ -629,7 +628,7 @@ with tab_stats:
                     f'<div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">'
                     f'<span style="font-size:.8rem;font-weight:600;color:#0F1E32;min-width:120px;">{row["city"]}</span>'
                     f'<div style="flex:1;background:#F1F5F9;border-radius:2px;height:6px;">'
-                    f'<div style="width:{bar_pct}%;background:#1A7A4A;height:6px;border-radius:2px;"></div>'
+                    f'<div style="width:{bar_pct}%;background:#0D7C6E;height:6px;border-radius:2px;"></div>'
                     f'</div>'
                     f'<span style="font-size:.8rem;font-weight:600;color:#0F1E32;min-width:24px;text-align:right;">{row["c"]}</span>'
                     f'</div>',
@@ -648,7 +647,7 @@ with tab_stats:
                     f'<div style="display:flex;align-items:center;gap:10px;margin-bottom:7px;">'
                     f'<span style="font-size:.8rem;font-weight:600;color:#0F1E32;min-width:120px;">{row["category"] or "other"}</span>'
                     f'<div style="flex:1;background:#F1F5F9;border-radius:2px;height:6px;">'
-                    f'<div style="width:{bar_pct}%;background:#1A7A4A;height:6px;border-radius:2px;"></div>'
+                    f'<div style="width:{bar_pct}%;background:#0D7C6E;height:6px;border-radius:2px;"></div>'
                     f'</div>'
                     f'<span style="font-size:.8rem;font-weight:600;color:#0F1E32;min-width:24px;text-align:right;">{row["c"]}</span>'
                     f'</div>',

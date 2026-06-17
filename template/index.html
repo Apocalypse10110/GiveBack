@@ -6,35 +6,27 @@
 <meta name="theme-color" content="#0B1D3A">
 <title>{{ORG_NAME}} | {{ORG_TYPE}} in {{CITY}}</title>
 <meta name="description" content="{{ORG_NAME}} — {{META_DESCRIPTION}}">
-
-<!-- Fidelity DEI track: explicit lang + dir on <html>, updated by i18n switcher -->
-<!-- Open Graph so link previews look good when the org shares their own site -->
 <meta property="og:title"       content="{{ORG_NAME}}">
 <meta property="og:description" content="{{META_DESCRIPTION}}">
 <meta property="og:type"        content="website">
-
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<!-- Skip nav — first thing a screen reader hits -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
-
 <style>
 /* ═══════════════════════════════════════════════════════════
-   GiveBack Template — nonprofit adaptation of the HVAC base
-   Fonts:   Sora (display) + DM Sans (body)
-   Palette: Deep Navy #0B1D3A + Community Green #1A7A4A
-   Swapped blue accent for green to signal "community/nature"
-   rather than "trade services" — one deliberate palette shift.
+   GiveBack Template
+   Sora (display) + DM Sans (body)
+   Palette: Deep Navy #0B1D3A + Deep Teal #0D7C6E
+   Philosophy: same authority as HVAC version, warmer accent
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  --accent:   #1A7A4A;
-  --accentdk: #145F39;
-  --accentlt: rgba(26,122,74,.08);
-  --accentmd: rgba(26,122,74,.22);
+  --accent:   #0D7C6E;
+  --accentdk: #0A6358;
+  --accentlt: rgba(13,124,110,.07);
+  --accentmd: rgba(13,124,110,.20);
   --dark:     #0B1D3A;
   --dark2:    #0F2347;
   --dark3:    #162B52;
@@ -47,41 +39,24 @@
   --shadow:   0 1px 3px rgba(11,29,58,.08), 0 4px 12px rgba(11,29,58,.06);
 }
 
-/* High-contrast mode — Fidelity accessibility track */
 @media (prefers-contrast: more) {
-  :root {
-    --accent:  #0D5C34;
-    --muted:   #2D3748;
-    --border:  #718096;
-  }
-  .hero-sub, .section-sub { color: rgba(255,255,255,.9) !important; }
+  :root { --accent:#0A6358; --muted:#2D3748; --border:#718096; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
 
-/* ── Reset ──────────────────────────────────────────────── */
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
 body { font-family:'DM Sans',sans-serif; color:var(--text); background:var(--white); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
 img  { display:block; max-width:100%; }
 a    { text-decoration:none; color:inherit; }
 
-/* ── Accessibility ──────────────────────────────────────── */
-.skip-link {
-  position:absolute; top:-40px; left:6px; padding:8px 16px;
-  background:var(--accent); color:#fff; font-family:'Sora',sans-serif;
-  font-size:.82rem; font-weight:700; border-radius:var(--radius);
-  z-index:9999; transition:top .2s;
-}
+.skip-link { position:absolute; top:-40px; left:6px; padding:8px 16px; background:var(--accent); color:#fff; font-family:'Sora',sans-serif; font-size:.82rem; font-weight:700; border-radius:var(--radius); z-index:9999; transition:top .2s; }
 .skip-link:focus { top:6px; }
-:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 3px;
-}
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
 
-/* ── Reveal animations ──────────────────────────────────── */
+/* ── Reveal ───────────────────────────────────────────────── */
 .reveal       { opacity:0; transform:translateY(28px); transition:opacity .65s cubic-bezier(.25,.46,.45,.94),transform .65s cubic-bezier(.25,.46,.45,.94); }
 .reveal.visible { opacity:1; transform:none; }
 .reveal-left  { opacity:0; transform:translateX(-36px); transition:opacity .65s cubic-bezier(.25,.46,.45,.94),transform .65s cubic-bezier(.25,.46,.45,.94); }
@@ -93,14 +68,14 @@ a    { text-decoration:none; color:inherit; }
 .d3 { transition-delay:.24s !important; }
 .d4 { transition-delay:.32s !important; }
 
-/* ── Buttons ─────────────────────────────────────────────── */
+/* ── Buttons ──────────────────────────────────────────────── */
 .btn { display:inline-flex; align-items:center; gap:8px; font-family:'Sora',sans-serif; font-weight:700; border-radius:var(--radius); border:none; cursor:pointer; transition:all .18s; white-space:nowrap; text-decoration:none; letter-spacing:.1px; }
 .btn-sm  { padding:9px 20px;  font-size:.82rem; }
 .btn-md  { padding:12px 26px; font-size:.9rem; }
 .btn-lg  { padding:14px 32px; font-size:.95rem; }
 .btn-full { width:100%; justify-content:center; }
 .btn-solid  { background:var(--accent); color:#fff; }
-.btn-solid:hover  { background:var(--accentdk); transform:translateY(-1px); box-shadow:0 4px 14px rgba(26,122,74,.32); }
+.btn-solid:hover  { background:var(--accentdk); transform:translateY(-1px); box-shadow:0 4px 14px rgba(13,124,110,.28); }
 .btn-ghost  { background:rgba(255,255,255,.08); color:#fff; border:1.5px solid rgba(255,255,255,.22); }
 .btn-ghost:hover  { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.4); }
 .btn-outline { background:transparent; color:var(--accent); border:1.5px solid var(--accentmd); }
@@ -108,7 +83,7 @@ a    { text-decoration:none; color:inherit; }
 .btn-dark   { background:var(--dark); color:#fff; }
 .btn-dark:hover   { background:var(--dark2); transform:translateY(-1px); }
 
-/* ── Layout ──────────────────────────────────────────────── */
+/* ── Layout ───────────────────────────────────────────────── */
 .section-wrap    { padding:96px 6%; }
 .section-wrap-sm { padding:64px 6%; }
 .eyebrow { font-family:'Sora',sans-serif; font-size:.68rem; font-weight:700; color:var(--accent); letter-spacing:3.5px; text-transform:uppercase; margin-bottom:14px; display:block; }
@@ -139,17 +114,12 @@ a    { text-decoration:none; color:inherit; }
 .mobile-nav.open { max-height:360px; padding:8px 0 16px; }
 .mobile-nav-link { display:block; color:rgba(255,255,255,.7); font-size:.92rem; font-weight:600; padding:13px 6%; border-bottom:1px solid rgba(255,255,255,.05); transition:all .2s; font-family:'Sora',sans-serif; }
 .mobile-nav-link:last-child { border-bottom:none; }
-.mobile-nav-link:hover { color:var(--accent); background:rgba(26,122,74,.06); }
+.mobile-nav-link:hover { color:var(--accent); background:rgba(13,124,110,.06); }
 
-/* i18n language switcher */
+/* i18n switcher */
 .lang-switcher { display:flex; align-items:center; gap:4px; }
-.lang-btn {
-  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
-  color:rgba(255,255,255,.6); font-family:'Sora',sans-serif; font-size:.68rem;
-  font-weight:700; padding:4px 8px; border-radius:var(--radius); cursor:pointer;
-  transition:all .18s; letter-spacing:.4px;
-}
-.lang-btn:hover, .lang-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.lang-btn { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.6); font-family:'Sora',sans-serif; font-size:.68rem; font-weight:700; padding:4px 8px; border-radius:var(--radius); cursor:pointer; transition:all .18s; letter-spacing:.4px; }
+.lang-btn:hover,.lang-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
 
 /* ── Preview banner ───────────────────────────────────────── */
 .preview-banner { position:fixed; top:0; left:0; right:0; z-index:1000; background:var(--dark); border-bottom:2px solid var(--accent); padding:9px 6%; display:flex; align-items:center; justify-content:space-between; gap:16px; }
@@ -163,8 +133,8 @@ body.has-preview-banner #header { top:38px; }
 
 /* ── Trust bar ────────────────────────────────────────────── */
 .trust-bar   { background:var(--dark2); border-bottom:1px solid rgba(255,255,255,.06); overflow:hidden; }
-.trust-inner { display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:wrap; padding:0 6%; }
-.trust-item  { display:flex; align-items:center; gap:7px; color:rgba(255,255,255,.58); font-size:.75rem; font-weight:500; padding:11px 20px; border-right:1px solid rgba(255,255,255,.06); white-space:nowrap; }
+.trust-inner { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; padding:0 6%; }
+.trust-item  { display:flex; align-items:center; gap:7px; color:rgba(255,255,255,.55); font-size:.75rem; font-weight:500; padding:11px 20px; border-right:1px solid rgba(255,255,255,.06); white-space:nowrap; }
 .trust-item:last-child { border-right:none; }
 .trust-dot   { width:5px; height:5px; background:var(--accent); border-radius:50%; flex-shrink:0; }
 
@@ -177,7 +147,7 @@ body.has-preview-banner #header { top:38px; }
 .stat-sfx      { font-family:'Sora',sans-serif; font-size:1.2rem; font-weight:700; color:var(--accent); }
 .stat-label    { color:rgba(255,255,255,.38); font-size:.73rem; font-weight:600; letter-spacing:.8px; text-transform:uppercase; }
 
-/* ── Programs (was Services) ──────────────────────────────── */
+/* ── Programs ─────────────────────────────────────────────── */
 #programs { background:var(--light); }
 .programs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
 .prog-card { background:var(--white); padding:34px 26px 28px; position:relative; transition:background .2s; }
@@ -189,7 +159,7 @@ body.has-preview-banner #header { top:38px; }
 .prog-card h3 { font-family:'Sora',sans-serif; font-size:.96rem; font-weight:700; color:var(--text); margin-bottom:9px; letter-spacing:-.1px; }
 .prog-card p  { color:var(--muted); font-size:.875rem; line-height:1.72; }
 
-/* ── How to Help (was Process) ────────────────────────────── */
+/* ── How to Help ──────────────────────────────────────────── */
 .help-grid { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid rgba(255,255,255,.06); margin-top:52px; }
 .help-item { padding:44px 36px; border-right:1px solid rgba(255,255,255,.06); }
 .help-item:last-child { border-right:none; }
@@ -198,7 +168,7 @@ body.has-preview-banner #header { top:38px; }
 .help-item h3 { font-family:'Sora',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:10px; }
 .help-item p  { color:rgba(255,255,255,.42); font-size:.875rem; line-height:1.75; }
 
-/* ── About / Mission ──────────────────────────────────────── */
+/* ── About ────────────────────────────────────────────────── */
 #about { background:var(--white); }
 .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
 .about-imgs { position:relative; height:520px; }
@@ -224,7 +194,7 @@ body.has-preview-banner #header { top:38px; }
 .g-item:hover img { transform:scale(1.05); }
 .g-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(11,29,58,.8) 0%,transparent 55%); opacity:0; transition:opacity .25s; display:flex; align-items:flex-end; padding:14px; }
 .g-item:hover .g-overlay { opacity:1; }
-.g-label { color:#fff; font-size:.78rem; font-weight:600; letter-spacing:.2px; }
+.g-label { color:#fff; font-size:.78rem; font-weight:600; }
 
 /* ── CTA band ─────────────────────────────────────────────── */
 .cta-band { background:var(--accent); }
@@ -250,9 +220,8 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 .footer-copy   { font-size:.75rem; }
 .footer-madeby { display:flex; align-items:center; gap:5px; font-size:.75rem; }
 .footer-madeby a { color:var(--accent); font-weight:600; }
-.footer-madeby a:hover { opacity:.8; }
 
-/* Sticky donate CTA — mobile only */
+/* Sticky donate — mobile */
 .sticky-cta { display:none; position:fixed; bottom:0; left:0; right:0; z-index:800; }
 .sticky-cta a { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--accent); color:#fff; font-family:'Sora',sans-serif; font-size:.9rem; font-weight:700; padding:16px; }
 
@@ -311,13 +280,11 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 </head>
 <body>
 
-<!-- ── Header ──────────────────────────────────────────────── -->
 <header id="header" role="banner">
   <div class="header-inner">
     <a href="#hero" class="hd-logo" aria-label="{{ORG_NAME}} home">
       <div class="hd-logo-mark" aria-hidden="true">
-        <!-- Heart icon — suits nonprofits, replaces the HVAC thermometer -->
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       </div>
       <span class="hd-logo-text">{{ORG_NAME}}</span>
     </a>
@@ -328,7 +295,6 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
       <a href="#contact"  class="hd-nav-link" data-i18n="nav_contact">Contact</a>
     </nav>
     <div class="hd-right">
-      <!-- Language switcher — Fidelity DEI track -->
       <div class="lang-switcher" role="group" aria-label="Select language">
         <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
         <button class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
@@ -350,17 +316,15 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
   </nav>
 </header>
 
-<!-- ── Main content landmark ────────────────────────────────── -->
 <main id="main-content">
 
-<!-- ── Hero ────────────────────────────────────────────────── -->
 <section id="hero" aria-label="Introduction">
   <div class="hero-bg" id="heroBg" role="img" aria-label="{{ORG_NAME}} community photo"></div>
   <div class="hero-overlay" aria-hidden="true"></div>
   <div class="hero-inner">
-    <div class="hero-badge" aria-label="Organization details">
+    <div class="hero-badge" aria-label="Organization type and location">
       <div class="hero-badge-dot" aria-hidden="true"></div>
-      <span data-i18n="hero_badge">{{ORG_TYPE}} &nbsp;&middot;&nbsp; {{CITY}}, WA</span>
+      <span>{{ORG_TYPE}} &nbsp;&middot;&nbsp; {{CITY}}, WA</span>
     </div>
     <h1 class="hero-h1">
       {{HERO_HEADLINE}}
@@ -369,7 +333,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
     <p class="hero-sub">{{HERO_SUBHEADLINE}}</p>
     <div class="hero-ctas">
       <a href="#donate" class="btn btn-lg btn-solid" data-i18n="btn_donate">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         Donate Now
       </a>
       <a href="#help" class="btn btn-lg btn-ghost" data-i18n="btn_volunteer">Volunteer</a>
@@ -378,7 +342,6 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
   <div class="hero-scroll" aria-hidden="true"><div class="hero-scroll-line"></div>Scroll</div>
 </section>
 
-<!-- ── Trust bar ─────────────────────────────────────────────── -->
 <div class="trust-bar" role="complementary" aria-label="Organization highlights">
   <div class="trust-inner">
     <div class="trust-item"><div class="trust-dot" aria-hidden="true"></div><span data-i18n="trust_1">501(c)(3) Nonprofit</span></div>
@@ -389,29 +352,27 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
   </div>
 </div>
 
-<!-- ── Stats ──────────────────────────────────────────────────── -->
 <section class="stats-section section-wrap" aria-label="Impact numbers">
   <div class="stats-inner">
     <div class="stat-item reveal d1">
-      <div class="stat-top"><span class="stat-num" data-target="{{PEOPLE_SERVED}}" aria-label="{{PEOPLE_SERVED}} people served">0</span><span class="stat-sfx" aria-hidden="true">+</span></div>
+      <div class="stat-top"><span class="stat-num" data-target="{{PEOPLE_SERVED}}">0</span><span class="stat-sfx" aria-hidden="true">+</span></div>
       <div class="stat-label" data-i18n="stat_1">People Served</div>
     </div>
     <div class="stat-item reveal d2">
-      <div class="stat-top"><span class="stat-num" data-target="{{VOLUNTEER_COUNT}}" aria-label="{{VOLUNTEER_COUNT}} volunteers">0</span><span class="stat-sfx" aria-hidden="true">+</span></div>
+      <div class="stat-top"><span class="stat-num" data-target="{{VOLUNTEER_COUNT}}">0</span><span class="stat-sfx" aria-hidden="true">+</span></div>
       <div class="stat-label" data-i18n="stat_2">Volunteers</div>
     </div>
     <div class="stat-item reveal d3">
-      <div class="stat-top"><span class="stat-num" data-target="{{YEARS_SERVING}}" aria-label="{{YEARS_SERVING}} years in the community">0</span><span class="stat-sfx" aria-hidden="true">yr</span></div>
+      <div class="stat-top"><span class="stat-num" data-target="{{YEARS_SERVING}}">0</span><span class="stat-sfx" aria-hidden="true">yr</span></div>
       <div class="stat-label" data-i18n="stat_3">Years Serving</div>
     </div>
     <div class="stat-item reveal d4">
-      <div class="stat-top"><span class="stat-num" data-target="{{PROGRAMS_COUNT}}" aria-label="{{PROGRAMS_COUNT}} programs">0</span><span class="stat-sfx" aria-hidden="true"></span></div>
+      <div class="stat-top"><span class="stat-num" data-target="{{PROGRAMS_COUNT}}">0</span><span class="stat-sfx" aria-hidden="true"></span></div>
       <div class="stat-label" data-i18n="stat_4">Active Programs</div>
     </div>
   </div>
 </section>
 
-<!-- ── Programs ───────────────────────────────────────────────── -->
 <section id="programs" class="section-wrap" aria-labelledby="programs-heading">
   <div class="text-center">
     <span class="eyebrow reveal" data-i18n="programs_eyebrow">What We Do</span>
@@ -423,7 +384,6 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
   </div>
 </section>
 
-<!-- ── How to Help ────────────────────────────────────────────── -->
 <section id="help" class="section-wrap" style="background:var(--dark);" aria-labelledby="help-heading">
   <div class="text-center">
     <span class="eyebrow reveal" data-i18n="help_eyebrow">Get Involved</span>
@@ -449,12 +409,11 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
   </div>
 </section>
 
-<!-- ── About / Mission ────────────────────────────────────────── -->
 <section id="about" class="section-wrap" aria-labelledby="about-heading">
   <div class="about-grid">
     <div class="about-imgs reveal-left">
       <img class="about-img-a" src="{{GALLERY_IMAGE_1}}" alt="{{ORG_NAME}} volunteers at work" loading="lazy" width="600" height="400">
-      <img class="about-img-b" src="{{GALLERY_IMAGE_2}}" alt="Community members being served by {{ORG_NAME}}" loading="lazy" width="400" height="300">
+      <img class="about-img-b" src="{{GALLERY_IMAGE_2}}" alt="Community members served by {{ORG_NAME}}" loading="lazy" width="400" height="300">
       <div class="about-badge" aria-label="{{PEOPLE_SERVED}} people served">
         <span class="abig">{{PEOPLE_SERVED}}+</span>
         <span class="asm" data-i18n="stat_1">People Served</span>
@@ -468,7 +427,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
       <div class="about-checks" role="list">
         <div class="about-check" role="listitem">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-          <span data-i18n="check_1">Serving {{CITY}} since {{FOUNDED_YEAR}}</span>
+          <span>Serving {{CITY}} since {{FOUNDED_YEAR}}</span>
         </div>
         <div class="about-check" role="listitem">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
@@ -487,7 +446,6 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
   </div>
 </section>
 
-<!-- ── Photo gallery ──────────────────────────────────────────── -->
 <section class="section-wrap" style="background:var(--light);" aria-labelledby="gallery-heading">
   <div class="text-center">
     <span class="eyebrow reveal" data-i18n="gallery_eyebrow">In the Community</span>
@@ -503,28 +461,26 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
   </div>
 </section>
 
-<!-- ── Donate section ─────────────────────────────────────────── -->
 <section id="donate" class="section-wrap" style="background:var(--dark);" aria-labelledby="donate-heading">
   <div class="text-center">
     <span class="eyebrow reveal" data-i18n="donate_eyebrow">Support the Mission</span>
-    <h2 class="section-h light reveal d1" id="donate-heading" data-i18n="donate_headline">Your Gift Goes Directly to {{CITY}}</h2>
+    <h2 class="section-h light reveal d1" id="donate-heading">Your Gift Goes Directly to {{CITY}}</h2>
     <p class="section-sub center reveal d2" style="color:rgba(255,255,255,.42)" data-i18n="donate_sub">100% of donations support our programs. We are volunteer-run with zero administrative overhead.</p>
-  </div>
-  <div class="text-center reveal">
-    <a href="{{DONATE_URL}}" class="btn btn-lg btn-solid" target="_blank" rel="noopener" data-i18n="btn_donate_full">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      Donate Now
-    </a>
-    <p style="color:rgba(255,255,255,.3);font-size:.78rem;margin-top:14px;" data-i18n="donate_note">Secure donation processing. Tax-deductible per IRS guidelines.</p>
+    <div class="reveal">
+      <a href="{{DONATE_URL}}" class="btn btn-lg btn-solid" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Donate Now
+      </a>
+      <p style="color:rgba(255,255,255,.3);font-size:.78rem;margin-top:14px;" data-i18n="donate_note">Secure donation processing. Tax-deductible per IRS guidelines.</p>
+    </div>
   </div>
 </section>
 
-<!-- ── CTA band ───────────────────────────────────────────────── -->
 <section class="cta-band" aria-label="Call to action">
   <div class="cta-band-inner">
     <div class="reveal-left">
-      <div class="cta-band-h" data-i18n="cta_headline">{{CTA_HEADLINE}}</div>
-      <div class="cta-band-sub" data-i18n="cta_sub">{{CTA_SUB}}</div>
+      <div class="cta-band-h">{{CTA_HEADLINE}}</div>
+      <div class="cta-band-sub">{{CTA_SUB}}</div>
     </div>
     <div class="cta-band-btns reveal-right">
       <a href="{{VOLUNTEER_URL}}" class="btn btn-lg btn-dark" data-i18n="btn_volunteer_full">Sign Up to Volunteer</a>
@@ -533,7 +489,6 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
   </div>
 </section>
 
-<!-- ── Contact ────────────────────────────────────────────────── -->
 <section id="contact" class="section-wrap" aria-labelledby="contact-heading">
   <div class="text-center" style="margin-bottom:48px;">
     <span class="eyebrow reveal" data-i18n="contact_eyebrow">Reach Out</span>
@@ -548,9 +503,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
           </div>
           <div>
             <div style="font-size:.68rem;color:var(--muted);font-weight:600;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px;" data-i18n="contact_phone_label">Phone</div>
-            <div style="font-size:.95rem;font-weight:600;color:var(--text);">
-              <a href="tel:{{PHONE_NUMBER_RAW}}" style="color:var(--text);">{{PHONE_NUMBER}}</a>
-            </div>
+            <div style="font-size:.95rem;font-weight:600;color:var(--text);"><a href="tel:{{PHONE_NUMBER_RAW}}" style="color:var(--text);">{{PHONE_NUMBER}}</a></div>
           </div>
         </div>
         <div style="display:flex;align-items:flex-start;gap:14px;">
@@ -559,41 +512,34 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
           </div>
           <div>
             <div style="font-size:.68rem;color:var(--muted);font-weight:600;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px;" data-i18n="contact_address_label">Address</div>
-            <div style="font-size:.95rem;font-weight:600;color:var(--text);">
-              <a href="{{GOOGLE_MAPS_URL}}" target="_blank" rel="noopener" style="color:var(--text);">{{FULL_ADDRESS}}</a>
-            </div>
+            <div style="font-size:.95rem;font-weight:600;color:var(--text);"><a href="{{GOOGLE_MAPS_URL}}" target="_blank" rel="noopener" style="color:var(--text);">{{FULL_ADDRESS}}</a></div>
           </div>
         </div>
       </div>
     </div>
-    <!-- Contact form — preview mode, no backend yet -->
     <div class="reveal-right">
       <form data-contact-form aria-label="Contact form" style="display:flex;flex-direction:column;gap:12px;">
         <label for="cf-name" style="font-size:.78rem;font-weight:600;color:var(--muted);" data-i18n="form_name">Your Name</label>
-        <input id="cf-name" name="name" type="text" class="form-input" placeholder="Jane Smith" autocomplete="name" required aria-required="true"
-          style="padding:11px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);">
+        <input id="cf-name" name="name" type="text" placeholder="Jane Smith" autocomplete="name" required aria-required="true" style="padding:11px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);">
         <label for="cf-email" style="font-size:.78rem;font-weight:600;color:var(--muted);" data-i18n="form_email">Email Address</label>
-        <input id="cf-email" name="email" type="email" class="form-input" placeholder="jane@example.com" autocomplete="email" required aria-required="true"
-          style="padding:11px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);">
+        <input id="cf-email" name="email" type="email" placeholder="jane@example.com" autocomplete="email" required aria-required="true" style="padding:11px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);">
         <label for="cf-msg" style="font-size:.78rem;font-weight:600;color:var(--muted);" data-i18n="form_message">Message</label>
-        <textarea id="cf-msg" name="message" class="form-input" placeholder="How can we help, or how would you like to get involved?" rows="4" required aria-required="true"
-          style="padding:11px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);resize:none;"></textarea>
+        <textarea id="cf-msg" name="message" placeholder="How can we help, or how would you like to get involved?" rows="4" required aria-required="true" style="padding:11px 14px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--text);resize:none;"></textarea>
         <button type="submit" class="btn btn-md btn-solid btn-full" data-i18n="form_submit">Send Message</button>
-        <div class="form-success" role="status" aria-live="polite" style="display:none;background:#F0FDF4;border:1px solid #BBF7D0;padding:18px;text-align:center;border-radius:var(--radius);margin-top:4px;"></div>
+        <div class="form-success" role="status" aria-live="polite" style="display:none;background:#F0FDFB;border:1px solid #99E6DC;padding:18px;text-align:center;border-radius:var(--radius);margin-top:4px;"></div>
       </form>
     </div>
   </div>
 </section>
 
-</main><!-- end #main-content -->
+</main>
 
-<!-- ── Footer ─────────────────────────────────────────────────── -->
 <footer role="contentinfo">
   <div class="footer-main">
     <div>
       <div class="footer-logo">
         <div class="footer-logo-mark" aria-hidden="true">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </div>
         <span class="footer-logo-text">{{ORG_NAME}}</span>
       </div>
@@ -612,156 +558,127 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
       <div class="footer-links">
         <a href="tel:{{PHONE_NUMBER_RAW}}">{{PHONE_NUMBER}}</a>
         <span>{{CITY}}, WA</span>
-        <a href="{{GOOGLE_MAPS_URL}}" target="_blank" rel="noopener" data-i18n="footer_maps_link">Google Maps &#8599;</a>
+        <a href="{{GOOGLE_MAPS_URL}}" target="_blank" rel="noopener">Google Maps &#8599;</a>
       </div>
     </div>
   </div>
   <div class="footer-bar">
-    <span class="footer-copy">&copy; {{YEAR}} {{ORG_NAME}}. <span data-i18n="footer_rights">All rights reserved.</span></span>
+    <span class="footer-copy">&copy; {{YEAR}} {{ORG_NAME}}. All rights reserved.</span>
     <div class="footer-madeby">
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      <span data-i18n="footer_built">Website built by</span> <a href="{{MADE_BY_URL}}">{{MADE_BY_NAME}}</a>
+      Website by <a href="{{MADE_BY_URL}}">{{MADE_BY_NAME}}</a>
     </div>
   </div>
 </footer>
 
-<!-- ── Sticky donate CTA (mobile) ─────────────────────────────── -->
 <div class="sticky-cta" role="complementary" aria-label="Quick donate">
   <a href="#donate">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    <span data-i18n="sticky_donate">Donate to {{ORG_NAME}}</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    <span data-i18n="sticky_donate">Donate</span>
   </a>
 </div>
 
 <script>
-// ── i18n strings — Fidelity DEI track ────────────────────────
-// Lightweight client-side translation with no external library.
-// Strings are keyed by data-i18n attribute. Only EN is fully
-// shown here; the builder fills in the actual org name/city
-// in the HTML slots before this script even runs.
 const I18N = {
   en: {
-    nav_programs: 'Programs', nav_about: 'About', nav_help: 'Get Involved', nav_contact: 'Contact',
-    btn_donate: 'Donate', btn_volunteer: 'Volunteer',
-    trust_1: '501(c)(3) Nonprofit', trust_2: 'Community-Run', trust_3: 'Open to All', trust_4: 'No Cost to Recipients',
-    stat_1: 'People Served', stat_2: 'Volunteers', stat_3: 'Years Serving', stat_4: 'Active Programs',
-    programs_eyebrow: 'What We Do',
-    help_eyebrow: 'Get Involved', help_headline: 'Three Ways to Make a Difference', help_sub: 'Every action, no matter the size, moves the mission forward.',
-    help_1_title: 'Donate', help_1_body: 'Your financial support goes directly to the people we serve. Even a small recurring gift covers meaningful costs each month.',
-    help_2_title: 'Volunteer', help_2_body: 'Show up in person and see the direct impact of your time. We have flexible shifts and always need more hands.',
-    help_3_title: 'Spread the Word', help_3_body: 'Share our mission with neighbors, coworkers, and your social network. Awareness is the first step to change.',
-    about_eyebrow: 'Our Mission',
-    check_2: '100% volunteer-led', check_3: 'No cost to those we help', check_4: 'Donations are tax-deductible',
-    gallery_eyebrow: 'In the Community',
-    donate_eyebrow: 'Support the Mission', donate_headline: 'Your Gift Goes Directly to the Community',
-    donate_sub: '100% of donations support our programs. We are volunteer-run with zero administrative overhead.',
-    btn_donate_full: 'Donate Now', btn_volunteer_full: 'Sign Up to Volunteer', btn_contact: 'Get in Touch',
-    donate_note: 'Secure donation processing. Tax-deductible per IRS guidelines.',
-    contact_eyebrow: 'Reach Out', contact_headline: "We'd Love to Hear from You",
-    contact_phone_label: 'Phone', contact_address_label: 'Address',
-    form_name: 'Your Name', form_email: 'Email Address', form_message: 'Message', form_submit: 'Send Message',
-    footer_maps: 'Find us on Google Maps', footer_maps_link: 'Google Maps ↗',
-    footer_programs_col: 'Programs', footer_contact_col: 'Contact',
-    footer_rights: 'All rights reserved.', footer_built: 'Website built by',
-    sticky_donate: 'Donate',
+    nav_programs:'Programs',nav_about:'About',nav_help:'Get Involved',nav_contact:'Contact',
+    btn_donate:'Donate',btn_volunteer:'Volunteer',
+    trust_1:'501(c)(3) Nonprofit',trust_2:'Community-Run',trust_3:'Open to All',trust_4:'No Cost to Recipients',
+    stat_1:'People Served',stat_2:'Volunteers',stat_3:'Years Serving',stat_4:'Active Programs',
+    programs_eyebrow:'What We Do',
+    help_eyebrow:'Get Involved',help_headline:'Three Ways to Make a Difference',help_sub:'Every action, no matter the size, moves the mission forward.',
+    help_1_title:'Donate',help_1_body:'Your financial support goes directly to the people we serve. Even a small recurring gift covers meaningful costs each month.',
+    help_2_title:'Volunteer',help_2_body:'Show up in person and see the direct impact of your time. We have flexible shifts and always need more hands.',
+    help_3_title:'Spread the Word',help_3_body:'Share our mission with neighbors, coworkers, and your social network. Awareness is the first step to change.',
+    about_eyebrow:'Our Mission',check_2:'100% volunteer-led',check_3:'No cost to those we help',check_4:'Donations are tax-deductible',
+    gallery_eyebrow:'In the Community',
+    donate_eyebrow:'Support the Mission',donate_sub:'100% of donations support our programs. We are volunteer-run with zero administrative overhead.',
+    donate_note:'Secure donation processing. Tax-deductible per IRS guidelines.',
+    btn_volunteer_full:'Sign Up to Volunteer',btn_contact:'Get in Touch',
+    contact_eyebrow:'Reach Out',contact_headline:"We'd Love to Hear from You",
+    contact_phone_label:'Phone',contact_address_label:'Address',
+    form_name:'Your Name',form_email:'Email Address',form_message:'Message',form_submit:'Send Message',
+    footer_maps:'Find us on Google Maps',footer_programs_col:'Programs',footer_contact_col:'Contact',
+    sticky_donate:'Donate',
   },
   es: {
-    nav_programs: 'Programas', nav_about: 'Nosotros', nav_help: 'Participa', nav_contact: 'Contacto',
-    btn_donate: 'Donar', btn_volunteer: 'Voluntario',
-    trust_1: 'Sin fines de lucro 501(c)(3)', trust_2: 'Dirigido por la comunidad', trust_3: 'Abierto a todos', trust_4: 'Sin costo para los beneficiarios',
-    stat_1: 'Personas Atendidas', stat_2: 'Voluntarios', stat_3: 'Años de Servicio', stat_4: 'Programas Activos',
-    programs_eyebrow: 'Lo Que Hacemos',
-    help_eyebrow: 'Participa', help_headline: 'Tres Maneras de Hacer la Diferencia', help_sub: 'Cada acción, sin importar su tamaño, impulsa la misión.',
-    help_1_title: 'Donar', help_1_body: 'Tu apoyo financiero va directamente a las personas que servimos. Incluso una pequeña donación mensual cubre costos importantes.',
-    help_2_title: 'Ser Voluntario', help_2_body: 'Preséntate en persona y ve el impacto directo de tu tiempo. Tenemos turnos flexibles y siempre necesitamos más manos.',
-    help_3_title: 'Difunde la Palabra', help_3_body: 'Comparte nuestra misión con vecinos, compañeros y tu red social. La conciencia es el primer paso para el cambio.',
-    about_eyebrow: 'Nuestra Misión',
-    check_2: '100% dirigido por voluntarios', check_3: 'Sin costo para quienes ayudamos', check_4: 'Las donaciones son deducibles de impuestos',
-    gallery_eyebrow: 'En la Comunidad',
-    donate_eyebrow: 'Apoya la Misión', donate_headline: 'Tu Donación Va Directamente a la Comunidad',
-    donate_sub: 'El 100% de las donaciones apoya nuestros programas. Somos dirigidos por voluntarios sin gastos administrativos.',
-    btn_donate_full: 'Donar Ahora', btn_volunteer_full: 'Inscribirse como Voluntario', btn_contact: 'Contáctanos',
-    donate_note: 'Procesamiento seguro de donaciones. Deducible de impuestos según las pautas del IRS.',
-    contact_eyebrow: 'Comunícate', contact_headline: 'Nos Encantaría Saber de Ti',
-    contact_phone_label: 'Teléfono', contact_address_label: 'Dirección',
-    form_name: 'Tu Nombre', form_email: 'Correo Electrónico', form_message: 'Mensaje', form_submit: 'Enviar Mensaje',
-    footer_maps: 'Encuéntranos en Google Maps', footer_maps_link: 'Google Maps ↗',
-    footer_programs_col: 'Programas', footer_contact_col: 'Contacto',
-    footer_rights: 'Todos los derechos reservados.', footer_built: 'Sitio web creado por',
-    sticky_donate: 'Donar',
+    nav_programs:'Programas',nav_about:'Nosotros',nav_help:'Participa',nav_contact:'Contacto',
+    btn_donate:'Donar',btn_volunteer:'Voluntario',
+    trust_1:'Sin fines de lucro 501(c)(3)',trust_2:'Dirigido por la comunidad',trust_3:'Abierto a todos',trust_4:'Sin costo para los beneficiarios',
+    stat_1:'Personas Atendidas',stat_2:'Voluntarios',stat_3:'Años de Servicio',stat_4:'Programas Activos',
+    programs_eyebrow:'Lo Que Hacemos',
+    help_eyebrow:'Participa',help_headline:'Tres Maneras de Hacer la Diferencia',help_sub:'Cada acción, sin importar su tamaño, impulsa la misión.',
+    help_1_title:'Donar',help_1_body:'Tu apoyo financiero va directamente a las personas que servimos.',
+    help_2_title:'Ser Voluntario',help_2_body:'Preséntate en persona y ve el impacto directo de tu tiempo.',
+    help_3_title:'Difunde la Palabra',help_3_body:'Comparte nuestra misión con vecinos, compañeros y tu red social.',
+    about_eyebrow:'Nuestra Misión',check_2:'100% dirigido por voluntarios',check_3:'Sin costo para quienes ayudamos',check_4:'Donaciones deducibles de impuestos',
+    gallery_eyebrow:'En la Comunidad',
+    donate_eyebrow:'Apoya la Misión',donate_sub:'El 100% de las donaciones apoya nuestros programas.',
+    donate_note:'Procesamiento seguro. Deducible de impuestos según el IRS.',
+    btn_volunteer_full:'Inscribirse como Voluntario',btn_contact:'Contáctanos',
+    contact_eyebrow:'Comunícate',contact_headline:'Nos Encantaría Saber de Ti',
+    contact_phone_label:'Teléfono',contact_address_label:'Dirección',
+    form_name:'Tu Nombre',form_email:'Correo Electrónico',form_message:'Mensaje',form_submit:'Enviar Mensaje',
+    footer_maps:'Encuéntranos en Google Maps',footer_programs_col:'Programas',footer_contact_col:'Contacto',
+    sticky_donate:'Donar',
   },
   vi: {
-    nav_programs: 'Chương Trình', nav_about: 'Về Chúng Tôi', nav_help: 'Tham Gia', nav_contact: 'Liên Hệ',
-    btn_donate: 'Quyên Góp', btn_volunteer: 'Tình Nguyện',
-    trust_1: 'Tổ chức phi lợi nhuận 501(c)(3)', trust_2: 'Do cộng đồng điều hành', trust_3: 'Mở cửa cho tất cả', trust_4: 'Miễn phí cho người thụ hưởng',
-    stat_1: 'Người Được Phục Vụ', stat_2: 'Tình Nguyện Viên', stat_3: 'Năm Phục Vụ', stat_4: 'Chương Trình Hoạt Động',
-    programs_eyebrow: 'Chúng Tôi Làm Gì',
-    help_eyebrow: 'Tham Gia', help_headline: 'Ba Cách Để Tạo Ra Sự Khác Biệt', help_sub: 'Mỗi hành động, dù nhỏ, đều thúc đẩy sứ mệnh tiến lên.',
-    help_1_title: 'Quyên Góp', help_1_body: 'Sự hỗ trợ tài chính của bạn đi thẳng đến những người chúng tôi phục vụ.',
-    help_2_title: 'Tình Nguyện', help_2_body: 'Đến trực tiếp và thấy tác động của thời gian bạn bỏ ra. Chúng tôi có ca làm việc linh hoạt.',
-    help_3_title: 'Lan Truyền Thông Điệp', help_3_body: 'Chia sẻ sứ mệnh của chúng tôi với hàng xóm, đồng nghiệp và mạng xã hội của bạn.',
-    about_eyebrow: 'Sứ Mệnh Của Chúng Tôi',
-    check_2: '100% do tình nguyện viên lãnh đạo', check_3: 'Miễn phí cho những người chúng tôi giúp', check_4: 'Đóng góp được khấu trừ thuế',
-    gallery_eyebrow: 'Trong Cộng Đồng',
-    donate_eyebrow: 'Hỗ Trợ Sứ Mệnh', donate_headline: 'Món Quà Của Bạn Đến Thẳng Cộng Đồng',
-    donate_sub: '100% đóng góp hỗ trợ chương trình. Chúng tôi điều hành bởi tình nguyện viên, không có chi phí quản lý.',
-    btn_donate_full: 'Quyên Góp Ngay', btn_volunteer_full: 'Đăng Ký Tình Nguyện', btn_contact: 'Liên Hệ',
-    donate_note: 'Xử lý quyên góp an toàn. Được khấu trừ thuế theo hướng dẫn IRS.',
-    contact_eyebrow: 'Liên Hệ', contact_headline: 'Chúng Tôi Rất Vui Được Nghe Từ Bạn',
-    contact_phone_label: 'Điện Thoại', contact_address_label: 'Địa Chỉ',
-    form_name: 'Tên Của Bạn', form_email: 'Địa Chỉ Email', form_message: 'Tin Nhắn', form_submit: 'Gửi Tin Nhắn',
-    footer_maps: 'Tìm chúng tôi trên Google Maps', footer_maps_link: 'Google Maps ↗',
-    footer_programs_col: 'Chương Trình', footer_contact_col: 'Liên Hệ',
-    footer_rights: 'Bảo lưu mọi quyền.', footer_built: 'Website được xây dựng bởi',
-    sticky_donate: 'Quyên Góp',
+    nav_programs:'Chương Trình',nav_about:'Về Chúng Tôi',nav_help:'Tham Gia',nav_contact:'Liên Hệ',
+    btn_donate:'Quyên Góp',btn_volunteer:'Tình Nguyện',
+    trust_1:'Tổ chức phi lợi nhuận 501(c)(3)',trust_2:'Do cộng đồng điều hành',trust_3:'Mở cửa cho tất cả',trust_4:'Miễn phí cho người thụ hưởng',
+    stat_1:'Người Được Phục Vụ',stat_2:'Tình Nguyện Viên',stat_3:'Năm Phục Vụ',stat_4:'Chương Trình Hoạt Động',
+    programs_eyebrow:'Chúng Tôi Làm Gì',
+    help_eyebrow:'Tham Gia',help_headline:'Ba Cách Để Tạo Ra Sự Khác Biệt',help_sub:'Mỗi hành động đều thúc đẩy sứ mệnh tiến lên.',
+    help_1_title:'Quyên Góp',help_1_body:'Sự hỗ trợ tài chính của bạn đi thẳng đến những người chúng tôi phục vụ.',
+    help_2_title:'Tình Nguyện',help_2_body:'Đến trực tiếp và thấy tác động của thời gian bạn bỏ ra.',
+    help_3_title:'Lan Truyền',help_3_body:'Chia sẻ sứ mệnh với hàng xóm, đồng nghiệp và mạng xã hội.',
+    about_eyebrow:'Sứ Mệnh Của Chúng Tôi',check_2:'100% do tình nguyện viên lãnh đạo',check_3:'Miễn phí cho những người chúng tôi giúp',check_4:'Đóng góp được khấu trừ thuế',
+    gallery_eyebrow:'Trong Cộng Đồng',
+    donate_eyebrow:'Hỗ Trợ Sứ Mệnh',donate_sub:'100% đóng góp hỗ trợ chương trình.',
+    donate_note:'Xử lý an toàn. Được khấu trừ thuế.',
+    btn_volunteer_full:'Đăng Ký Tình Nguyện',btn_contact:'Liên Hệ',
+    contact_eyebrow:'Liên Hệ',contact_headline:'Chúng Tôi Rất Vui Được Nghe Từ Bạn',
+    contact_phone_label:'Điện Thoại',contact_address_label:'Địa Chỉ',
+    form_name:'Tên Của Bạn',form_email:'Địa Chỉ Email',form_message:'Tin Nhắn',form_submit:'Gửi Tin Nhắn',
+    footer_maps:'Tìm chúng tôi trên Google Maps',footer_programs_col:'Chương Trình',footer_contact_col:'Liên Hệ',
+    sticky_donate:'Quyên Góp',
   },
   so: {
-    nav_programs: 'Barnaamijyada', nav_about: 'Naga', nav_help: 'Ka Qeyb Qaado', nav_contact: 'Xiriir',
-    btn_donate: 'Deeq', btn_volunteer: 'Iskaa Wax U Qabso',
-    trust_1: 'Hay\'aad aan faa\'iido doon ahayn 501(c)(3)', trust_2: 'Bulshadu waxay maamusaa', trust_3: 'Furan yahay Everybody', trust_4: 'Lacag la\'aan u adeegayaasha',
-    stat_1: 'Dad La Adeegay', stat_2: 'Iskaa Wax U Qabsadeyaasha', stat_3: 'Sanadood Adeeg', stat_4: 'Barnaamijyo Firfircoon',
-    programs_eyebrow: 'Waxa Aanu Qabanno',
-    help_eyebrow: 'Ka Qeyb Qaado', help_headline: 'Saddex Hab Oo Farqi Ku Sameeya', help_sub: 'Ficil kasta, xitaa yar, horumariya hawsha.',
-    help_1_title: 'Deeq', help_1_body: 'Taageeradaada maaliyadeed si toos ah ayey u tagtaa dadka aanu adeegno.',
-    help_2_title: 'Iskaa Wax U Qabso', help_2_body: 'Ku soo muuqo shaqsiyaad ahaan oo arag saamaynta tooska ah ee waqtigaaga.',
-    help_3_title: 'Faafi Ereyga', help_3_body: 'La wadaag hawsheenna deriskeyga, shaqaalaha, iyo shabakadaada bulshada.',
-    about_eyebrow: 'Hawsheenna',
-    check_2: '100% waxaa hogaamiya iskaa wax u qabsadeyaasha', check_3: 'Lacag la\'aan dadka aanu caawino', check_4: 'Deeqaha waxaa la goyn karaa cashuurta',
-    gallery_eyebrow: 'Bulshada Gudaheeda',
-    donate_eyebrow: 'Taageer Hawsha', donate_headline: 'Deeqdaadu Si Toos Ah Ayey u Tagtaa Bulshada',
-    donate_sub: '100% deeqaha waxay taageeraan barnaamijyadeenna. Iskaa wax u qabsadeyaashu waxay maamulaan, oo aan lahayn kharash maamul.',
-    btn_donate_full: 'Deeq Hadda', btn_volunteer_full: 'Isdiiwaangeli Iskaa Wax U Qabsasho', btn_contact: 'Xiriir',
-    donate_note: 'Deeqaha si ammaan ah ayaa loo habeeyaa. Waxaa goyn karaa cashuurta.',
-    contact_eyebrow: 'Nala Soo Xiriir', contact_headline: 'Waxaan Jeclaan Laheen Inaan Kaa Maqalno',
-    contact_phone_label: 'Telefoon', contact_address_label: 'Cinwaan',
-    form_name: 'Magacaaga', form_email: 'Cinwaanka Emailka', form_message: 'Farriin', form_submit: 'Dir Farriinta',
-    footer_maps: 'Nagu Hel Google Maps', footer_maps_link: 'Google Maps ↗',
-    footer_programs_col: 'Barnaamijyada', footer_contact_col: 'Xiriir',
-    footer_rights: 'Dhammaan xuquuqaha way xifaalin tahay.', footer_built: 'Websaydka waxaa dhisay',
-    sticky_donate: 'Deeq',
+    nav_programs:'Barnaamijyada',nav_about:'Naga',nav_help:'Ka Qeyb Qaado',nav_contact:'Xiriir',
+    btn_donate:'Deeq',btn_volunteer:'Iskaa Wax U Qabso',
+    trust_1:"Hay'aad aan faa'iido doon ahayn",trust_2:'Bulshadu waxay maamusaa',trust_3:'Furan yahay Everybody',trust_4:"Lacag la'aan u adeegayaasha",
+    stat_1:'Dad La Adeegay',stat_2:'Iskaa Wax U Qabsadeyaasha',stat_3:'Sanadood Adeeg',stat_4:'Barnaamijyo Firfircoon',
+    programs_eyebrow:'Waxa Aanu Qabanno',
+    help_eyebrow:'Ka Qeyb Qaado',help_headline:'Saddex Hab Oo Farqi Ku Sameeya',help_sub:'Ficil kasta horumariya hawsha.',
+    help_1_title:'Deeq',help_1_body:'Taageeradaada si toos ah ayey u tagtaa dadka aanu adeegno.',
+    help_2_title:'Iskaa Wax U Qabso',help_2_body:'Ku soo muuqo shaqsiyaad ahaan oo arag saamaynta tooska ah.',
+    help_3_title:'Faafi Ereyga',help_3_body:'La wadaag hawsheenna deriskeyga iyo shabakadaada bulshada.',
+    about_eyebrow:'Hawsheenna',check_2:"100% waxaa hogaamiya iskaa wax u qabsadeyaasha",check_3:"Lacag la'aan dadka aanu caawino",check_4:'Deeqaha waxaa la goyn karaa cashuurta',
+    gallery_eyebrow:'Bulshada Gudaheeda',
+    donate_eyebrow:'Taageer Hawsha',donate_sub:'100% deeqaha waxay taageeraan barnaamijyadeenna.',
+    donate_note:'Deeqaha si ammaan ah ayaa loo habeeyaa.',
+    btn_volunteer_full:'Isdiiwaangeli Iskaa Wax U Qabsasho',btn_contact:'Xiriir',
+    contact_eyebrow:'Nala Soo Xiriir',contact_headline:'Waxaan Jeclaan Laheen Inaan Kaa Maqalno',
+    contact_phone_label:'Telefoon',contact_address_label:'Cinwaan',
+    form_name:'Magacaaga',form_email:'Cinwaanka Emailka',form_message:'Farriin',form_submit:'Dir Farriinta',
+    footer_maps:'Nagu Hel Google Maps',footer_programs_col:'Barnaamijyada',footer_contact_col:'Xiriir',
+    sticky_donate:'Deeq',
   },
 };
 
-// Keep track of what language we're in so sticky_donate can slot
-// in the org name dynamically if needed in future iterations
 let currentLang = 'en';
 const ORG_NAME = '{{ORG_NAME}}';
+const MADE_BY_EMAIL = '{{MADE_BY_EMAIL}}';
 
 function applyLang(lang) {
   const strings = I18N[lang];
   if (!strings) return;
   currentLang = lang;
-
-  // Swap every element that has a data-i18n attribute
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
     if (strings[key]) el.textContent = strings[key];
   });
-
-  // Update <html lang> for screen readers — this is the important one
   document.documentElement.lang = lang;
-
-  // Toggle aria-pressed on the switcher buttons
   document.querySelectorAll('.lang-btn').forEach(btn => {
     const active = btn.dataset.lang === lang;
     btn.classList.toggle('active', active);
@@ -769,50 +686,39 @@ function applyLang(lang) {
   });
 }
 
-// Language switcher click handler
 document.querySelectorAll('.lang-btn').forEach(btn => {
   btn.addEventListener('click', () => applyLang(btn.dataset.lang));
 });
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── Preview banner ─────────────────────────────────────── */
-  // Only shown when the site is accessed via the GitHub Pages preview URL,
-  // not when the org eventually claims it (we remove the banner on handoff)
+  // Preview banner
   const banner = document.createElement('div');
   banner.className = 'preview-banner';
   banner.setAttribute('role', 'banner');
-  banner.setAttribute('aria-label', 'Preview site notice');
   banner.innerHTML = `
     <div class="preview-banner-text">
       <div class="preview-banner-dot" aria-hidden="true"></div>
       <span>Preview site built for <strong>${ORG_NAME}</strong> by {{MADE_BY_NAME}}</span>
     </div>
-    <a href="mailto:{{MADE_BY_EMAIL}}?subject=I want this website - ${encodeURIComponent(ORG_NAME)}&body=Hi, I just viewed my preview site and I'm interested in getting this live. Please reach out." class="preview-banner-cta">
+    <a href="mailto:${MADE_BY_EMAIL}?subject=I want this website - ${encodeURIComponent(ORG_NAME)}&body=Hi, I viewed my preview site and I am interested. Please reach out." class="preview-banner-cta">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
       Claim This Website
     </a>`;
   document.body.prepend(banner);
   document.body.classList.add('has-preview-banner');
 
-  /* ── Suppress unhandled rejections from blocked CDN resources ── */
-  window.addEventListener('unhandledrejection', e => {
-    if (e.reason?.message?.includes('fetch') ||
-        e.reason?.message?.includes('network') ||
-        e.reason?.message?.includes('blocked')) {
-      e.preventDefault();
-    }
-  });
+  window.addEventListener('unhandledrejection', e => { e.preventDefault(); });
 
-  /* ── Header scroll ──────────────────────────────────────── */
+  // Header scroll
   const header = document.getElementById('header');
   if (header) {
     const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 60);
     onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive:true });
   }
 
-  /* ── Hamburger ──────────────────────────────────────────── */
+  // Hamburger
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
   if (hamburger && mobileNav) {
@@ -830,20 +736,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ── Scroll reveal ──────────────────────────────────────── */
-  const revEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  // Scroll reveal
+  const revEls = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
   if (revEls.length) {
     const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
     revEls.forEach(el => obs.observe(el));
-    // Fallback for slow/broken IntersectionObserver
     setTimeout(() => revEls.forEach(el => el.classList.add('visible')), 2500);
   }
 
-  /* ── Animated counters ──────────────────────────────────── */
+  // Counters
   const counters = document.querySelectorAll('.stat-num[data-target]');
   if (counters.length) {
     const cObs = new IntersectionObserver(entries => {
@@ -854,7 +757,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const start = performance.now();
         const dur = 1800;
         (function tick(now) {
-          const p  = Math.min((now - start) / dur, 1);
+          const p = Math.min((now - start) / dur, 1);
           const ease = 1 - Math.pow(1 - p, 3);
           el.textContent = Math.round(ease * target);
           if (p < 1) requestAnimationFrame(tick);
@@ -862,36 +765,31 @@ document.addEventListener('DOMContentLoaded', () => {
         })(start);
         cObs.unobserve(el);
       });
-    }, { threshold: 0.5 });
+    }, { threshold:0.5 });
     counters.forEach(el => cObs.observe(el));
   }
 
-  /* ── Hero background ────────────────────────────────────── */
+  // Hero background
   const heroBg = document.getElementById('heroBg');
   if (heroBg) heroBg.style.backgroundImage = "url('{{HERO_IMAGE}}')";
 
-  /* ── Contact form — preview mode ────────────────────────── */
+  // Contact form — preview mode
   document.querySelectorAll('form[data-contact-form]').forEach(form => {
     form.addEventListener('submit', e => {
       e.preventDefault();
       const btn     = form.querySelector('[type="submit"]');
       const success = form.querySelector('.form-success');
       const orig    = btn.textContent;
-
-      // No backend yet on demo sites — honest preview message
       if (success) {
         success.style.display = 'block';
-        success.innerHTML = `<p style="color:#166534;font-weight:600;">Preview mode — form is disabled on demo sites.</p><p style="font-size:.78rem;font-weight:400;color:#15803D;margin-top:6px;">On your live site, this delivers messages directly to ${ORG_NAME}.</p>`;
+        success.innerHTML = `<p style="color:#0A6358;font-weight:600;">Preview mode — form is disabled on demo sites.</p><p style="font-size:.78rem;color:#0D7C6E;margin-top:6px;">On the live site, this delivers messages to ${ORG_NAME}.</p>`;
       }
       btn.textContent = 'Preview Mode';
-      setTimeout(() => {
-        btn.textContent = orig;
-        if (success) success.style.display = 'none';
-      }, 4000);
+      setTimeout(() => { btn.textContent = orig; if (success) success.style.display = 'none'; }, 4000);
     });
   });
 
-}); // end DOMContentLoaded
+});
 </script>
 </body>
 </html>
