@@ -39,84 +39,146 @@ st.set_page_config(
 # teal accent for CTAs. Matches the template palette exactly.
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
 
-html, body, [class*="css"] { font-family: 'DM Sans', sans-serif !important; }
-h1, h2, h3, h4, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 {
+html, body, [class*="css"] {
+  font-family: 'DM Sans', sans-serif !important;
+}
+h1, h2, h3, h4 {
   font-family: 'Sora', sans-serif !important;
 }
 
-/* Header strip */
-.gb-header-wrap {
-  background: #0B1D3A;
-  margin: -1rem -1rem 24px -1rem;
-  padding: 14px 28px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
+/* ── Layout ────────────────────────────────────────────────────── */
+.block-container { padding-top: 0 !important; padding-left: 2rem !important; padding-right: 2rem !important; }
+iframe { border: 1px solid #E2E8F0 !important; border-radius: 8px; }
+
+/* ── Header ────────────────────────────────────────────────────── */
+.gb-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 18px;
+  border-bottom: 1px solid #E8ECF0;
+  margin-bottom: 28px;
 }
-.gb-header { display:flex; align-items:center; gap:12px; }
+.gb-header-left { display:flex; align-items:center; gap:12px; }
 .gb-logo {
-  width:30px; height:30px; background:#0D7C6E; border-radius:4px;
-  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  width: 36px; height: 36px;
+  background: #0D7C6E;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(13,124,110,.25);
 }
 .gb-title {
-  font-family:'Sora',sans-serif !important;
-  font-size:1rem; font-weight:800; color:#ffffff; letter-spacing:-.2px; margin:0;
+  font-family: 'Sora', sans-serif !important;
+  font-size: 1.1rem; font-weight: 800;
+  color: #0F1E32; letter-spacing: -.3px; margin: 0;
 }
-.gb-sub { font-size:.71rem; color:rgba(255,255,255,.4); margin:0; }
-.gb-pill {
-  margin-left:auto;
-  background:rgba(13,124,110,.2); border:1px solid rgba(13,124,110,.35);
-  color:#3ECAB8; font-family:'Sora',sans-serif; font-size:.62rem;
-  font-weight:700; padding:3px 8px; border-radius:3px;
-  letter-spacing:.8px; text-transform:uppercase;
+.gb-sub { font-size: .72rem; color: #94A3B8; margin: 0; }
+.gb-badge {
+  background: #F0FDF9; border: 1px solid #99E6DC;
+  color: #0A6358; font-size: .65rem; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+  letter-spacing: .6px; text-transform: uppercase;
+  font-family: 'Sora', sans-serif;
 }
 
-/* Metrics — single row, no big numbers */
-.metrics-row {
-  display:grid; grid-template-columns:repeat(4,1fr);
-  border:1px solid #E2E8F0; border-radius:5px;
-  overflow:hidden; margin-bottom:20px;
+/* ── Metric cards ──────────────────────────────────────────────── */
+.metric-card {
+  border-radius: 12px;
+  padding: 20px 22px;
+  margin-bottom: 4px;
 }
-.metric-cell {
-  padding:14px 18px; background:#fff;
-  border-right:1px solid #E2E8F0;
-  display:flex; align-items:center; gap:12px;
+.metric-card.teal   { background: #F0FDF9; border: 1px solid #99E6DC; }
+.metric-card.blue   { background: #EFF6FF; border: 1px solid #BFDBFE; }
+.metric-card.amber  { background: #FFFBEB; border: 1px solid #FDE68A; }
+.metric-card.purple { background: #FAF5FF; border: 1px solid #DDD6FE; }
+.metric-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
 }
-.metric-cell:last-child { border-right:none; }
-.metric-val {
-  font-family:'Sora',sans-serif; font-size:1.6rem;
-  font-weight:800; color:#0F1E32; line-height:1; min-width:24px;
+.metric-card.teal   .metric-icon { background: #CCFBF1; }
+.metric-card.blue   .metric-icon { background: #DBEAFE; }
+.metric-card.amber  .metric-icon { background: #FEF3C7; }
+.metric-card.purple .metric-icon { background: #EDE9FE; }
+.metric-num {
+  font-family: 'Sora', sans-serif;
+  font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 4px;
 }
-.metric-cell.hi .metric-val { color:#0D7C6E; }
+.metric-card.teal   .metric-num { color: #0D7C6E; }
+.metric-card.blue   .metric-num { color: #1D4ED8; }
+.metric-card.amber  .metric-num { color: #D97706; }
+.metric-card.purple .metric-num { color: #7C3AED; }
 .metric-label {
-  font-size:.65rem; font-weight:700; color:#94A3B8;
-  text-transform:uppercase; letter-spacing:1px; display:block;
+  font-size: .72rem; font-weight: 600; color: #64748B;
+  text-transform: uppercase; letter-spacing: .8px;
 }
-.metric-desc { font-size:.74rem; color:#64748B; }
 
-/* Tier badges */
-.tier-hot  { background:#FEF2F2; color:#991B1B; border:1px solid #FECACA; padding:2px 8px; border-radius:3px; font-size:.7rem; font-weight:700; }
-.tier-warm { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; padding:2px 8px; border-radius:3px; font-size:.7rem; font-weight:700; }
-.tier-cold { background:#F0F9FF; color:#075985; border:1px solid #BAE6FD; padding:2px 8px; border-radius:3px; font-size:.7rem; font-weight:700; }
+/* ── Section headers ───────────────────────────────────────────── */
+.section-label {
+  font-family: 'Sora', sans-serif;
+  font-size: .68rem; font-weight: 700; color: #94A3B8;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 12px; display: block;
+}
 
-/* Stage pills */
-.stage-pill { display:inline-block; padding:2px 8px; border-radius:3px; font-size:.67rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; }
-.stage-scraped   { background:#F1F5F9; color:#475569; }
+/* ── Tier badges ───────────────────────────────────────────────── */
+.tier-hot  { background:#FEF2F2; color:#991B1B; border:1px solid #FECACA; padding:3px 9px; border-radius:20px; font-size:.68rem; font-weight:700; }
+.tier-warm { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; padding:3px 9px; border-radius:20px; font-size:.68rem; font-weight:700; }
+.tier-cold { background:#F0F9FF; color:#075985; border:1px solid #BAE6FD; padding:3px 9px; border-radius:20px; font-size:.68rem; font-weight:700; }
+
+/* ── Stage pills ───────────────────────────────────────────────── */
+.stage-pill { display:inline-block; padding:3px 9px; border-radius:20px; font-size:.67rem; font-weight:700; text-transform:uppercase; letter-spacing:.4px; }
+.stage-scraped   { background:#F1F5F9; color:#64748B; }
 .stage-qualified { background:#EFF6FF; color:#1D4ED8; }
 .stage-built     { background:#FEF9C3; color:#854D0E; }
-.stage-deploying { background:#FDF4FF; color:#7E22CE; }
-.stage-deployed  { background:#DCFCE7; color:#166534; }
+.stage-deploying { background:#FAF5FF; color:#7C3AED; }
+.stage-deployed  { background:#F0FDF9; color:#0A6358; }
 .stage-rejected  { background:#FEF2F2; color:#991B1B; }
 .stage-error     { background:#FEF2F2; color:#991B1B; }
 
-/* Org review card */
-.org-card { border:1px solid #E2E8F0; border-radius:4px; padding:18px 22px; margin-bottom:14px; background:#fff; }
+/* ── Org review card ───────────────────────────────────────────── */
+.org-card {
+  border: 1px solid #E2E8F0; border-radius: 10px;
+  padding: 18px 20px; margin-bottom: 12px; background: #fff;
+}
 .org-card-name { font-family:'Sora',sans-serif; font-size:.96rem; font-weight:700; color:#0F1E32; margin-bottom:3px; }
 .org-card-meta { font-size:.78rem; color:#64748B; margin-bottom:12px; }
 
-/* Misc */
-.block-container { padding-top:0 !important; }
-iframe { border:1px solid #E2E8F0 !important; border-radius:4px; }
+/* ── Progress bars ─────────────────────────────────────────────── */
+.prog-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.prog-label { font-size:.78rem; font-weight:600; color:#0F1E32; min-width:100px; }
+.prog-bar-wrap { flex:1; background:#F1F5F9; border-radius:4px; height:7px; }
+.prog-bar { height:7px; border-radius:4px; background:#0D7C6E; }
+.prog-count { font-size:.78rem; font-weight:700; color:#0F1E32; min-width:24px; text-align:right; }
+
+/* ── Buttons ───────────────────────────────────────────────────── */
+.stButton > button {
+  font-family: 'Sora', sans-serif !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  letter-spacing: .1px !important;
+}
+
+/* ── Expanders ─────────────────────────────────────────────────── */
+.streamlit-expanderHeader {
+  font-family: 'Sora', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: .88rem !important;
+}
+
+/* ── Dark mode support ─────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  .gb-title { color: #F1F5F9 !important; }
+  .metric-card.teal   { background: rgba(13,124,110,.12) !important; }
+  .metric-card.blue   { background: rgba(29,78,216,.12) !important; }
+  .metric-card.amber  { background: rgba(217,119,6,.12) !important; }
+  .metric-card.purple { background: rgba(124,58,237,.12) !important; }
+  .org-card { background: rgba(255,255,255,.04) !important; border-color: rgba(255,255,255,.08) !important; }
+  .org-card-name { color: #F1F5F9 !important; }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -126,10 +188,10 @@ init_db()
 
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.markdown("""
-<div class="gb-header-wrap">
-  <div class="gb-header">
+<div class="gb-header">
+  <div class="gb-header-left">
     <div class="gb-logo">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
       </svg>
     </div>
@@ -137,8 +199,8 @@ st.markdown("""
       <p class="gb-title">GiveBack</p>
       <p class="gb-sub">Nonprofit web pipeline &nbsp;&middot;&nbsp; Human-in-the-loop review</p>
     </div>
-    <span class="gb-pill">Internal</span>
   </div>
+  <span class="gb-badge">Operator Dashboard</span>
 </div>
 """, unsafe_allow_html=True)
 
@@ -153,38 +215,39 @@ built      = counts.get('built', 0)
 deployed   = counts.get('deployed', 0)
 needs_review = built  # sites waiting for human approval
 
-st.markdown(f"""
-<div class="metrics-row">
-  <div class="metric-cell">
-    <div class="metric-val">{total}</div>
-    <div class="metric-info">
-      <span class="metric-label">Orgs Found</span>
-      <span class="metric-desc">Total in database</span>
-    </div>
+m1, m2, m3, m4 = st.columns(4)
+m1.markdown(f"""
+<div class="metric-card teal">
+  <div class="metric-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D7C6E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
   </div>
-  <div class="metric-cell">
-    <div class="metric-val">{qualified}</div>
-    <div class="metric-info">
-      <span class="metric-label">Ready to Build</span>
-      <span class="metric-desc">Qualified, awaiting builder</span>
-    </div>
+  <div class="metric-num">{total}</div>
+  <div class="metric-label">Orgs Found</div>
+</div>""", unsafe_allow_html=True)
+m2.markdown(f"""
+<div class="metric-card blue">
+  <div class="metric-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
   </div>
-  <div class="metric-cell hi">
-    <div class="metric-val">{needs_review}</div>
-    <div class="metric-info">
-      <span class="metric-label">Awaiting Review</span>
-      <span class="metric-desc">Needs your approval</span>
-    </div>
+  <div class="metric-num">{qualified}</div>
+  <div class="metric-label">Ready to Build</div>
+</div>""", unsafe_allow_html=True)
+m3.markdown(f"""
+<div class="metric-card amber">
+  <div class="metric-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
   </div>
-  <div class="metric-cell">
-    <div class="metric-val">{deployed}</div>
-    <div class="metric-info">
-      <span class="metric-label">Sites Live</span>
-      <span class="metric-desc">Deployed to GitHub Pages</span>
-    </div>
+  <div class="metric-num">{needs_review}</div>
+  <div class="metric-label">Awaiting Review</div>
+</div>""", unsafe_allow_html=True)
+m4.markdown(f"""
+<div class="metric-card purple">
+  <div class="metric-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
   </div>
-</div>
-""", unsafe_allow_html=True)
+  <div class="metric-num">{deployed}</div>
+  <div class="metric-label">Sites Live</div>
+</div>""", unsafe_allow_html=True)
 
 # ── Tabs ───────────────────────────────────────────────────────────────────────
 tab_pipeline, tab_review, tab_deployed, tab_stats = st.tabs([
