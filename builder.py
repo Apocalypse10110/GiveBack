@@ -442,47 +442,36 @@ def enable_github_pages(repo_name: str) -> str:
 
 def deploy_to_github(repo_name: str, org_name: str, html: str) -> str:
     """
-    Full 3-step GitHub deployment:
-      1. Create repo
-      2. Push index.html (and a minimal README so the repo looks nice)
-      3. Enable Pages
-
+    Pushes built site into the GiveBack repo under built_websites/{slug}/.
+    No new repo needed — GiveBack Pages serves everything.
     Returns the live GitHub Pages URL.
     """
-    log.info(f'  → Creating GitHub repo: {repo_name}')
-    create_github_repo(repo_name, org_name)
-    time.sleep(1)  # tiny pause — repo creation is async on GitHub's side
+    MAIN_REPO = 'GiveBack'
+    folder = f'built_websites/{repo_name}'
 
-    log.info(f'  → Pushing index.html')
-    push_file_to_repo(
-        repo_name, 'index.html', html,
-        f'Initial site for {org_name} — built by GiveBack'
-    )
+    log.info(f'  -> Pushing index.html to {folder}/')
+    push_file_to_repo(MAIN_REPO, f'{folder}/index.html', html,
+                      f'Add site for {org_name}')
 
-    # README makes the repo look like a real project and helps judges understand it
+    favicon_path = os.path.join(os.path.dirname(TEMPLATE_PATH), 'favicon.svg')
+    with open(favicon_path, 'r') as fav:
+        push_file_to_repo(MAIN_REPO, f'{folder}/favicon.svg', fav.read(), 'Add favicon')
+
     readme = f"""# {org_name}
 
 Website built by **GiveBack** — an automated pipeline that finds nonprofits
 without a web presence and builds them a free, accessible website.
 
-**Live site:** https://{GH_ACTOR}.github.io/{repo_name}/
+**Live site:** https://{GH_ACTOR}.github.io/GiveBack/{folder}/
 
 ---
 *This site was generated and deployed automatically. The nonprofit can claim
 ownership and customize it at any time.*
 """
-    log.info('  -> Pushing favicon.svg')
-    favicon_path = os.path.join(os.path.dirname(TEMPLATE_PATH), 'favicon.svg')
-    with open(favicon_path, 'r') as fav:
-        push_file_to_repo(repo_name, 'favicon.svg', fav.read(), 'Add favicon')
+    push_file_to_repo(MAIN_REPO, f'{folder}/README.md', readme, 'Add README')
 
-    push_file_to_repo(repo_name, 'README.md', readme, 'Add README')
-
-    log.info(f'  → Enabling GitHub Pages')
-    live_url = enable_github_pages(repo_name)
-
+    live_url = f'https://{GH_ACTOR}.github.io/GiveBack/{folder}/'
     return live_url
-
 
 # ── Telegram notification ──────────────────────────────────────────────────────
 
@@ -576,7 +565,7 @@ def deploy_site(org_id: int) -> str:
     log.info(f'Deploying: {org["name"]}')
     execute("UPDATE orgs SET pipeline_stage='deploying' WHERE id=?", (org_id,))
 
-    repo_name = slugify(org['name'])
+    repo_name = 'giveback-' + slugify(org['name'])
     live_url  = deploy_to_github(repo_name, org['name'], org['demo_html'])
 
     execute(
