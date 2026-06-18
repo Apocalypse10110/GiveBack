@@ -31,7 +31,7 @@ st.set_page_config(
     page_title='GiveBack Dashboard',
     page_icon='G',
     layout='wide',
-    initial_sidebar_state='collapsed',
+    initial_sidebar_state='expanded',
 )
 
 # ── Custom CSS — matches the site template palette exactly ────────────────────
@@ -39,17 +39,20 @@ st.set_page_config(
 # teal accent for CTAs. Matches the template palette exactly.
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 html, body, [class*="css"] {
-  font-family: 'DM Sans', sans-serif !important;
-}
-h1, h2, h3, h4 {
-  font-family: 'Sora', sans-serif !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
-/* ── Layout ────────────────────────────────────────────────────── */
-.block-container { padding-top: 0 !important; padding-left: 2rem !important; padding-right: 2rem !important; }
+/* Give Streamlit's toolbar room — do not zero out padding-top */
+.block-container {
+  padding-top: 2rem !important;
+  padding-left: 2.5rem !important;
+  padding-right: 2.5rem !important;
+  max-width: 1200px;
+}
+
 iframe { border: 1px solid #E2E8F0 !important; border-radius: 8px; }
 
 /* ── Header ────────────────────────────────────────────────────── */
@@ -57,80 +60,62 @@ iframe { border: 1px solid #E2E8F0 !important; border-radius: 8px; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 0 18px;
-  border-bottom: 1px solid #E8ECF0;
-  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 24px;
 }
-.gb-header-left { display:flex; align-items:center; gap:12px; }
+.gb-header-left { display:flex; align-items:center; gap:10px; }
 .gb-logo {
-  width: 36px; height: 36px;
-  background: #0D7C6E;
-  border-radius: 8px;
+  width: 32px; height: 32px;
+  background: #0D7C6E; border-radius: 7px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(13,124,110,.25);
 }
 .gb-title {
-  font-family: 'Sora', sans-serif !important;
-  font-size: 1.1rem; font-weight: 800;
-  color: #0F1E32; letter-spacing: -.3px; margin: 0;
+  font-size: 1rem; font-weight: 700;
+  color: #0F172A; letter-spacing: -.2px; margin: 0; line-height: 1.3;
 }
-.gb-sub { font-size: .72rem; color: #94A3B8; margin: 0; }
+.gb-sub { font-size: .7rem; color: #94A3B8; margin: 0; }
 .gb-badge {
   background: #F0FDF9; border: 1px solid #99E6DC;
-  color: #0A6358; font-size: .65rem; font-weight: 700;
-  padding: 3px 10px; border-radius: 20px;
-  letter-spacing: .6px; text-transform: uppercase;
-  font-family: 'Sora', sans-serif;
+  color: #0A6358; font-size: .63rem; font-weight: 600;
+  padding: 3px 9px; border-radius: 20px; letter-spacing: .4px;
 }
 
 /* ── Metric cards ──────────────────────────────────────────────── */
 .metric-card {
-  border-radius: 12px;
-  padding: 20px 22px;
-  margin-bottom: 4px;
+  border-radius: 10px;
+  padding: 18px 20px;
 }
-.metric-card.teal   { background: #F0FDF9; border: 1px solid #99E6DC; }
+.metric-card.teal   { background: #F0FDF9; border: 1px solid #CCFBF1; }
 .metric-card.blue   { background: #EFF6FF; border: 1px solid #BFDBFE; }
 .metric-card.amber  { background: #FFFBEB; border: 1px solid #FDE68A; }
 .metric-card.purple { background: #FAF5FF; border: 1px solid #DDD6FE; }
 .metric-icon {
-  width: 32px; height: 32px; border-radius: 8px;
+  width: 30px; height: 30px; border-radius: 7px;
   display: flex; align-items: center; justify-content: center;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 .metric-card.teal   .metric-icon { background: #CCFBF1; }
 .metric-card.blue   .metric-icon { background: #DBEAFE; }
 .metric-card.amber  .metric-icon { background: #FEF3C7; }
 .metric-card.purple .metric-icon { background: #EDE9FE; }
 .metric-num {
-  font-family: 'Sora', sans-serif;
-  font-size: 2rem; font-weight: 800; line-height: 1; margin-bottom: 4px;
+  font-size: 1.9rem; font-weight: 800; line-height: 1; margin-bottom: 3px;
 }
 .metric-card.teal   .metric-num { color: #0D7C6E; }
 .metric-card.blue   .metric-num { color: #1D4ED8; }
 .metric-card.amber  .metric-num { color: #D97706; }
 .metric-card.purple .metric-num { color: #7C3AED; }
-.metric-label {
-  font-size: .72rem; font-weight: 600; color: #64748B;
-  text-transform: uppercase; letter-spacing: .8px;
-}
-
-/* ── Section headers ───────────────────────────────────────────── */
-.section-label {
-  font-family: 'Sora', sans-serif;
-  font-size: .68rem; font-weight: 700; color: #94A3B8;
-  text-transform: uppercase; letter-spacing: 1.5px;
-  margin-bottom: 12px; display: block;
-}
+.metric-label { font-size: .7rem; font-weight: 600; color: #64748B; letter-spacing: .3px; }
 
 /* ── Tier badges ───────────────────────────────────────────────── */
-.tier-hot  { background:#FEF2F2; color:#991B1B; border:1px solid #FECACA; padding:3px 9px; border-radius:20px; font-size:.68rem; font-weight:700; }
-.tier-warm { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; padding:3px 9px; border-radius:20px; font-size:.68rem; font-weight:700; }
-.tier-cold { background:#F0F9FF; color:#075985; border:1px solid #BAE6FD; padding:3px 9px; border-radius:20px; font-size:.68rem; font-weight:700; }
+.tier-hot  { background:#FEF2F2; color:#991B1B; border:1px solid #FECACA; padding:2px 8px; border-radius:20px; font-size:.67rem; font-weight:600; }
+.tier-warm { background:#FFFBEB; color:#92400E; border:1px solid #FDE68A; padding:2px 8px; border-radius:20px; font-size:.67rem; font-weight:600; }
+.tier-cold { background:#F0F9FF; color:#075985; border:1px solid #BAE6FD; padding:2px 8px; border-radius:20px; font-size:.67rem; font-weight:600; }
 
 /* ── Stage pills ───────────────────────────────────────────────── */
-.stage-pill { display:inline-block; padding:3px 9px; border-radius:20px; font-size:.67rem; font-weight:700; text-transform:uppercase; letter-spacing:.4px; }
+.stage-pill { display:inline-block; padding:2px 8px; border-radius:20px; font-size:.66rem; font-weight:600; }
 .stage-scraped   { background:#F1F5F9; color:#64748B; }
 .stage-qualified { background:#EFF6FF; color:#1D4ED8; }
 .stage-built     { background:#FEF9C3; color:#854D0E; }
@@ -139,52 +124,47 @@ iframe { border: 1px solid #E2E8F0 !important; border-radius: 8px; }
 .stage-rejected  { background:#FEF2F2; color:#991B1B; }
 .stage-error     { background:#FEF2F2; color:#991B1B; }
 
-/* ── Org review card ───────────────────────────────────────────── */
-.org-card {
-  border: 1px solid #E2E8F0; border-radius: 10px;
-  padding: 18px 20px; margin-bottom: 12px; background: #fff;
-}
-.org-card-name { font-family:'Sora',sans-serif; font-size:.96rem; font-weight:700; color:#0F1E32; margin-bottom:3px; }
-.org-card-meta { font-size:.78rem; color:#64748B; margin-bottom:12px; }
+/* ── Org card ──────────────────────────────────────────────────── */
+.org-card { border:1px solid #E2E8F0; border-radius:10px; padding:16px 20px; margin-bottom:10px; background:#fff; }
+.org-card-name { font-size:.94rem; font-weight:700; color:#0F172A; margin-bottom:2px; }
+.org-card-meta { font-size:.76rem; color:#64748B; margin-bottom:10px; }
 
-/* ── Progress bars ─────────────────────────────────────────────── */
-.prog-row { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-.prog-label { font-size:.78rem; font-weight:600; color:#0F1E32; min-width:100px; }
-.prog-bar-wrap { flex:1; background:#F1F5F9; border-radius:4px; height:7px; }
-.prog-bar { height:7px; border-radius:4px; background:#0D7C6E; }
-.prog-count { font-size:.78rem; font-weight:700; color:#0F1E32; min-width:24px; text-align:right; }
-
-/* ── Buttons ───────────────────────────────────────────────────── */
-.stButton > button {
-  font-family: 'Sora', sans-serif !important;
-  font-weight: 700 !important;
-  border-radius: 8px !important;
-  letter-spacing: .1px !important;
-}
-
-/* ── Expanders ─────────────────────────────────────────────────── */
-.streamlit-expanderHeader {
-  font-family: 'Sora', sans-serif !important;
-  font-weight: 600 !important;
-  font-size: .88rem !important;
-}
-
-/* ── Dark mode support ─────────────────────────────────────────── */
-@media (prefers-color-scheme: dark) {
-  .gb-title { color: #F1F5F9 !important; }
-  .metric-card.teal   { background: rgba(13,124,110,.12) !important; }
-  .metric-card.blue   { background: rgba(29,78,216,.12) !important; }
-  .metric-card.amber  { background: rgba(217,119,6,.12) !important; }
-  .metric-card.purple { background: rgba(124,58,237,.12) !important; }
-  .org-card { background: rgba(255,255,255,.04) !important; border-color: rgba(255,255,255,.08) !important; }
-  .org-card-name { color: #F1F5F9 !important; }
-}
+/* ── Misc ──────────────────────────────────────────────────────── */
+.stButton > button { font-weight: 600 !important; border-radius: 7px !important; }
 </style>
 """, unsafe_allow_html=True)
 
 
 # ── Init ──────────────────────────────────────────────────────────────────────
 init_db()
+
+# ── Dark mode toggle ──────────────────────────────────────────────────────────
+# Streamlit also has a built-in theme toggle in the top-right menu (three dots
+# -> Settings) but this puts it one click away inside the app itself.
+with st.sidebar:
+    st.markdown("#### Settings")
+    dark = st.toggle("Dark mode", value=False)
+    if dark:
+        st.markdown("""<style>
+        .stApp,.block-container { background-color:#0F172A !important; }
+        .gb-title { color:#F1F5F9 !important; }
+        .gb-sub   { color:#475569 !important; }
+        .gb-header { border-bottom-color:#1E293B !important; }
+        .metric-card.teal   { background:rgba(13,124,110,.15) !important; border-color:rgba(13,124,110,.3) !important; }
+        .metric-card.blue   { background:rgba(29,78,216,.15) !important;  border-color:rgba(29,78,216,.3) !important; }
+        .metric-card.amber  { background:rgba(217,119,6,.15) !important;  border-color:rgba(217,119,6,.3) !important; }
+        .metric-card.purple { background:rgba(124,58,237,.15) !important; border-color:rgba(124,58,237,.3) !important; }
+        .metric-card.teal   .metric-icon { background:rgba(13,124,110,.25) !important; }
+        .metric-card.blue   .metric-icon { background:rgba(29,78,216,.25) !important; }
+        .metric-card.amber  .metric-icon { background:rgba(217,119,6,.25) !important; }
+        .metric-card.purple .metric-icon { background:rgba(124,58,237,.25) !important; }
+        .metric-label { color:#94A3B8 !important; }
+        .org-card { background:#1E293B !important; border-color:#334155 !important; }
+        .org-card-name { color:#F1F5F9 !important; }
+        .org-card-meta { color:#94A3B8 !important; }
+        </style>""", unsafe_allow_html=True)
+    st.markdown("---")
+    st.caption("GiveBack v1.0")
 
 # ── Header ─────────────────────────────────────────────────────────────────────
 st.markdown("""
@@ -197,7 +177,7 @@ st.markdown("""
     </div>
     <div>
       <p class="gb-title">GiveBack</p>
-      <p class="gb-sub">Nonprofit web pipeline &nbsp;&middot;&nbsp; Human-in-the-loop review</p>
+      <p class="gb-sub">Nonprofit web pipeline</p>
     </div>
   </div>
   <span class="gb-badge">Operator Dashboard</span>
