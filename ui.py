@@ -29,83 +29,66 @@ st.set_page_config(
     }
 )
 
-# ── CSS — badge pills + header banner + dark mode ────────────────────────────
+# ── CSS — minimal, works with dark theme ─────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 html, body, [class*="css"] { font-family:'Inter',-apple-system,sans-serif !important; }
 
-/* Header banner */
+/* Header banner — sits on top of the dark bg naturally */
 .gb-banner {
-  background: linear-gradient(135deg, #0B1D3A 0%, #0D4A42 100%);
+  background: linear-gradient(135deg, #0B1D3A 0%, #0A2E28 100%);
+  border: 1px solid rgba(13,124,110,.25);
   border-radius: 12px;
-  padding: 24px 28px;
+  padding: 22px 26px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
-.gb-banner-left { display:flex; align-items:center; gap:14px; }
-.gb-banner-logo {
-  width:44px; height:44px;
-  background:rgba(255,255,255,.08);
-  border:1.5px solid rgba(13,124,110,.5);
+.gb-banner-left  { display:flex; align-items:center; gap:14px; }
+.gb-banner-logo  {
+  width:42px; height:42px;
+  background: rgba(13,124,110,.2);
+  border: 1.5px solid rgba(13,124,110,.45);
   border-radius:10px;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
 }
-.gb-banner-title {
-  font-size:1.3rem; font-weight:800;
-  color:#fff; letter-spacing:-.3px; margin:0; line-height:1.2;
+.gb-banner-title { font-size:1.25rem; font-weight:800; color:#fff; letter-spacing:-.3px; margin:0; }
+.gb-banner-sub   { font-size:.72rem; color:rgba(255,255,255,.38); margin:0; margin-top:2px; }
+.gb-banner-right { display:flex; align-items:center; gap:8px; }
+.gb-chip {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius:8px; padding:8px 14px; text-align:center; min-width:60px;
 }
-.gb-banner-sub { font-size:.75rem; color:rgba(255,255,255,.45); margin:0; }
-.gb-banner-right { display:flex; align-items:center; gap:10px; }
-.gb-stat-chip {
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:8px; padding:8px 14px; text-align:center;
-}
-.gb-stat-chip-num {
-  font-size:1.2rem; font-weight:800; color:#fff;
-  line-height:1; display:block;
-}
-.gb-stat-chip-label {
-  font-size:.6rem; color:rgba(255,255,255,.4);
-  text-transform:uppercase; letter-spacing:.8px;
-  display:block; margin-top:2px;
-}
-.gb-stat-chip.hi .gb-stat-chip-num { color:#4DD9C8; }
+.gb-chip-num   { font-size:1.15rem; font-weight:800; color:#fff; line-height:1; display:block; }
+.gb-chip-label { font-size:.58rem; color:rgba(255,255,255,.38); text-transform:uppercase; letter-spacing:.8px; display:block; margin-top:2px; }
+.gb-chip.hi .gb-chip-num { color:#4DD9C8; }
 
-/* Badge pills */
+/* Badge pills — explicit colors so they read on dark bg */
 .pill { display:inline-block; padding:2px 9px; border-radius:99px; font-size:.68rem; font-weight:600; line-height:1.6; }
-.pill-teal   { background:#CCFBF1; color:#0F766E; }
-.pill-blue   { background:#DBEAFE; color:#1E40AF; }
-.pill-amber  { background:#FEF3C7; color:#92400E; }
-.pill-red    { background:#FEE2E2; color:#991B1B; }
-.pill-purple { background:#EDE9FE; color:#5B21B6; }
-.pill-gray   { background:#F1F5F9; color:#475569; }
+.pill-teal   { background:rgba(13,124,110,.25);  color:#4DD9C8; }
+.pill-blue   { background:rgba(59,130,246,.2);   color:#93C5FD; }
+.pill-amber  { background:rgba(217,119,6,.2);    color:#FCD34D; }
+.pill-red    { background:rgba(239,68,68,.2);    color:#FCA5A5; }
+.pill-purple { background:rgba(139,92,246,.2);   color:#C4B5FD; }
+.pill-gray   { background:rgba(100,116,139,.2);  color:#94A3B8; }
 
-iframe { border-radius:8px !important; }
+/* Divider line — lighter on dark */
+hr { border-color: rgba(255,255,255,.08) !important; }
+
+iframe { border-radius:8px !important; border:1px solid rgba(255,255,255,.08) !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ── Init ──────────────────────────────────────────────────────────────────────
+# ── Init ──────────────────────────────────────────────────────────────────────# ── Init ──────────────────────────────────────────────────────────────────────
 init_db()
 GH_ACTOR = GITHUB_ORG if GITHUB_ORG else GITHUB_USERNAME
 
-# ── Sidebar — dark mode toggle only ──────────────────────────────────────────
-# Streamlit also exposes this in the three-dot menu top right → Settings → Theme
-with st.sidebar:
-    st.markdown("### GiveBack")
-    dark = st.toggle("Dark mode", value=False)
-    st.caption("Theme also available in ⋮ → Settings")
-    if dark:
-        st.markdown("""<style>
-.stApp { background:#0F172A !important; color:#E2E8F0 !important; }
-.gb-banner { background: linear-gradient(135deg,#0F172A 0%,#0A2E28 100%) !important; }
-.gb-stat-chip { background:rgba(255,255,255,.06) !important; border-color:rgba(255,255,255,.08) !important; }
-[data-testid="stMetric"] { background:rgba(255,255,255,.03) !important; border-radius:8px; padding:12px !important; }
-</style>""", unsafe_allow_html=True)
+# ── Theme note ───────────────────────────────────────────────────────────────
+# Light/dark toggle is in the three-dot menu top right → Settings → Theme
+# Default is dark (set in .streamlit/config.toml)
 
 # ── Counts ────────────────────────────────────────────────────────────────────
 counts     = {r['pipeline_stage']: r['c'] for r in fetch_all(
