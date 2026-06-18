@@ -565,7 +565,7 @@ def deploy_site(org_id: int) -> str:
     log.info(f'Deploying: {org["name"]}')
     execute("UPDATE orgs SET pipeline_stage='deploying' WHERE id=?", (org_id,))
 
-    repo_name = 'giveback-' + slugify(org['name'])
+    repo_name = slugify(org['name'])
     live_url  = deploy_to_github(repo_name, org['name'], org['demo_html'])
 
     execute(
