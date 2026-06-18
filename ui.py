@@ -29,25 +29,61 @@ st.set_page_config(
     }
 )
 
-# ── Minimal CSS — only for badge pills, nothing structural ────────────────────
-# Everything else is Streamlit native so dark mode works automatically.
+# ── CSS — badge pills + header banner + dark mode ────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 html, body, [class*="css"] { font-family:'Inter',-apple-system,sans-serif !important; }
 
-.pill {
-  display:inline-block; padding:2px 9px; border-radius:99px;
-  font-size:.68rem; font-weight:600; line-height:1.6;
+/* Header banner */
+.gb-banner {
+  background: linear-gradient(135deg, #0B1D3A 0%, #0D4A42 100%);
+  border-radius: 12px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
 }
+.gb-banner-left { display:flex; align-items:center; gap:14px; }
+.gb-banner-logo {
+  width:44px; height:44px;
+  background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(13,124,110,.5);
+  border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.gb-banner-title {
+  font-size:1.3rem; font-weight:800;
+  color:#fff; letter-spacing:-.3px; margin:0; line-height:1.2;
+}
+.gb-banner-sub { font-size:.75rem; color:rgba(255,255,255,.45); margin:0; }
+.gb-banner-right { display:flex; align-items:center; gap:10px; }
+.gb-stat-chip {
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:8px; padding:8px 14px; text-align:center;
+}
+.gb-stat-chip-num {
+  font-size:1.2rem; font-weight:800; color:#fff;
+  line-height:1; display:block;
+}
+.gb-stat-chip-label {
+  font-size:.6rem; color:rgba(255,255,255,.4);
+  text-transform:uppercase; letter-spacing:.8px;
+  display:block; margin-top:2px;
+}
+.gb-stat-chip.hi .gb-stat-chip-num { color:#4DD9C8; }
+
+/* Badge pills */
+.pill { display:inline-block; padding:2px 9px; border-radius:99px; font-size:.68rem; font-weight:600; line-height:1.6; }
 .pill-teal   { background:#CCFBF1; color:#0F766E; }
 .pill-blue   { background:#DBEAFE; color:#1E40AF; }
 .pill-amber  { background:#FEF3C7; color:#92400E; }
 .pill-red    { background:#FEE2E2; color:#991B1B; }
 .pill-purple { background:#EDE9FE; color:#5B21B6; }
 .pill-gray   { background:#F1F5F9; color:#475569; }
-
-.stMetric { background: transparent !important; }
 
 iframe { border-radius:8px !important; }
 </style>
@@ -56,6 +92,20 @@ iframe { border-radius:8px !important; }
 # ── Init ──────────────────────────────────────────────────────────────────────
 init_db()
 GH_ACTOR = GITHUB_ORG if GITHUB_ORG else GITHUB_USERNAME
+
+# ── Sidebar — dark mode toggle only ──────────────────────────────────────────
+# Streamlit also exposes this in the three-dot menu top right → Settings → Theme
+with st.sidebar:
+    st.markdown("### GiveBack")
+    dark = st.toggle("Dark mode", value=False)
+    st.caption("Theme also available in ⋮ → Settings")
+    if dark:
+        st.markdown("""<style>
+.stApp { background:#0F172A !important; color:#E2E8F0 !important; }
+.gb-banner { background: linear-gradient(135deg,#0F172A 0%,#0A2E28 100%) !important; }
+.gb-stat-chip { background:rgba(255,255,255,.06) !important; border-color:rgba(255,255,255,.08) !important; }
+[data-testid="stMetric"] { background:rgba(255,255,255,.03) !important; border-radius:8px; padding:12px !important; }
+</style>""", unsafe_allow_html=True)
 
 # ── Counts ────────────────────────────────────────────────────────────────────
 counts     = {r['pipeline_stage']: r['c'] for r in fetch_all(
@@ -66,19 +116,40 @@ qualified  = counts.get('qualified', 0)
 built      = counts.get('built', 0)
 deployed   = counts.get('deployed', 0)
 
-# ── Header ────────────────────────────────────────────────────────────────────
-st.markdown("## GiveBack")
-st.caption("Automated nonprofit web pipeline — find, build, deploy, review.")
-st.divider()
-
-# ── Metrics (native st.metric — respects dark mode automatically) ─────────────
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Orgs Found",      total,     help="Total organizations in the database")
-c2.metric("Ready to Build",  qualified, help="Qualified orgs awaiting the builder")
-c3.metric("Awaiting Review", built,     help="Sites built, waiting for your approval")
-c4.metric("Sites Live",      deployed,  help="Deployed to GitHub Pages")
-
-st.divider()
+# ── Header banner with inline stats ──────────────────────────────────────────
+st.markdown(f"""
+<div class="gb-banner">
+  <div class="gb-banner-left">
+    <div class="gb-banner-logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D7C6E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+      </svg>
+    </div>
+    <div>
+      <p class="gb-banner-title">GiveBack</p>
+      <p class="gb-banner-sub">Find nonprofits without websites &nbsp;&middot;&nbsp; Build them a free site &nbsp;&middot;&nbsp; Deploy instantly</p>
+    </div>
+  </div>
+  <div class="gb-banner-right">
+    <div class="gb-stat-chip">
+      <span class="gb-stat-chip-num">{total}</span>
+      <span class="gb-stat-chip-label">Found</span>
+    </div>
+    <div class="gb-stat-chip">
+      <span class="gb-stat-chip-num">{qualified}</span>
+      <span class="gb-stat-chip-label">Qualified</span>
+    </div>
+    <div class="gb-stat-chip hi">
+      <span class="gb-stat-chip-num">{built}</span>
+      <span class="gb-stat-chip-label">To Review</span>
+    </div>
+    <div class="gb-stat-chip">
+      <span class="gb-stat-chip-num">{deployed}</span>
+      <span class="gb-stat-chip-label">Live</span>
+    </div>
+  </div>
+</div>
+""", unsafe_allow_html=True)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 tab_pipeline, tab_review, tab_deployed, tab_stats = st.tabs([
