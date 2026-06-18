@@ -22,7 +22,7 @@ GITHUB_ORG          = os.environ.get('GITHUB_ORG', '')            # optional org
 GITHUB_PAGES_BRANCH = 'main'
 
 # ── Gemini ────────────────────────────────────────────────────────────────────
-GEMINI_MODEL        = 'gemini-2.5-flash-lite'                     # free tier: ~1000 RPD / 15 RPM
+GEMINI_MODEL        = 'gemini-2.0-flash'                     # free tier: ~1000 RPD / 15 RPM
 GEMINI_MAX_RETRIES  = 3
 
 # ── Pipeline behavior ─────────────────────────────────────────────────────────
