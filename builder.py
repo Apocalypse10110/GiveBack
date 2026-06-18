@@ -368,6 +368,8 @@ def gh_post(endpoint: str, payload: dict) -> dict:
 
 def gh_put(endpoint: str, payload: dict) -> dict:
     resp = requests.put(f'{GH_API}{endpoint}', headers=GH_HEADERS, json=payload, timeout=15)
+    if not resp.ok:
+        print('GITHUB ERROR:', resp.status_code, resp.text[:500])
     resp.raise_for_status()
     return resp.json()
 
