@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0B1D3A">
+<title>Rainier Valley Food Bank | Food Bank in Seattle</title>
+<meta name="description" content="Rainier Valley Food Bank — Rainier Valley Food Bank gives groceries and hot meals to our Seattle neighbors facing hunger.">
+<meta property="og:title"       content="Rainier Valley Food Bank">
+<meta property="og:description" content="Rainier Valley Food Bank gives groceries and hot meals to our Seattle neighbors facing hunger.">
+<meta property="og:type"        content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   GiveBack Template
+   Sora (display) + DM Sans (body)
+   Palette: Deep Navy #0B1D3A + Deep Teal #0D7C6E
+   Philosophy: same authority as HVAC version, warmer accent
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --accent:   #0D7C6E;
+  --accentdk: #0A6358;
+  --accentlt: rgba(13,124,110,.07);
+  --accentmd: rgba(13,124,110,.20);
+  --dark:     #0B1D3A;
+  --dark2:    #0F2347;
+  --dark3:    #162B52;
+  --light:    #F4F6F9;
+  --white:    #FFFFFF;
+  --text:     #0F1E32;
+  --muted:    #4A5568;
+  --border:   #CBD5E1;
+  --radius:   4px;
+  --shadow:   0 1px 3px rgba(11,29,58,.08), 0 4px 12px rgba(11,29,58,.06);
+}
+
+@media (prefers-contrast: more) {
+  :root { --accent:#0A6358; --muted:#2D3748; --border:#718096; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
+
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; color:var(--text); background:var(--white); -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+img  { display:block; max-width:100%; }
+a    { text-decoration:none; color:inherit; }
+
+.skip-link { position:absolute; top:-40px; left:6px; padding:8px 16px; background:var(--accent); color:#fff; font-family:'Sora',sans-serif; font-size:.82rem; font-weight:700; border-radius:var(--radius); z-index:9999; transition:top .2s; }
+.skip-link:focus { top:6px; }
+:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+
+/* ── Reveal ───────────────────────────────────────────────── */
+.reveal       { opacity:0; transform:translateY(28px); transition:opacity .65s cubic-bezier(.25,.46,.45,.94),transform .65s cubic-bezier(.25,.46,.45,.94); }
+.reveal.visible { opacity:1; transform:none; }
+.reveal-left  { opacity:0; transform:translateX(-36px); transition:opacity .65s cubic-bezier(.25,.46,.45,.94),transform .65s cubic-bezier(.25,.46,.45,.94); }
+.reveal-left.visible  { opacity:1; transform:none; }
+.reveal-right { opacity:0; transform:translateX(36px);  transition:opacity .65s cubic-bezier(.25,.46,.45,.94),transform .65s cubic-bezier(.25,.46,.45,.94); }
+.reveal-right.visible { opacity:1; transform:none; }
+.d1 { transition-delay:.08s !important; }
+.d2 { transition-delay:.16s !important; }
+.d3 { transition-delay:.24s !important; }
+.d4 { transition-delay:.32s !important; }
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.btn { display:inline-flex; align-items:center; gap:8px; font-family:'Sora',sans-serif; font-weight:700; border-radius:var(--radius); border:none; cursor:pointer; transition:all .18s; white-space:nowrap; text-decoration:none; letter-spacing:.1px; }
+.btn-sm  { padding:9px 20px;  font-size:.82rem; }
+.btn-md  { padding:12px 26px; font-size:.9rem; }
+.btn-lg  { padding:14px 32px; font-size:.95rem; }
+.btn-full { width:100%; justify-content:center; }
+.btn-solid  { background:var(--accent); color:#fff; }
+.btn-solid:hover  { background:var(--accentdk); transform:translateY(-1px); box-shadow:0 4px 14px rgba(13,124,110,.28); }
+.btn-ghost  { background:rgba(255,255,255,.08); color:#fff; border:1.5px solid rgba(255,255,255,.22); }
+.btn-ghost:hover  { background:rgba(255,255,255,.14); border-color:rgba(255,255,255,.4); }
+.btn-outline { background:transparent; color:var(--accent); border:1.5px solid var(--accentmd); }
+.btn-outline:hover { background:var(--accentlt); border-color:var(--accent); }
+.btn-dark   { background:var(--dark); color:#fff; }
+.btn-dark:hover   { background:var(--dark2); transform:translateY(-1px); }
+
+/* ── Layout ───────────────────────────────────────────────── */
+.section-wrap    { padding:96px 6%; }
+.section-wrap-sm { padding:64px 6%; }
+.eyebrow { font-family:'Sora',sans-serif; font-size:.68rem; font-weight:700; color:var(--accent); letter-spacing:3.5px; text-transform:uppercase; margin-bottom:14px; display:block; }
+.section-h { font-family:'Sora',sans-serif; font-size:clamp(2.2rem,4.5vw,3.5rem); font-weight:800; color:var(--text); letter-spacing:-1px; line-height:1.02; margin-bottom:16px; }
+.section-h.light { color:#fff; }
+.section-sub { color:var(--muted); font-size:.98rem; line-height:1.82; max-width:560px; margin-bottom:52px; }
+.section-sub.center { margin-left:auto; margin-right:auto; text-align:center; }
+.text-center { text-align:center; }
+
+/* ── Header ───────────────────────────────────────────────── */
+#header { position:fixed; top:0; left:0; right:0; z-index:900; transition:all .3s; }
+#header.scrolled { background:rgba(11,29,58,.97); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); box-shadow:0 1px 0 rgba(255,255,255,.06); }
+.header-inner { height:66px; display:flex; align-items:center; justify-content:space-between; padding:0 6%; }
+.hd-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.hd-logo-mark { width:32px; height:32px; aspect-ratio:1; background:var(--accent); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.hd-logo-text { font-family:'Sora',sans-serif; font-size:1.1rem; font-weight:800; color:#fff; letter-spacing:-.1px; }
+.hd-nav { display:flex; align-items:center; gap:2px; }
+.hd-nav-link { color:rgba(255,255,255,.65); font-size:.82rem; font-weight:600; padding:7px 14px; border-radius:var(--radius); transition:all .2s; font-family:'Sora',sans-serif; letter-spacing:.1px; }
+.hd-nav-link:hover,.hd-nav-link.active { color:#fff; background:rgba(255,255,255,.08); }
+.hd-right { display:flex; align-items:center; gap:12px; }
+.hamburger { display:none; width:40px; height:40px; background:rgba(255,255,255,.08); border:none; border-radius:var(--radius); cursor:pointer; flex-direction:column; align-items:center; justify-content:center; gap:5px; transition:background .2s; }
+.hamburger:hover { background:rgba(255,255,255,.14); }
+.hamburger span { display:block; width:18px; height:2px; background:#fff; border-radius:1px; transition:all .3s; }
+.hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity:0; transform:scaleX(0); }
+.hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-nav { display:none; background:rgba(11,29,58,.98); backdrop-filter:blur(20px); padding:0; max-height:0; overflow:hidden; transition:max-height .35s cubic-bezier(.25,.46,.45,.94),padding .35s; }
+.mobile-nav.open { max-height:360px; padding:8px 0 16px; }
+.mobile-nav-link { display:block; color:rgba(255,255,255,.7); font-size:.92rem; font-weight:600; padding:13px 6%; border-bottom:1px solid rgba(255,255,255,.05); transition:all .2s; font-family:'Sora',sans-serif; }
+.mobile-nav-link:last-child { border-bottom:none; }
+.mobile-nav-link:hover { color:var(--accent); background:rgba(13,124,110,.06); }
+
+/* i18n switcher */
+.lang-switcher { display:flex; align-items:center; gap:4px; }
+.lang-btn { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:rgba(255,255,255,.6); font-family:'Sora',sans-serif; font-size:.68rem; font-weight:700; padding:4px 8px; border-radius:var(--radius); cursor:pointer; transition:all .18s; letter-spacing:.4px; }
+.lang-btn:hover,.lang-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* ── Preview banner ───────────────────────────────────────── */
+.preview-banner { position:fixed; top:0; left:0; right:0; z-index:1000; background:var(--dark); border-bottom:2px solid var(--accent); padding:9px 6%; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.preview-banner-text { display:flex; align-items:center; gap:8px; color:rgba(255,255,255,.7); font-size:.73rem; }
+.preview-banner-dot  { width:6px; height:6px; background:var(--accent); border-radius:50%; flex-shrink:0; animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+.preview-banner-cta  { display:inline-flex; align-items:center; gap:6px; background:var(--accent); color:#fff; font-family:'Sora',sans-serif; font-size:.72rem; font-weight:700; padding:6px 14px; border-radius:var(--radius); white-space:nowrap; transition:background .18s; }
+.preview-banner-cta:hover { background:var(--accentdk); }
+body.has-preview-banner { padding-top:38px; }
+body.has-preview-banner #header { top:38px; }
+
+/* ── Trust bar ────────────────────────────────────────────── */
+.trust-bar   { background:var(--dark2); border-bottom:1px solid rgba(255,255,255,.06); overflow:hidden; }
+.trust-inner { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; padding:0 6%; }
+.trust-item  { display:flex; align-items:center; gap:7px; color:rgba(255,255,255,.55); font-size:.75rem; font-weight:500; padding:11px 20px; border-right:1px solid rgba(255,255,255,.06); white-space:nowrap; }
+.trust-item:last-child { border-right:none; }
+.trust-dot   { width:5px; height:5px; background:var(--accent); border-radius:50%; flex-shrink:0; }
+
+/* ── Stats ────────────────────────────────────────────────── */
+.stats-section { background:var(--dark); }
+.stats-inner   { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.06); max-width:900px; margin:0 auto; }
+.stat-item     { background:var(--dark2); padding:36px 28px; text-align:center; }
+.stat-top      { display:flex; align-items:baseline; justify-content:center; gap:3px; margin-bottom:6px; }
+.stat-num      { font-family:'Sora',sans-serif; font-size:2.6rem; font-weight:800; color:#fff; line-height:1; }
+.stat-sfx      { font-family:'Sora',sans-serif; font-size:1.2rem; font-weight:700; color:var(--accent); }
+.stat-label    { color:rgba(255,255,255,.38); font-size:.73rem; font-weight:600; letter-spacing:.8px; text-transform:uppercase; }
+
+/* ── Programs ─────────────────────────────────────────────── */
+#programs { background:var(--light); }
+.programs-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); }
+.prog-card { background:var(--white); padding:34px 26px 28px; position:relative; transition:background .2s; }
+.prog-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--accent); opacity:0; transition:opacity .25s; }
+.prog-card:hover { background:#F8FAFB; }
+.prog-card:hover::before { opacity:1; }
+.prog-icon { width:46px; height:46px; background:var(--accentlt); border:1px solid var(--accentmd); border-radius:4px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; color:var(--accent); transition:background .2s,color .2s; }
+.prog-card:hover .prog-icon { background:var(--accent); color:#fff; border-color:var(--accent); }
+.prog-card h3 { font-family:'Sora',sans-serif; font-size:.96rem; font-weight:700; color:var(--text); margin-bottom:9px; letter-spacing:-.1px; }
+.prog-card p  { color:var(--muted); font-size:.875rem; line-height:1.72; }
+
+/* ── How to Help ──────────────────────────────────────────── */
+.help-grid { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid rgba(255,255,255,.06); margin-top:52px; }
+.help-item { padding:44px 36px; border-right:1px solid rgba(255,255,255,.06); }
+.help-item:last-child { border-right:none; }
+.help-step { font-family:'Sora',sans-serif; font-size:.68rem; font-weight:700; color:var(--accent); letter-spacing:3px; text-transform:uppercase; margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.help-step::after { content:''; flex:1; height:1px; background:rgba(255,255,255,.07); }
+.help-item h3 { font-family:'Sora',sans-serif; font-size:1.05rem; font-weight:700; color:#fff; margin-bottom:10px; }
+.help-item p  { color:rgba(255,255,255,.42); font-size:.875rem; line-height:1.75; }
+
+/* ── About ────────────────────────────────────────────────── */
+#about { background:var(--white); }
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.about-imgs { position:relative; height:520px; }
+.about-img-a { position:absolute; top:0; left:0; width:73%; height:82%; object-fit:cover; border-radius:4px; }
+.about-img-b { position:absolute; bottom:0; right:0; width:54%; height:52%; object-fit:cover; border-radius:4px; border:6px solid var(--white); box-shadow:var(--shadow); }
+.about-badge { position:absolute; bottom:22px; left:0; background:var(--dark); border-left:3px solid var(--accent); color:#fff; padding:18px 22px; z-index:2; }
+.about-badge .abig { font-family:'Sora',sans-serif; font-size:2.4rem; font-weight:800; line-height:1; display:block; letter-spacing:-1px; }
+.about-badge .asm  { font-size:.67rem; opacity:.5; display:block; margin-top:4px; text-transform:uppercase; letter-spacing:1.5px; }
+.about-text p { color:var(--muted); font-size:.97rem; line-height:1.85; margin-bottom:26px; }
+.about-checks { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:34px; }
+.about-check { display:flex; align-items:center; gap:9px; font-size:.875rem; font-weight:500; color:var(--text); }
+.about-check svg { color:var(--accent); flex-shrink:0; }
+
+/* ── Gallery ──────────────────────────────────────────────── */
+.gallery-grid { display:grid; grid-template-columns:repeat(12,1fr); grid-template-rows:240px 240px; gap:4px; }
+.g-item { overflow:hidden; position:relative; border-radius:4px; }
+.g-item:nth-child(1) { grid-column:span 5; grid-row:span 2; }
+.g-item:nth-child(2) { grid-column:span 4; }
+.g-item:nth-child(3) { grid-column:span 3; }
+.g-item:nth-child(4) { grid-column:span 3; }
+.g-item:nth-child(5) { grid-column:span 4; }
+.g-item img { width:100%; height:100%; object-fit:cover; transition:transform .5s cubic-bezier(.25,.46,.45,.94); }
+.g-item:hover img { transform:scale(1.05); }
+.g-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(11,29,58,.8) 0%,transparent 55%); opacity:0; transition:opacity .25s; display:flex; align-items:flex-end; padding:14px; }
+.g-item:hover .g-overlay { opacity:1; }
+.g-label { color:#fff; font-size:.78rem; font-weight:600; }
+
+/* ── CTA band ─────────────────────────────────────────────── */
+.cta-band { background:var(--accent); }
+.cta-band-inner { display:flex; align-items:center; justify-content:space-between; padding:52px 6%; gap:40px; }
+.cta-band-h   { font-family:'Sora',sans-serif; font-size:clamp(1.7rem,3.5vw,2.6rem); font-weight:800; color:#fff; letter-spacing:-.5px; line-height:1.1; margin-bottom:8px; }
+.cta-band-sub { color:rgba(255,255,255,.75); font-size:.97rem; line-height:1.7; }
+.cta-band-btns { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+
+/* ── Footer ───────────────────────────────────────────────── */
+footer { background:var(--dark); color:rgba(255,255,255,.55); }
+.footer-main { display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; padding:64px 6% 48px; }
+.footer-logo { display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+.footer-logo-mark { width:28px; height:28px; aspect-ratio:1; background:var(--accent); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.footer-logo-text { font-family:'Sora',sans-serif; font-size:1rem; font-weight:800; color:#fff; }
+.footer-tagline { font-size:.83rem; line-height:1.72; max-width:300px; margin-bottom:18px; }
+.footer-maps-link { display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-size:.78rem; font-weight:600; transition:opacity .2s; }
+.footer-maps-link:hover { opacity:.75; }
+.footer-col h4 { font-family:'Sora',sans-serif; font-size:.72rem; font-weight:700; color:#fff; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:14px; }
+.footer-links { display:flex; flex-direction:column; gap:9px; }
+.footer-links a,.footer-links span { font-size:.83rem; transition:color .2s; line-height:1.5; }
+.footer-links a:hover { color:#fff; }
+.footer-bar { display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(255,255,255,.06); padding:18px 6%; }
+.footer-copy   { font-size:.75rem; }
+.footer-madeby { display:flex; align-items:center; gap:5px; font-size:.75rem; }
+.footer-madeby a { color:var(--accent); font-weight:600; }
+
+/* Sticky donate — mobile */
+.sticky-cta { display:none; position:fixed; bottom:0; left:0; right:0; z-index:800; }
+.sticky-cta a { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--accent); color:#fff; font-family:'Sora',sans-serif; font-size:.9rem; font-weight:700; padding:16px; }
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media(max-width:1024px) {
+  .hd-nav { display:none; }
+  .hamburger { display:flex; }
+  .mobile-nav { display:block; }
+  .footer-main { grid-template-columns:1fr 1fr; gap:40px; }
+  .cta-band-inner { flex-direction:column; text-align:center; }
+  .cta-band-btns { width:100%; flex-direction:column; align-items:stretch; }
+  .section-wrap { padding:80px 5%; }
+  .stats-inner { grid-template-columns:repeat(2,1fr); }
+  .about-grid  { grid-template-columns:1fr; gap:48px; }
+  .about-imgs  { height:360px; }
+}
+@media(max-width:768px) {
+  .section-wrap { padding:64px 5%; }
+  .section-h { font-size:clamp(2rem,7vw,2.8rem); }
+  .section-sub { font-size:.93rem; margin-bottom:36px; }
+  .footer-main { grid-template-columns:1fr; gap:32px; padding:40px 5%; }
+  .footer-bar { flex-direction:column; text-align:center; gap:8px; padding:16px 5%; }
+  .cta-band-btns .btn { width:100%; justify-content:center; }
+  .sticky-cta { display:block; }
+  body { padding-bottom:56px; }
+  .programs-grid { grid-template-columns:1fr; }
+  .help-grid { grid-template-columns:1fr; }
+  .help-item { border-right:none; border-bottom:1px solid rgba(255,255,255,.06); }
+  .help-item:last-child { border-bottom:none; }
+  .gallery-grid { grid-template-columns:repeat(2,1fr); grid-template-rows:auto; }
+  .g-item { grid-column:span 1 !important; grid-row:span 1 !important; height:220px; }
+  .g-item:first-child { grid-column:span 2 !important; height:280px; }
+}
+@media(max-width:480px) {
+  .section-wrap { padding:52px 5%; }
+  .stats-inner { grid-template-columns:1fr 1fr; }
+  .preview-banner { flex-direction:column; gap:8px; text-align:center; }
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+#hero { position:relative; min-height:100vh; display:flex; align-items:center; overflow:hidden; }
+.hero-bg { position:absolute; inset:0; background:center/cover no-repeat; }
+.hero-overlay { position:absolute; inset:0; background:linear-gradient(108deg,rgba(11,29,58,.97) 0%,rgba(11,29,58,.92) 40%,rgba(11,29,58,.62) 70%,rgba(11,29,58,.18) 100%); }
+.hero-inner { position:relative; z-index:1; padding:130px 6% 90px; max-width:680px; }
+.hero-badge { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.05); color:rgba(255,255,255,.78); padding:6px 14px; font-size:.72rem; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; margin-bottom:28px; border-radius:4px; animation:fadeUp .7s .2s both; }
+.hero-badge-dot { width:6px; height:6px; background:var(--accent); border-radius:50%; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+.hero-h1 { font-family:'Sora',sans-serif; font-size:clamp(2.8rem,6.5vw,5rem); font-weight:800; color:#fff; line-height:1.0; letter-spacing:-1.5px; margin-bottom:22px; animation:fadeUp .8s .32s both; }
+.hero-h1 em { display:block; font-style:normal; opacity:.5; font-size:.62em; font-weight:600; letter-spacing:-.3px; margin-top:8px; }
+.hero-sub { color:rgba(255,255,255,.6); font-size:1.05rem; line-height:1.82; max-width:500px; margin-bottom:38px; animation:fadeUp .8s .44s both; }
+.hero-ctas { display:flex; align-items:center; gap:14px; flex-wrap:wrap; animation:fadeUp .8s .56s both; }
+.hero-scroll { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:7px; color:rgba(255,255,255,.25); font-size:.66rem; letter-spacing:2px; text-transform:uppercase; animation:fadeUp .8s 1s both; }
+.hero-scroll-line { width:1px; height:32px; background:linear-gradient(to bottom,rgba(255,255,255,.3),transparent); animation:scrollPulse 2.5s 1.5s infinite; }
+@keyframes scrollPulse { 0%,100%{opacity:.3} 50%{opacity:.85} }
+</style>
+</head>
+<body>
+
+<header id="header" role="banner">
+  <div class="header-inner">
+    <a href="#hero" class="hd-logo" aria-label="Rainier Valley Food Bank home">
+      <div class="hd-logo-mark" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <span class="hd-logo-text">Rainier Valley Food Bank</span>
+    </a>
+    <nav class="hd-nav" aria-label="Main navigation">
+      <a href="#programs" class="hd-nav-link" data-i18n="nav_programs">Programs</a>
+      <a href="#about"    class="hd-nav-link" data-i18n="nav_about">About</a>
+      <a href="#help"     class="hd-nav-link" data-i18n="nav_help">Get Involved</a>
+      <a href="#contact"  class="hd-nav-link" data-i18n="nav_contact">Contact</a>
+    </nav>
+    <div class="hd-right">
+      <div class="lang-switcher" role="group" aria-label="Select language">
+        <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+        <button class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
+        <button class="lang-btn" data-lang="vi" aria-pressed="false">VI</button>
+        <button class="lang-btn" data-lang="so" aria-pressed="false">SO</button>
+      </div>
+      <a href="#donate" class="btn btn-sm btn-solid" data-i18n="btn_donate">Donate</a>
+      <button class="hamburger" id="hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileNav">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="#programs" class="mobile-nav-link" data-i18n="nav_programs">Programs</a>
+    <a href="#about"    class="mobile-nav-link" data-i18n="nav_about">About</a>
+    <a href="#help"     class="mobile-nav-link" data-i18n="nav_help">Get Involved</a>
+    <a href="#contact"  class="mobile-nav-link" data-i18n="nav_contact">Contact</a>
+    <a href="#donate"   class="mobile-nav-link" style="color:var(--accent);" data-i18n="btn_donate">Donate</a>
+  </nav>
+</header>
+
+<main id="main-content">
+
+<section id="hero" aria-label="Introduction">
+  <div class="hero-bg" id="heroBg" role="img" aria-label="Rainier Valley Food Bank community photo"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="hero-badge" aria-label="Organization type and location">
+      <div class="hero-badge-dot" aria-hidden="true"></div>
+      <span>Food Bank &nbsp;&middot;&nbsp; Seattle, WA</span>
+    </div>
+    <h1 class="hero-h1">
+      Food for Everyone Here
+      <em>Since 2016</em>
+    </h1>
+    <p class="hero-sub">We give out bags of groceries and serve hot meals every week in Seattle. Come on Tuesdays and Thursdays. We've got food waiting.</p>
+    <div class="hero-ctas">
+      <a href="#donate" class="btn btn-lg btn-solid" data-i18n="btn_donate">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Donate Now
+      </a>
+      <a href="#help" class="btn btn-lg btn-ghost" data-i18n="btn_volunteer">Volunteer</a>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true"><div class="hero-scroll-line"></div>Scroll</div>
+</section>
+
+<div class="trust-bar" role="complementary" aria-label="Organization highlights">
+  <div class="trust-inner">
+    <div class="trust-item"><div class="trust-dot" aria-hidden="true"></div><span data-i18n="trust_1">501(c)(3) Nonprofit</span></div>
+    <div class="trust-item"><div class="trust-dot" aria-hidden="true"></div><span data-i18n="trust_2">Community-Run</span></div>
+    <div class="trust-item"><div class="trust-dot" aria-hidden="true"></div><span>Seattle, WA</span></div>
+    <div class="trust-item"><div class="trust-dot" aria-hidden="true"></div><span data-i18n="trust_3">Open to All</span></div>
+    <div class="trust-item"><div class="trust-dot" aria-hidden="true"></div><span data-i18n="trust_4">No Cost to Recipients</span></div>
+  </div>
+</div>
+
+<section class="stats-section section-wrap" aria-label="Impact numbers">
+  <div class="stats-inner">
+    <div class="stat-item reveal d1">
+      <div class="stat-top"><span class="stat-num" data-target="1000">0</span><span class="stat-sfx" aria-hidden="true">+</span></div>
+      <div class="stat-label" data-i18n="stat_1">People Served</div>
+    </div>
+    <div class="stat-item reveal d2">
+      <div class="stat-top"><span class="stat-num" data-target="25">0</span><span class="stat-sfx" aria-hidden="true">+</span></div>
+      <div class="stat-label" data-i18n="stat_2">Volunteers</div>
+    </div>
+    <div class="stat-item reveal d3">
+      <div class="stat-top"><span class="stat-num" data-target="8">0</span><span class="stat-sfx" aria-hidden="true">yr</span></div>
+      <div class="stat-label" data-i18n="stat_3">Years Serving</div>
+    </div>
+    <div class="stat-item reveal d4">
+      <div class="stat-top"><span class="stat-num" data-target="3">0</span><span class="stat-sfx" aria-hidden="true"></span></div>
+      <div class="stat-label" data-i18n="stat_4">Active Programs</div>
+    </div>
+  </div>
+</section>
+
+<section id="programs" class="section-wrap" aria-labelledby="programs-heading">
+  <div class="text-center">
+    <span class="eyebrow reveal" data-i18n="programs_eyebrow">What We Do</span>
+    <h2 class="section-h reveal d1" id="programs-heading">What We Offer Neighbors</h2>
+    <p class="section-sub center reveal d2">We provide groceries and hot meals to families and individuals who need them.</p>
+  </div>
+  <div class="programs-grid" role="list">
+        <div class="prog-card" role="listitem">
+      <div class="prog-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <h3>Grocery Distribution</h3>
+      <p>Every Tuesday and Thursday, we hand out bags filled with fresh produce, pantry staples, and proteins. Anyone can pick up food. No questions asked.</p>
+    </div>
+    <div class="prog-card" role="listitem">
+      <div class="prog-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Hot Meal Service</h3>
+      <p>We cook and serve hot meals on Tuesdays and Thursdays. It's a chance to eat a warm dish and connect with others in the community.</p>
+    </div>
+    <div class="prog-card" role="listitem">
+      <div class="prog-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 16 8"/><path d="M16 8c-2.5-2.5-6-4-9-4 0 3 1.5 6.5 4 9l-1 1c-2.5-2.5-4-6-4-9 0-3 1-5.5 3-7.5C11.5 1 14 2 16 4c2-2 4.5-3 7-3-3 3-3 7-3 9l-1-1c1.5-2 2.5-5 2-7-2.5 0-5.5 1-7 3z"/></svg>
+      </div>
+      <h3>Weekend Snack Packs</h3>
+      <p>During school breaks, we give out snack packs to kids so they have something to eat when school is closed. These are for children in the Rainier Valley.</p>
+    </div>
+  </div>
+</section>
+
+<section id="help" class="section-wrap" style="background:var(--dark);" aria-labelledby="help-heading">
+  <div class="text-center">
+    <span class="eyebrow reveal" data-i18n="help_eyebrow">Get Involved</span>
+    <h2 class="section-h light reveal d1" id="help-heading" data-i18n="help_headline">Three Ways to Make a Difference</h2>
+    <p class="section-sub center reveal d2" style="color:rgba(255,255,255,.42)" data-i18n="help_sub">Every action, no matter the size, moves the mission forward.</p>
+  </div>
+  <div class="help-grid">
+    <div class="help-item reveal d1">
+      <div class="help-step" aria-hidden="true">01</div>
+      <h3 data-i18n="help_1_title">Donate</h3>
+      <p data-i18n="help_1_body">Your financial support goes directly to the people we serve. Even a small recurring gift covers meaningful costs each month.</p>
+    </div>
+    <div class="help-item reveal d2">
+      <div class="help-step" aria-hidden="true">02</div>
+      <h3 data-i18n="help_2_title">Volunteer</h3>
+      <p data-i18n="help_2_body">Show up in person and see the direct impact of your time. We have flexible shifts and always need more hands.</p>
+    </div>
+    <div class="help-item reveal d3">
+      <div class="help-step" aria-hidden="true">03</div>
+      <h3 data-i18n="help_3_title">Spread the Word</h3>
+      <p data-i18n="help_3_body">Share our mission with neighbors, coworkers, and your social network. Awareness is the first step to change.</p>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="section-wrap" aria-labelledby="about-heading">
+  <div class="about-grid">
+    <div class="about-imgs reveal-left">
+      <img class="about-img-a" src="https://images.pexels.com/photos/6647015/pexels-photo-6647015.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Rainier Valley Food Bank volunteers at work" loading="lazy" width="600" height="400">
+      <img class="about-img-b" src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Community members served by Rainier Valley Food Bank" loading="lazy" width="400" height="300">
+      <div class="about-badge" aria-label="1000 people served">
+        <span class="abig">1000+</span>
+        <span class="asm" data-i18n="stat_1">People Served</span>
+      </div>
+    </div>
+    <div class="about-text reveal-right">
+      <span class="eyebrow" data-i18n="about_eyebrow">Our Mission</span>
+      <h2 class="section-h" id="about-heading">Why We Show Up for Seattle</h2>
+      <p>Rainier Valley Food Bank started in 2016 because we saw neighbors struggling to get enough to eat. The Rainier Valley is a place where many cultures meet, and many families work hard but still face food insecurity. We fill the gap by being a reliable place for groceries and a warm meal.</p>
+      <p>Every week, our volunteers sort donations and pack grocery bags. Last year, we provided over 60,000 meals. Our team of about 25 regular volunteers makes this possible.</p>
+      <div class="about-checks" role="list">
+        <div class="about-check" role="listitem">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Serving Seattle since 2016</span>
+        </div>
+        <div class="about-check" role="listitem">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="check_2">100% volunteer-led</span>
+        </div>
+        <div class="about-check" role="listitem">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="check_3">No cost to those we help</span>
+        </div>
+        <div class="about-check" role="listitem">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="check_4">Donations are tax-deductible</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-wrap" style="background:var(--light);" aria-labelledby="gallery-heading">
+  <div class="text-center">
+    <span class="eyebrow reveal" data-i18n="gallery_eyebrow">In the Community</span>
+    <h2 class="section-h reveal d1" id="gallery-heading">Scenes from Our Kitchen</h2>
+    <p class="section-sub center reveal d2">Photos showing the real people and food at our food bank.</p>
+  </div>
+  <div class="gallery-grid reveal" role="list" aria-label="Community photos">
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6647015/pexels-photo-6647015.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Volunteers sorting food" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Volunteers sorting food</span></div></div>
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Bags of groceries" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Bags of groceries</span></div></div>
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6646926/pexels-photo-6646926.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Serving hot meals" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Serving hot meals</span></div></div>
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6647027/pexels-photo-6647027.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Community members connecting" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Community members connecting</span></div></div>
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/7156163/pexels-photo-7156163.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Fresh produce" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Fresh produce</span></div></div>
+  </div>
+</section>
+
+<section id="donate" class="section-wrap" style="background:var(--dark);" aria-labelledby="donate-heading">
+  <div class="text-center">
+    <span class="eyebrow reveal" data-i18n="donate_eyebrow">Support the Mission</span>
+    <h2 class="section-h light reveal d1" id="donate-heading">Your Gift Goes Directly to Seattle</h2
