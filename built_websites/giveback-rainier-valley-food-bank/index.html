@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Loading…</title>
+<style>html,body{margin:0;background:#0B1D3A;height:100%}</style>
+</head>
+<body>
+<script>
+(async function() {
+  const parts = ["index.part0.html.txt", "index.part1.html.txt"];
+  let html = '';
+  for (const p of parts) {
+    const res = await fetch(p);
+    html += await res.text();
+  }
+  document.open();
+  document.write(html);
+  document.close();
+})();
+</script>
+</body>
+</html>
