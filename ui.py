@@ -333,7 +333,7 @@ with tab_review:
         btn1, btn2, _ = st.columns([1, 1, 3])
 
         if btn1.button("Approve & Deploy", type="primary", use_container_width=True):
-            with st.spinner(f"Deploying {org['name']} to GitHub Pages..."):
+            with st.spinner(f"Deploying {org['name']} and waiting for GitHub Pages to go live (~20-30s)..."):
                 try:
                     url = builder.deploy_site(selected_id)
                     st.success(f"Live at: {url}")
