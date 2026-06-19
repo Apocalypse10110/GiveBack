@@ -21,7 +21,7 @@ from config import GITHUB_ORG, GITHUB_USERNAME
 # ── Must be first Streamlit call ──────────────────────────────────────────────
 st.set_page_config(
     page_title='GiveBack',
-    page_icon='💚',
+    page_icon='template/favicon.svg',
     layout='wide',
     initial_sidebar_state='collapsed',
     menu_items={
