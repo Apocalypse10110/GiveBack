@@ -60,6 +60,12 @@ GH_HEADERS = {
     'X-GitHub-Api-Version': '2022-11-28',
 }
 
+# Contents API rejects requests once the base64 payload gets too large
+# (observed cutoff is between 48,000 and 50,000 base64 chars). Anything
+# at or above this threshold gets routed through the Git Data API instead,
+# which has no such limit.
+CONTENTS_API_SAFE_LIMIT = 45000
+
 MADE_BY_NAME  = 'GiveBack'
 MADE_BY_URL   = f'https://github.com/{GH_ACTOR}'
 MADE_BY_EMAIL = 'hello@inovare.site'
@@ -362,12 +368,22 @@ def slugify(name: str) -> str:
 
 def gh_post(endpoint: str, payload: dict) -> dict:
     resp = requests.post(f'{GH_API}{endpoint}', headers=GH_HEADERS, json=payload, timeout=15)
+    if not resp.ok:
+        print('GITHUB ERROR:', resp.status_code, resp.text[:500])
     resp.raise_for_status()
     return resp.json()
 
 
 def gh_put(endpoint: str, payload: dict) -> dict:
     resp = requests.put(f'{GH_API}{endpoint}', headers=GH_HEADERS, json=payload, timeout=15)
+    if not resp.ok:
+        print('GITHUB ERROR:', resp.status_code, resp.text[:500])
+    resp.raise_for_status()
+    return resp.json()
+
+
+def gh_patch(endpoint: str, payload: dict) -> dict:
+    resp = requests.patch(f'{GH_API}{endpoint}', headers=GH_HEADERS, json=payload, timeout=15)
     if not resp.ok:
         print('GITHUB ERROR:', resp.status_code, resp.text[:500])
     resp.raise_for_status()
@@ -396,11 +412,80 @@ def create_github_repo(repo_name: str, org_name: str) -> dict:
         return gh_post('/user/repos', payload)
 
 
+def push_large_file_to_repo(repo_name: str, path: str, content: str, message: str) -> None:
+    """
+    For files too large for the Contents API (observed cutoff is between
+    48,000-50,000 base64 chars — roughly 36-37KB of raw UTF-8 content),
+    use the Git Data API instead: create a blob, read the current tree,
+    layer a new tree on top with our file added/updated, wrap it in a
+    new commit, then fast-forward the branch ref to point at it.
+
+    This is the same end result as push_file_to_repo() (file ends up
+    committed on GITHUB_PAGES_BRANCH) but goes through the lower-level
+    Git plumbing API, which has no equivalent payload-size restriction.
+    """
+    # 1. Get the current branch ref (latest commit SHA)
+    ref_resp = gh_get(f'/repos/{GH_ACTOR}/{repo_name}/git/ref/heads/{GITHUB_PAGES_BRANCH}')
+    ref_resp.raise_for_status()
+    latest_commit_sha = ref_resp.json()['object']['sha']
+
+    # 2. Get that commit to find its tree SHA
+    commit_resp = requests.get(
+        f'{GH_API}/repos/{GH_ACTOR}/{repo_name}/git/commits/{latest_commit_sha}',
+        headers=GH_HEADERS, timeout=15
+    )
+    commit_resp.raise_for_status()
+    base_tree_sha = commit_resp.json()['tree']['sha']
+
+    # 3. Create a blob with our file content
+    blob_resp = gh_post(f'/repos/{GH_ACTOR}/{repo_name}/git/blobs', {
+        'content':  base64.b64encode(content.encode('utf-8')).decode('ascii'),
+        'encoding': 'base64',
+    })
+    blob_sha = blob_resp['sha']
+
+    # 4. Create a new tree with this file added/updated, layered on the
+    #    existing tree so we don't disturb any other files in the repo
+    tree_resp = gh_post(f'/repos/{GH_ACTOR}/{repo_name}/git/trees', {
+        'base_tree': base_tree_sha,
+        'tree': [{
+            'path': path,
+            'mode': '100644',
+            'type': 'blob',
+            'sha':  blob_sha,
+        }],
+    })
+    new_tree_sha = tree_resp['sha']
+
+    # 5. Create a new commit pointing at the new tree
+    new_commit_resp = gh_post(f'/repos/{GH_ACTOR}/{repo_name}/git/commits', {
+        'message': message,
+        'tree':    new_tree_sha,
+        'parents': [latest_commit_sha],
+    })
+    new_commit_sha = new_commit_resp['sha']
+
+    # 6. Move the branch ref to point at the new commit
+    gh_patch(f'/repos/{GH_ACTOR}/{repo_name}/git/refs/heads/{GITHUB_PAGES_BRANCH}', {
+        'sha': new_commit_sha,
+    })
+
+
 def push_file_to_repo(repo_name: str, path: str, content: str, message: str) -> None:
     """
-    Creates or updates a single file in the repo via the GitHub Contents API.
-    Content must be a plain string — we base64-encode it here.
+    Creates or updates a single file in the repo.
+
+    Routes through the Contents API for small files (the normal, simple
+    path) or the Git Data API for large files, since the Contents API
+    starts returning a generic GitHub "Whoa there!" 400 once the base64
+    payload crosses roughly 48,000-50,000 characters.
     """
+    encoded_size = len(base64.b64encode(content.encode('utf-8')))
+    if encoded_size >= CONTENTS_API_SAFE_LIMIT:
+        log.info(f'  -> {path} is {encoded_size:,} base64 chars, using Git Data API')
+        push_large_file_to_repo(repo_name, path, content, message)
+        return
+
     # Check if the file exists so we can include the sha for updates
     check = gh_get(f'/repos/{GH_ACTOR}/{repo_name}/contents/{path}')
     payload = {
