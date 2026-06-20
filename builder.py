@@ -186,11 +186,14 @@ people_served should match programs_count × a realistic per-program reach."""
 
 # ── Image sourcing ─────────────────────────────────────────────────────────────
 
-def fetch_pexels_images(category: str, count: int = 5) -> list:
+def fetch_pexels_images(category: str, count: int = 8) -> list:
     """
     Fetches images from Pexels. Falls back to the curated FALLBACK_IMAGES
     list if the API key is missing or the request fails.
     Returns a list of image URLs.
+
+    count defaults to 8: 1 hero + 2 about-section + 5 gallery slots, each
+    needing a UNIQUE image (see fill_template()'s _img() helper below).
     """
     if not PEXELS_API_KEY:
         log.info('No Pexels key — using fallback images')
@@ -235,6 +238,22 @@ def fetch_pexels_images(category: str, count: int = 5) -> list:
 def js_escape(s: str) -> str:
     """Escape single quotes for JS string literals. HTML doesn't need this."""
     return s.replace('\\', '\\\\').replace("'", "\\'")
+
+
+def _img(images: list, idx: int) -> str:
+    """
+    Returns a unique image for a given slot index. Pulls from the sourced
+    `images` list first; if that list is shorter than needed, falls back
+    to FALLBACK_IMAGES, wrapping with modulo so it never throws an
+    IndexError even if FALLBACK_IMAGES is shorter than expected.
+
+    This is the fix for the hero/about/gallery image-repeat bug: every
+    slot now gets its own index instead of multiple slots reading
+    images[0].
+    """
+    if idx < len(images):
+        return images[idx]
+    return FALLBACK_IMAGES[idx % len(FALLBACK_IMAGES)]
 
 
 def build_programs_cards(programs: list) -> str:
@@ -333,13 +352,21 @@ def fill_template(org: dict, copy: dict, images: list) -> str:
         'YEARS_SERVING':   str(copy.get('years_serving', 5)),
         'PROGRAMS_COUNT':  str(copy.get('programs_count', 3)),
 
-        # Images
-        'HERO_IMAGE':    images[0] if images else FALLBACK_IMAGES[0],
-        'GALLERY_IMAGE_1': images[0] if len(images) > 0 else FALLBACK_IMAGES[0],
-        'GALLERY_IMAGE_2': images[1] if len(images) > 1 else FALLBACK_IMAGES[1],
-        'GALLERY_IMAGE_3': images[2] if len(images) > 2 else FALLBACK_IMAGES[2],
-        'GALLERY_IMAGE_4': images[3] if len(images) > 3 else FALLBACK_IMAGES[3],
-        'GALLERY_IMAGE_5': images[4] if len(images) > 4 else FALLBACK_IMAGES[4],
+        # Images — each slot gets its OWN unique index (0-7) so hero,
+        # both about-section photos, and all 5 gallery images are
+        # guaranteed distinct. See _img() above for the fallback/wrap
+        # behavior. NOTE: template/index.html must use {{ABOUT_IMAGE_A}}
+        # and {{ABOUT_IMAGE_B}} for the about-section <img> tags (not
+        # {{GALLERY_IMAGE_1}}/{{GALLERY_IMAGE_2}}) or they'll render
+        # the same photo as the gallery grid regardless of this fix.
+        'HERO_IMAGE':      _img(images, 0),
+        'ABOUT_IMAGE_A':   _img(images, 1),
+        'ABOUT_IMAGE_B':   _img(images, 2),
+        'GALLERY_IMAGE_1': _img(images, 3),
+        'GALLERY_IMAGE_2': _img(images, 4),
+        'GALLERY_IMAGE_3': _img(images, 5),
+        'GALLERY_IMAGE_4': _img(images, 6),
+        'GALLERY_IMAGE_5': _img(images, 7),
     }
 
     for key, val in slots.items():
@@ -606,8 +633,8 @@ def build_site(org_id: int, dry_run: bool = False) -> dict:
     copy = generate_copy(org)
     log.info(f'  ✓ Copy generated ({len(str(copy))} chars)')
 
-    # Get images
-    images = fetch_pexels_images(org.get('category', 'default'), count=5)
+    # Get images — 8 needed: 1 hero + 2 about + 5 gallery, each slot unique
+    images = fetch_pexels_images(org.get('category', 'default'), count=8)
     log.info(f'  ✓ {len(images)} images sourced')
 
     # Fill the template
