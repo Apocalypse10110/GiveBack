@@ -18,6 +18,7 @@ Pipeline stages this file moves orgs through:
 
 import os
 import re
+import sys
 import json
 import time
 import base64
@@ -35,6 +36,14 @@ from config import (
     TEMPLATE_PATH,
 )
 
+# Windows' default console encoding (cp1252) can't print the ✓ characters
+# used throughout the log messages below, which was spamming a
+# UnicodeEncodeError on every single log.info() call. Reconfiguring to
+# UTF-8 fixes it at the source instead of stripping the ✓ everywhere.
+for _stream in (sys.stdout, sys.stderr):
+    if hasattr(_stream, 'reconfigure'):
+        _stream.reconfigure(encoding='utf-8', errors='replace')
+
 # ── Setup ─────────────────────────────────────────────────────────────────────
 os.makedirs('logs', exist_ok=True)
 os.makedirs('generated', exist_ok=True)
@@ -44,7 +53,7 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s %(message)s',
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler('logs/builder.log', mode='a'),
+        logging.FileHandler('logs/builder.log', mode='a', encoding='utf-8'),
     ]
 )
 log = logging.getLogger(__name__)
@@ -62,9 +71,19 @@ GH_HEADERS = {
 
 # Contents API rejects requests once the base64 payload gets too large
 # (observed cutoff is between 48,000 and 50,000 base64 chars). Anything
-# at or above this threshold gets routed through the Git Data API instead,
-# which has no such limit.
+# at or above this threshold gets routed through the Git Data API instead.
+# NOTE: the Git Data API blob endpoint turns out to ALSO have a ceiling
+# somewhere above ~50,000 base64 chars but below ~98,000 — discovered
+# when the inline multilingual AI_I18N JSON pushed index.html that big.
+# That's why AI_I18N now ships as a separate i18n.json file instead of
+# being embedded inline — see I18N_SPLIT_DELIMITER below.
 CONTENTS_API_SAFE_LIMIT = 45000
+
+# fill_template() returns the page HTML with the AI_I18N JSON appended
+# behind this delimiter, rather than embedding it inline in the HTML
+# (see note above). split_html_and_i18n() splits it back apart so the
+# two pieces can be pushed to GitHub as separate, smaller files.
+I18N_SPLIT_DELIMITER = '\n<!--GIVEBACK_I18N_SPLIT-->\n'
 
 MADE_BY_NAME  = 'GiveBack'
 MADE_BY_URL   = f'https://github.com/{GH_ACTOR}'
@@ -442,9 +461,6 @@ def fill_template(org: dict, copy: dict, images: list, translations: dict) -> st
         'MADE_BY_URL':   MADE_BY_URL,
         'MADE_BY_EMAIL': MADE_BY_EMAIL,
 
-        # AI multilingual content (consumed by the page's applyLang() JS)
-        'AI_I18N_JSON': ai_i18n_json,
-
         # Gemini copy
         'META_DESCRIPTION':    copy.get('meta_description', ''),
         'HERO_HEADLINE':       copy.get('hero_headline', ''),
@@ -502,7 +518,24 @@ def fill_template(org: dict, copy: dict, images: list, translations: dict) -> st
     if remaining:
         log.warning(f'Unfilled slots in template: {remaining}')
 
-    return html
+    # AI_I18N is appended behind a delimiter rather than embedded inline —
+    # see I18N_SPLIT_DELIMITER note above. split_html_and_i18n() splits
+    # this back apart for local preview and for deploy_to_github() to
+    # push as two separate, smaller files.
+    return html + I18N_SPLIT_DELIMITER + ai_i18n_json
+
+
+def split_html_and_i18n(composite: str) -> tuple:
+    """
+    Splits the fill_template() return value back into (html, i18n_json).
+    Falls back to treating the whole thing as html with empty i18n if the
+    delimiter isn't found — keeps old pre-this-fix demo_html rows in the
+    DB from crashing deploy_site() instead of erroring.
+    """
+    if I18N_SPLIT_DELIMITER in composite:
+        html, i18n_json = composite.split(I18N_SPLIT_DELIMITER, 1)
+        return html, i18n_json
+    return composite, '{}'
 
 
 # ── GitHub API deployment ──────────────────────────────────────────────────────
@@ -688,9 +721,15 @@ def deploy_to_github(repo_name: str, org_name: str, html: str) -> str:
     MAIN_REPO = 'GiveBack'
     folder = f'built_websites/{repo_name}'
 
+    html, i18n_json = split_html_and_i18n(html)
+
     log.info(f'  -> Pushing index.html to {folder}/')
     push_file_to_repo(MAIN_REPO, f'{folder}/index.html', html,
                       f'Add site for {org_name}')
+
+    log.info(f'  -> Pushing i18n.json to {folder}/')
+    push_file_to_repo(MAIN_REPO, f'{folder}/i18n.json', i18n_json,
+                      f'Add translations for {org_name}')
 
     favicon_path = os.path.join(os.path.dirname(TEMPLATE_PATH), 'favicon.svg')
     with open(favicon_path, 'r') as fav:
@@ -767,21 +806,31 @@ def build_site(org_id: int, dry_run: bool = False) -> dict:
     images = fetch_pexels_images(org.get('category', 'default'), count=8)
     log.info(f'  ✓ {len(images)} images sourced')
 
-    # Fill the template
-    html = fill_template(org, copy, images, translations)
-    log.info(f'  ✓ Template filled ({len(html):,} chars)')
+    # Fill the template — returns HTML with the i18n JSON appended behind
+    # a delimiter (see I18N_SPLIT_DELIMITER) rather than embedded inline
+    html_composite = fill_template(org, copy, images, translations)
+    html, i18n_json = split_html_and_i18n(html_composite)
+    log.info(f'  ✓ Template filled ({len(html):,} chars, i18n {len(i18n_json):,} chars)')
 
-    # Save to DB and local file so the UI can preview it
+    # Save to DB and local file so the UI can preview it. The DB keeps
+    # the full composite (html + delimiter + i18n_json) since deploy_site()
+    # needs both pieces later; the local file gets clean HTML only.
     execute(
         "UPDATE orgs SET demo_html=?, demo_built_at=?, pipeline_stage='built' WHERE id=?",
-        (html, datetime.now().isoformat(), org_id)
+        (html_composite, datetime.now().isoformat(), org_id)
     )
 
-    # Also write locally for easy inspection during dev
+    # Also write locally for easy inspection during dev. Note: the local
+    # copy's language switcher won't show AI-translated content if you
+    # open this file directly (file:// fetch('i18n.json') is blocked by
+    # the browser) — only the deployed GitHub Pages version will. Static
+    # UI chrome (nav/buttons) still works fine locally either way.
     safe_name = re.sub(r'[^a-z0-9]', '_', org['name'].lower())
     local_path = f'generated/{safe_name}.html'
     with open(local_path, 'w', encoding='utf-8') as f:
         f.write(html)
+    with open(f'generated/{safe_name}.i18n.json', 'w', encoding='utf-8') as f:
+        f.write(i18n_json)
     log.info(f'  ✓ Saved locally to {local_path}')
 
     # Telegram ping so I know to open the Streamlit UI and review

@@ -666,12 +666,21 @@ const I18N = {
   },
 };
 
-// AI-generated content per language — built server-side from Gemini
-// output (English original + 3 translations). See _build_ai_i18n_lang()
-// and generate_translations() in builder.py.
-const AI_I18N = {{AI_I18N_JSON}};
-
 let currentLang = 'en';
+
+// AI-generated content (hero, about, programs, gallery captions, CTA,
+// footer tagline) ships as a separate i18n.json file fetched at runtime,
+// rather than embedded inline here — embedding it directly pushed
+// index.html past a GitHub request-size ceiling once 4 languages of
+// full paragraph copy were included. If a user clicks a language button
+// before this fetch resolves, applyLang(currentLang) re-runs once it
+// loads so the AI content "catches up" — static UI chrome still works
+// immediately either way since that part doesn't depend on this fetch.
+let AI_I18N = {};
+fetch('i18n.json')
+  .then(r => r.json())
+  .then(d => { AI_I18N = d; applyLang(currentLang); })
+  .catch(() => {}); // fails closed — static UI labels still translate fine
 const ORG_NAME = '{{ORG_NAME}}';
 const MADE_BY_EMAIL = '{{MADE_BY_EMAIL}}';
 
