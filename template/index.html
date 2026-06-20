@@ -412,8 +412,8 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 <section id="about" class="section-wrap" aria-labelledby="about-heading">
   <div class="about-grid">
     <div class="about-imgs reveal-left">
-      <img class="about-img-a" src="{{GALLERY_IMAGE_1}}" alt="{{ORG_NAME}} volunteers at work" loading="lazy" width="600" height="400">
-      <img class="about-img-b" src="{{GALLERY_IMAGE_2}}" alt="Community members served by {{ORG_NAME}}" loading="lazy" width="400" height="300">
+      <img class="about-img-a" src="{{ABOUT_IMAGE_A}}" alt="{{ORG_NAME}} volunteers at work" loading="lazy" width="600" height="400">
+      <img class="about-img-b" src="{{ABOUT_IMAGE_B}}" alt="Community members served by {{ORG_NAME}}" loading="lazy" width="400" height="300">
       <div class="about-badge" aria-label="{{PEOPLE_SERVED}} people served">
         <span class="abig">{{PEOPLE_SERVED}}+</span>
         <span class="asm" data-i18n="stat_1">People Served</span>
@@ -702,7 +702,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <span>Preview site built for <strong>${ORG_NAME}</strong> by {{MADE_BY_NAME}}</span>
     </div>
     <a href="mailto:${MADE_BY_EMAIL}?subject=I want this website - ${encodeURIComponent(ORG_NAME)}&body=Hi, I viewed my preview site and I am interested. Please reach out." class="preview-banner-cta">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2-2-2H4c-1.1 0-2 .9-2 2z"/><polyline points="22,6 12,12 2,6"/></svg>
       Claim This Website
     </a>`;
   document.body.prepend(banner);
