@@ -116,6 +116,7 @@ PEXELS_QUERIES = {
 }
 
 # Fallback Pexels images — confirmed correct subjects, used if API key is missing
+# Fallback Pexels images — confirmed correct subjects, used if API key is missing
 FALLBACK_IMAGES = [
     'https://images.pexels.com/photos/6647037/pexels-photo-6647037.jpeg?auto=compress&cs=tinysrgb&w=1600',  # food bank volunteers
     'https://images.pexels.com/photos/6647119/pexels-photo-6647119.jpeg?auto=compress&cs=tinysrgb&w=1600',  # community meal
@@ -123,4 +124,6 @@ FALLBACK_IMAGES = [
     'https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&w=1600',  # donation boxes
     'https://images.pexels.com/photos/6647038/pexels-photo-6647038.jpeg?auto=compress&cs=tinysrgb&w=1600',  # volunteers sorting
     'https://images.pexels.com/photos/6646866/pexels-photo-6646866.jpeg?auto=compress&cs=tinysrgb&w=1600',  # community help
+    'https://images.pexels.com/photos/6646924/pexels-photo-6646924.jpeg?auto=compress&cs=tinysrgb&w=1600',  # volunteers giving donations
+    'https://images.pexels.com/photos/6994833/pexels-photo-6994833.jpeg?auto=compress&cs=tinysrgb&w=1600',  # volunteers sorting donated clothes
 ]
