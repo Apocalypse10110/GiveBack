@@ -327,10 +327,10 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
       <span>{{ORG_TYPE}} &nbsp;&middot;&nbsp; {{CITY}}, WA</span>
     </div>
     <h1 class="hero-h1">
-      {{HERO_HEADLINE}}
-      <em>{{HERO_HEADLINE_ACCENT}}</em>
+      <span data-i18n-ai="hero_headline">{{HERO_HEADLINE}}</span>
+      <em data-i18n-ai="hero_headline_accent">{{HERO_HEADLINE_ACCENT}}</em>
     </h1>
-    <p class="hero-sub">{{HERO_SUBHEADLINE}}</p>
+    <p class="hero-sub" data-i18n-ai="hero_subheadline">{{HERO_SUBHEADLINE}}</p>
     <div class="hero-ctas">
       <a href="#donate" class="btn btn-lg btn-solid" data-i18n="btn_donate">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -376,8 +376,8 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 <section id="programs" class="section-wrap" aria-labelledby="programs-heading">
   <div class="text-center">
     <span class="eyebrow reveal" data-i18n="programs_eyebrow">What We Do</span>
-    <h2 class="section-h reveal d1" id="programs-heading">{{PROGRAMS_HEADLINE}}</h2>
-    <p class="section-sub center reveal d2">{{PROGRAMS_SUBHEADLINE}}</p>
+    <h2 class="section-h reveal d1" id="programs-heading" data-i18n-ai="programs_headline">{{PROGRAMS_HEADLINE}}</h2>
+    <p class="section-sub center reveal d2" data-i18n-ai="programs_subheadline">{{PROGRAMS_SUBHEADLINE}}</p>
   </div>
   <div class="programs-grid" role="list">
     {{PROGRAMS_CARDS}}
@@ -421,9 +421,9 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
     </div>
     <div class="about-text reveal-right">
       <span class="eyebrow" data-i18n="about_eyebrow">Our Mission</span>
-      <h2 class="section-h" id="about-heading">{{ABOUT_HEADLINE}}</h2>
-      <p>{{ABOUT_PARAGRAPH_1}}</p>
-      <p>{{ABOUT_PARAGRAPH_2}}</p>
+      <h2 class="section-h" id="about-heading" data-i18n-ai="about_headline">{{ABOUT_HEADLINE}}</h2>
+      <p data-i18n-ai="about_paragraph_1">{{ABOUT_PARAGRAPH_1}}</p>
+      <p data-i18n-ai="about_paragraph_2">{{ABOUT_PARAGRAPH_2}}</p>
       <div class="about-checks" role="list">
         <div class="about-check" role="listitem">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
@@ -449,15 +449,15 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 <section class="section-wrap" style="background:var(--light);" aria-labelledby="gallery-heading">
   <div class="text-center">
     <span class="eyebrow reveal" data-i18n="gallery_eyebrow">In the Community</span>
-    <h2 class="section-h reveal d1" id="gallery-heading">{{GALLERY_HEADLINE}}</h2>
-    <p class="section-sub center reveal d2">{{GALLERY_SUBHEADLINE}}</p>
+    <h2 class="section-h reveal d1" id="gallery-heading" data-i18n-ai="gallery_headline">{{GALLERY_HEADLINE}}</h2>
+    <p class="section-sub center reveal d2" data-i18n-ai="gallery_subheadline">{{GALLERY_SUBHEADLINE}}</p>
   </div>
   <div class="gallery-grid reveal" role="list" aria-label="Community photos">
-    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_1}}" alt="{{GALLERY_LABEL_1}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">{{GALLERY_LABEL_1}}</span></div></div>
-    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_2}}" alt="{{GALLERY_LABEL_2}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">{{GALLERY_LABEL_2}}</span></div></div>
-    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_3}}" alt="{{GALLERY_LABEL_3}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">{{GALLERY_LABEL_3}}</span></div></div>
-    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_4}}" alt="{{GALLERY_LABEL_4}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">{{GALLERY_LABEL_4}}</span></div></div>
-    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_5}}" alt="{{GALLERY_LABEL_5}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">{{GALLERY_LABEL_5}}</span></div></div>
+    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_1}}" alt="{{GALLERY_LABEL_1}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_1">{{GALLERY_LABEL_1}}</span></div></div>
+    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_2}}" alt="{{GALLERY_LABEL_2}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_2">{{GALLERY_LABEL_2}}</span></div></div>
+    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_3}}" alt="{{GALLERY_LABEL_3}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_3">{{GALLERY_LABEL_3}}</span></div></div>
+    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_4}}" alt="{{GALLERY_LABEL_4}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_4">{{GALLERY_LABEL_4}}</span></div></div>
+    <div class="g-item" role="listitem"><img src="{{GALLERY_IMAGE_5}}" alt="{{GALLERY_LABEL_5}}" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_5">{{GALLERY_LABEL_5}}</span></div></div>
   </div>
 </section>
 
@@ -479,8 +479,8 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 <section class="cta-band" aria-label="Call to action">
   <div class="cta-band-inner">
     <div class="reveal-left">
-      <div class="cta-band-h">{{CTA_HEADLINE}}</div>
-      <div class="cta-band-sub">{{CTA_SUB}}</div>
+      <div class="cta-band-h" data-i18n-ai="cta_headline">{{CTA_HEADLINE}}</div>
+      <div class="cta-band-sub" data-i18n-ai="cta_sub">{{CTA_SUB}}</div>
     </div>
     <div class="cta-band-btns reveal-right">
       <a href="{{VOLUNTEER_URL}}" class="btn btn-lg btn-dark" data-i18n="btn_volunteer_full">Sign Up to Volunteer</a>
@@ -543,7 +543,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
         </div>
         <span class="footer-logo-text">{{ORG_NAME}}</span>
       </div>
-      <p class="footer-tagline">{{FOOTER_TAGLINE}}</p>
+      <p class="footer-tagline" data-i18n-ai="footer_tagline">{{FOOTER_TAGLINE}}</p>
       <a href="{{GOOGLE_MAPS_URL}}" target="_blank" rel="noopener" class="footer-maps-link">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <span data-i18n="footer_maps">Find us on Google Maps</span>
@@ -666,6 +666,11 @@ const I18N = {
   },
 };
 
+// AI-generated content per language — built server-side from Gemini
+// output (English original + 3 translations). See _build_ai_i18n_lang()
+// and generate_translations() in builder.py.
+const AI_I18N = {{AI_I18N_JSON}};
+
 let currentLang = 'en';
 const ORG_NAME = '{{ORG_NAME}}';
 const MADE_BY_EMAIL = '{{MADE_BY_EMAIL}}';
@@ -678,6 +683,13 @@ function applyLang(lang) {
     const key = el.dataset.i18n;
     if (strings[key]) el.textContent = strings[key];
   });
+  const aiStrings = AI_I18N[lang];
+  if (aiStrings) {
+    document.querySelectorAll('[data-i18n-ai]').forEach(el => {
+      const key = el.dataset.i18nAi;
+      if (aiStrings[key]) el.textContent = aiStrings[key];
+    });
+  }
   document.documentElement.lang = lang;
   document.querySelectorAll('.lang-btn').forEach(btn => {
     const active = btn.dataset.lang === lang;

@@ -184,6 +184,69 @@ people_served should match programs_count × a realistic per-program reach."""
     return data
 
 
+def generate_translations(copy: dict) -> dict:
+    """
+    Translates the AI-written, user-facing copy fields into Spanish,
+    Vietnamese, and Somali. Returns {'es': {...}, 'vi': {...}, 'so': {...}},
+    each shaped like a subset of `copy` (same keys, same array lengths).
+
+    Each language is its OWN Gemini call rather than one combined call —
+    this keeps each payload small (avoids the JSON-truncation risk flagged
+    when this was scoped as a single 4-language call) and means a failure
+    in one language degrades gracefully to English for just that language
+    instead of taking down the whole build.
+
+    Only translates fields that actually render as visible text on the
+    page (hero, about, programs, gallery captions, CTA, footer tagline).
+    Numbers, URLs, and founded_year are language-independent and skipped.
+    """
+    text_fields = {
+        'hero_headline':        copy.get('hero_headline', ''),
+        'hero_headline_accent': copy.get('hero_headline_accent', ''),
+        'hero_subheadline':     copy.get('hero_subheadline', ''),
+        'programs_headline':    copy.get('programs_headline', ''),
+        'programs_subheadline': copy.get('programs_subheadline', ''),
+        'programs':             copy.get('programs', []),
+        'about_headline':       copy.get('about_headline', ''),
+        'about_paragraph_1':    copy.get('about_paragraph_1', ''),
+        'about_paragraph_2':    copy.get('about_paragraph_2', ''),
+        'gallery_headline':     copy.get('gallery_headline', ''),
+        'gallery_subheadline':  copy.get('gallery_subheadline', ''),
+        'gallery_labels':       copy.get('gallery_labels', []),
+        'cta_headline':         copy.get('cta_headline', ''),
+        'cta_sub':              copy.get('cta_sub', ''),
+        'footer_tagline':       copy.get('footer_tagline', ''),
+    }
+
+    lang_names = {'es': 'Spanish', 'vi': 'Vietnamese', 'so': 'Somali'}
+    translations = {}
+
+    for lang_code, lang_name in lang_names.items():
+        prompt = f"""Translate the following nonprofit website copy into {lang_name}.
+Keep the same tone: warm, plain-spoken, specific. Not corporate, not stiff.
+Keep the exact same JSON structure — same keys, same array lengths, same
+field order. Do not add, remove, or rename any field. Do not translate
+numbers.
+
+{json.dumps(text_fields, ensure_ascii=False, indent=2)}
+
+Respond ONLY with the translated JSON object — no markdown, no preamble, no trailing commas."""
+
+        try:
+            raw = call_gemini(prompt)
+            translations[lang_code] = json.loads(raw)
+            log.info(f'  ✓ {lang_name} translation OK')
+        except json.JSONDecodeError as e:
+            log.error(f'{lang_name} translation JSON parse error: {e} — falling back to English for this language')
+            translations[lang_code] = text_fields
+        except Exception as e:
+            log.error(f'{lang_name} translation call failed: {e} — falling back to English for this language')
+            translations[lang_code] = text_fields
+        time.sleep(0.5)  # stay polite to Gemini between back-to-back calls
+
+    return translations
+
+
 # ── Image sourcing ─────────────────────────────────────────────────────────────
 
 def fetch_pexels_images(category: str, count: int = 8) -> list:
@@ -257,7 +320,12 @@ def _img(images: list, idx: int) -> str:
 
 
 def build_programs_cards(programs: list) -> str:
-    """Generates the HTML for the programs grid from the Gemini programs list."""
+    """
+    Generates the HTML for the programs grid from the Gemini programs list.
+    h3/p carry data-i18n-ai="programs_{i}_title"/"programs_{i}_desc" so the
+    language switcher can swap these in along with the rest of the
+    AI-generated copy — see _build_ai_i18n_lang() in fill_template().
+    """
     icons = [
         # Heart
         '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
@@ -275,8 +343,8 @@ def build_programs_cards(programs: list) -> str:
       <div class="prog-icon" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">{icon}</svg>
       </div>
-      <h3>{title}</h3>
-      <p>{desc}</p>
+      <h3 data-i18n-ai="programs_{i}_title">{title}</h3>
+      <p data-i18n-ai="programs_{i}_desc">{desc}</p>
     </div>""")
     return '\n'.join(cards)
 
@@ -289,10 +357,49 @@ def build_footer_links(program_titles: list) -> str:
     return '\n'.join(links)
 
 
-def fill_template(org: dict, copy: dict, images: list) -> str:
+def _build_ai_i18n_lang(lang_copy: dict) -> dict:
+    """
+    Flattens one language's copy dict (English `copy`, or one entry from
+    `translations`) into the flat key structure the page's JS reads —
+    matching the data-i18n-ai="KEY" attributes in template/index.html.
+    Missing fields degrade to empty string rather than raising, so a
+    partially-translated language still renders instead of breaking.
+    """
+    flat = {
+        'hero_headline':        lang_copy.get('hero_headline', ''),
+        'hero_headline_accent': lang_copy.get('hero_headline_accent', ''),
+        'hero_subheadline':     lang_copy.get('hero_subheadline', ''),
+        'programs_headline':    lang_copy.get('programs_headline', ''),
+        'programs_subheadline': lang_copy.get('programs_subheadline', ''),
+        'about_headline':       lang_copy.get('about_headline', ''),
+        'about_paragraph_1':    lang_copy.get('about_paragraph_1', ''),
+        'about_paragraph_2':    lang_copy.get('about_paragraph_2', ''),
+        'gallery_headline':     lang_copy.get('gallery_headline', ''),
+        'gallery_subheadline':  lang_copy.get('gallery_subheadline', ''),
+        'cta_headline':         lang_copy.get('cta_headline', ''),
+        'cta_sub':              lang_copy.get('cta_sub', ''),
+        'footer_tagline':       lang_copy.get('footer_tagline', ''),
+    }
+    programs = lang_copy.get('programs', [])
+    for i in range(3):
+        prog = programs[i] if i < len(programs) else {}
+        flat[f'programs_{i}_title'] = prog.get('title', '')
+        flat[f'programs_{i}_desc']  = prog.get('description', '')
+    labels = lang_copy.get('gallery_labels', [])
+    for i in range(5):
+        flat[f'gallery_label_{i + 1}'] = labels[i] if i < len(labels) else ''
+    return flat
+
+
+def fill_template(org: dict, copy: dict, images: list, translations: dict) -> str:
     """
     Reads the template and replaces every {{SLOT}} with real content.
     Returns the complete HTML string ready to deploy.
+
+    `translations` is the dict returned by generate_translations() —
+    {'es': {...}, 'vi': {...}, 'so': {...}} — used to build the AI_I18N
+    JS object that the page's language switcher reads at runtime so
+    AI-generated content (not just static UI chrome) actually translates.
     """
     with open(TEMPLATE_PATH, 'r', encoding='utf-8') as f:
         html = f.read()
@@ -303,6 +410,21 @@ def fill_template(org: dict, copy: dict, images: list) -> str:
     # Apostrophes in org names can break things — escape for the template
     # but NOT over-escape: HTML entities are fine in HTML context
     org_name = org['name'].replace("'", '&#39;')
+
+    # Build the AI_I18N object the page's JS reads to swap AI-generated
+    # content (hero, about, programs, gallery captions, CTA, footer
+    # tagline) when the language switcher is clicked. json.dumps() is
+    # used (not manual string concat) so apostrophes/quotes in the
+    # AI-written copy can never break the embedded script — and the
+    # </ escape below prevents a stray "</script>" substring in any
+    # language's text from prematurely closing the <script> tag.
+    ai_i18n = {
+        'en': _build_ai_i18n_lang(copy),
+        'es': _build_ai_i18n_lang(translations.get('es', {})),
+        'vi': _build_ai_i18n_lang(translations.get('vi', {})),
+        'so': _build_ai_i18n_lang(translations.get('so', {})),
+    }
+    ai_i18n_json = json.dumps(ai_i18n, ensure_ascii=False).replace('</', '<\\/')
 
     slots = {
         # Org data from DB
@@ -319,6 +441,9 @@ def fill_template(org: dict, copy: dict, images: list) -> str:
         'MADE_BY_NAME':  MADE_BY_NAME,
         'MADE_BY_URL':   MADE_BY_URL,
         'MADE_BY_EMAIL': MADE_BY_EMAIL,
+
+        # AI multilingual content (consumed by the page's applyLang() JS)
+        'AI_I18N_JSON': ai_i18n_json,
 
         # Gemini copy
         'META_DESCRIPTION':    copy.get('meta_description', ''),
@@ -633,12 +758,17 @@ def build_site(org_id: int, dry_run: bool = False) -> dict:
     copy = generate_copy(org)
     log.info(f'  ✓ Copy generated ({len(str(copy))} chars)')
 
+    # Translate the AI-written copy into ES/VI/SO — separate Gemini call
+    # per language so a malformed response in one doesn't break the others
+    translations = generate_translations(copy)
+    log.info(f'  ✓ Translations generated (ES/VI/SO)')
+
     # Get images — 8 needed: 1 hero + 2 about + 5 gallery, each slot unique
     images = fetch_pexels_images(org.get('category', 'default'), count=8)
     log.info(f'  ✓ {len(images)} images sourced')
 
     # Fill the template
-    html = fill_template(org, copy, images)
+    html = fill_template(org, copy, images, translations)
     log.info(f'  ✓ Template filled ({len(html):,} chars)')
 
     # Save to DB and local file so the UI can preview it
