@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0B1D3A">
 <title>Rainier Valley Food Bank | Food Bank in Seattle</title>
-<meta name="description" content="Rainier Valley Food Bank — Rainier Valley Food Bank gives groceries and hot meals to our Seattle neighbors facing hunger.">
+<meta name="description" content="Rainier Valley Food Bank — Rainier Valley Food Bank gives food to neighbors in Seattle. We've been here since 2016.">
 <meta property="og:title"       content="Rainier Valley Food Bank">
-<meta property="og:description" content="Rainier Valley Food Bank gives groceries and hot meals to our Seattle neighbors facing hunger.">
+<meta property="og:description" content="Rainier Valley Food Bank gives food to neighbors in Seattle. We've been here since 2016.">
 <meta property="og:type"        content="website">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -327,10 +327,10 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
       <span>Food Bank &nbsp;&middot;&nbsp; Seattle, WA</span>
     </div>
     <h1 class="hero-h1">
-      Food for Everyone Here
-      <em>Since 2016</em>
+      <span data-i18n-ai="hero_headline">Food for Every Neighbor</span>
+      <em data-i18n-ai="hero_headline_accent">Seattle Since 2016</em>
     </h1>
-    <p class="hero-sub">We give out bags of groceries and serve hot meals every week in Seattle. Come on Tuesdays and Thursdays. We've got food waiting.</p>
+    <p class="hero-sub" data-i18n-ai="hero_subheadline">We hand out fresh produce, pantry staples, and hot meals to anyone who needs them. Visit us on Tuesdays and Thursdays at 10am. Come eat with us.</p>
     <div class="hero-ctas">
       <a href="#donate" class="btn btn-lg btn-solid" data-i18n="btn_donate">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -355,7 +355,7 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 <section class="stats-section section-wrap" aria-label="Impact numbers">
   <div class="stats-inner">
     <div class="stat-item reveal d1">
-      <div class="stat-top"><span class="stat-num" data-target="1000">0</span><span class="stat-sfx" aria-hidden="true">+</span></div>
+      <div class="stat-top"><span class="stat-num" data-target="150">0</span><span class="stat-sfx" aria-hidden="true">+</span></div>
       <div class="stat-label" data-i18n="stat_1">People Served</div>
     </div>
     <div class="stat-item reveal d2">
@@ -376,30 +376,30 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 <section id="programs" class="section-wrap" aria-labelledby="programs-heading">
   <div class="text-center">
     <span class="eyebrow reveal" data-i18n="programs_eyebrow">What We Do</span>
-    <h2 class="section-h reveal d1" id="programs-heading">What We Offer Neighbors</h2>
-    <p class="section-sub center reveal d2">We provide groceries and hot meals to families and individuals who need them.</p>
+    <h2 class="section-h reveal d1" id="programs-heading" data-i18n-ai="programs_headline">What We Offer Our Neighbors</h2>
+    <p class="section-sub center reveal d2" data-i18n-ai="programs_subheadline">We provide groceries and hot meals through our main distributions and special programs.</p>
   </div>
   <div class="programs-grid" role="list">
         <div class="prog-card" role="listitem">
       <div class="prog-icon" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       </div>
-      <h3>Grocery Distribution</h3>
-      <p>Every Tuesday and Thursday, we hand out bags filled with fresh produce, pantry staples, and proteins. Anyone can pick up food. No questions asked.</p>
+      <h3 data-i18n-ai="programs_0_title">Grocery Distribution</h3>
+      <p data-i18n-ai="programs_0_desc">Every Tuesday and Thursday, we open our doors for everyone to pick out their own groceries. You choose what works for your family. We often have fresh fruit and vegetables, dairy, and bread.</p>
     </div>
     <div class="prog-card" role="listitem">
       <div class="prog-icon" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
-      <h3>Hot Meal Service</h3>
-      <p>We cook and serve hot meals on Tuesdays and Thursdays. It's a chance to eat a warm dish and connect with others in the community.</p>
+      <h3 data-i18n-ai="programs_1_title">Hot Meal Service</h3>
+      <p data-i18n-ai="programs_1_desc">On Tuesdays and Thursdays, we also serve hot, ready-to-eat meals. These are made with care by our volunteers. Come by for a nutritious lunch.</p>
     </div>
     <div class="prog-card" role="listitem">
       <div class="prog-icon" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22 16 8"/><path d="M16 8c-2.5-2.5-6-4-9-4 0 3 1.5 6.5 4 9l-1 1c-2.5-2.5-4-6-4-9 0-3 1-5.5 3-7.5C11.5 1 14 2 16 4c2-2 4.5-3 7-3-3 3-3 7-3 9l-1-1c1.5-2 2.5-5 2-7-2.5 0-5.5 1-7 3z"/></svg>
       </div>
-      <h3>Weekend Snack Packs</h3>
-      <p>During school breaks, we give out snack packs to kids so they have something to eat when school is closed. These are for children in the Rainier Valley.</p>
+      <h3 data-i18n-ai="programs_2_title">Kids' Packs</h3>
+      <p data-i18n-ai="programs_2_desc">We offer weekend food packs specifically for children. These are simple, kid-friendly meals to help them through Saturday and Sunday. We partner with local schools to distribute them.</p>
     </div>
   </div>
 </section>
@@ -432,18 +432,18 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 <section id="about" class="section-wrap" aria-labelledby="about-heading">
   <div class="about-grid">
     <div class="about-imgs reveal-left">
-      <img class="about-img-a" src="https://images.pexels.com/photos/6647015/pexels-photo-6647015.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Rainier Valley Food Bank volunteers at work" loading="lazy" width="600" height="400">
-      <img class="about-img-b" src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Community members served by Rainier Valley Food Bank" loading="lazy" width="400" height="300">
-      <div class="about-badge" aria-label="1000 people served">
-        <span class="abig">1000+</span>
+      <img class="about-img-a" src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Rainier Valley Food Bank volunteers at work" loading="lazy" width="600" height="400">
+      <img class="about-img-b" src="https://images.pexels.com/photos/6646926/pexels-photo-6646926.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Community members served by Rainier Valley Food Bank" loading="lazy" width="400" height="300">
+      <div class="about-badge" aria-label="150 people served">
+        <span class="abig">150+</span>
         <span class="asm" data-i18n="stat_1">People Served</span>
       </div>
     </div>
     <div class="about-text reveal-right">
       <span class="eyebrow" data-i18n="about_eyebrow">Our Mission</span>
-      <h2 class="section-h" id="about-heading">Why We Show Up for Seattle</h2>
-      <p>Rainier Valley Food Bank started in 2016 because we saw neighbors struggling to get enough to eat. The Rainier Valley is a place where many cultures meet, and many families work hard but still face food insecurity. We fill the gap by being a reliable place for groceries and a warm meal.</p>
-      <p>Every week, our volunteers sort donations and pack grocery bags. Last year, we provided over 60,000 meals. Our team of about 25 regular volunteers makes this possible.</p>
+      <h2 class="section-h" id="about-heading" data-i18n-ai="about_headline">Neighbors Helping Neighbors in Rainier Valley</h2>
+      <p data-i18n-ai="about_paragraph_1">We started in 2016 because too many people in our Rainier Valley neighborhood didn't have enough to eat. Seattle is a great city, but the cost of living means many families struggle. We fill the gap by providing free, accessible food to anyone who walks through our doors.</p>
+      <p data-i18n-ai="about_paragraph_2">Our doors are open twice a week thanks to over 25 volunteers who show up regularly. They sort donations, pack bags, and serve meals. Last year, we provided food for over 150 families each week.</p>
       <div class="about-checks" role="list">
         <div class="about-check" role="listitem">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
@@ -469,19 +469,11 @@ footer { background:var(--dark); color:rgba(255,255,255,.55); }
 <section class="section-wrap" style="background:var(--light);" aria-labelledby="gallery-heading">
   <div class="text-center">
     <span class="eyebrow reveal" data-i18n="gallery_eyebrow">In the Community</span>
-    <h2 class="section-h reveal d1" id="gallery-heading">Scenes from Our Kitchen</h2>
-    <p class="section-sub center reveal d2">Photos showing the real people and food at our food bank.</p>
+    <h2 class="section-h reveal d1" id="gallery-heading" data-i18n-ai="gallery_headline">Faces of the Food Bank</h2>
+    <p class="section-sub center reveal d2" data-i18n-ai="gallery_subheadline">See the people and the food that make our community stronger.</p>
   </div>
   <div class="gallery-grid reveal" role="list" aria-label="Community photos">
-    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6647015/pexels-photo-6647015.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Volunteers sorting food" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Volunteers sorting food</span></div></div>
-    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6646918/pexels-photo-6646918.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Bags of groceries" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Bags of groceries</span></div></div>
-    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6646926/pexels-photo-6646926.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Serving hot meals" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Serving hot meals</span></div></div>
-    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6647027/pexels-photo-6647027.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Community members connecting" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Community members connecting</span></div></div>
-    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/7156163/pexels-photo-7156163.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Fresh produce" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label">Fresh produce</span></div></div>
-  </div>
-</section>
-
-<section id="donate" class="section-wrap" style="background:var(--dark);" aria-labelledby="donate-heading">
-  <div class="text-center">
-    <span class="eyebrow reveal" data-i18n="donate_eyebrow">Support the Mission</span>
-    <h2 class="section-h light reveal d1" id="donate-heading">Your Gift Goes Directly to Seattle</h2
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6647027/pexels-photo-6647027.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Volunteers sorting food" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_1">Volunteers sorting food</span></div></div>
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/7156163/pexels-photo-7156163.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Fresh produce display" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_2">Fresh produce display</span></div></div>
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6591154/pexels-photo-6591154.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Neighbors picking groceries" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_3">Neighbors picking groceries</span></div></div>
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6646987/pexels-photo-6646987.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Hot mea
