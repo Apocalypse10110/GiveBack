@@ -1,4 +1,12 @@
->
+l service line" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_4">Hot meal service line</span></div></div>
+    <div class="g-item" role="listitem"><img src="https://images.pexels.com/photos/6646770/pexels-photo-6646770.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="Kids' Packs ready to go" loading="lazy"><div class="g-overlay" aria-hidden="true"><span class="g-label" data-i18n-ai="gallery_label_5">Kids' Packs ready to go</span></div></div>
+  </div>
+</section>
+
+<section id="donate" class="section-wrap" style="background:var(--dark);" aria-labelledby="donate-heading">
+  <div class="text-center">
+    <span class="eyebrow reveal" data-i18n="donate_eyebrow">Support the Mission</span>
+    <h2 class="section-h light reveal d1" id="donate-heading">Your Gift Goes Directly to Seattle</h2>
     <p class="section-sub center reveal d2" style="color:rgba(255,255,255,.42)" data-i18n="donate_sub">100% of donations support our programs. We are volunteer-run with zero administrative overhead.</p>
     <div class="reveal">
       <a href="https://www.paypal.com/donate" class="btn btn-lg btn-solid" target="_blank" rel="noopener">
@@ -13,8 +21,8 @@
 <section class="cta-band" aria-label="Call to action">
   <div class="cta-band-inner">
     <div class="reveal-left">
-      <div class="cta-band-h">Help Us Feed More Neighbors</div>
-      <div class="cta-band-sub">Donate what you can. Your gift helps us buy the food we give away. You can also volunteer your time.</div>
+      <div class="cta-band-h" data-i18n-ai="cta_headline">Join Us in Feeding Our Community</div>
+      <div class="cta-band-sub" data-i18n-ai="cta_sub">Your donation or volunteer time makes a direct difference. Come help us stock our shelves or serve a meal.</div>
     </div>
     <div class="cta-band-btns reveal-right">
       <a href="#contact" class="btn btn-lg btn-dark" data-i18n="btn_volunteer_full">Sign Up to Volunteer</a>
@@ -77,7 +85,7 @@
         </div>
         <span class="footer-logo-text">Rainier Valley Food Bank</span>
       </div>
-      <p class="footer-tagline">Rainier Valley Food Bank gives groceries and hot meals to our Seattle neighbors.</p>
+      <p class="footer-tagline" data-i18n-ai="footer_tagline">We provide groceries and hot meals to anyone in need in Seattle's Rainier Valley.</p>
       <a href="None" target="_blank" rel="noopener" class="footer-maps-link">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <span data-i18n="footer_maps">Find us on Google Maps</span>
@@ -87,7 +95,7 @@
       <h4 data-i18n="footer_programs_col">Programs</h4>
       <div class="footer-links"><a href="#programs">Grocery Distribution</a>
 <a href="#programs">Hot Meal Service</a>
-<a href="#programs">Weekend Snack Packs</a></div>
+<a href="#programs">Kids' Packs</a></div>
     </div>
     <div class="footer-col">
       <h4 data-i18n="footer_contact_col">Contact</h4>
@@ -202,6 +210,13 @@ const I18N = {
   },
 };
 
+// AI-generated content per language — built server-side from Gemini
+// output (English original + 3 translations). See _build_ai_i18n_lang()
+// and generate_translations() in builder.py. Embedded inline rather
+// than fetched, since large pages now route through a chunked-commit
+// workaround on the deploy side that makes total page size a non-issue.
+const AI_I18N = {"en": {"hero_headline": "Food for Every Neighbor", "hero_headline_accent": "Seattle Since 2016", "hero_subheadline": "We hand out fresh produce, pantry staples, and hot meals to anyone who needs them. Visit us on Tuesdays and Thursdays at 10am. Come eat with us.", "programs_headline": "What We Offer Our Neighbors", "programs_subheadline": "We provide groceries and hot meals through our main distributions and special programs.", "about_headline": "Neighbors Helping Neighbors in Rainier Valley", "about_paragraph_1": "We started in 2016 because too many people in our Rainier Valley neighborhood didn't have enough to eat. Seattle is a great city, but the cost of living means many families struggle. We fill the gap by providing free, accessible food to anyone who walks through our doors.", "about_paragraph_2": "Our doors are open twice a week thanks to over 25 volunteers who show up regularly. They sort donations, pack bags, and serve meals. Last year, we provided food for over 150 families each week.", "gallery_headline": "Faces of the Food Bank", "gallery_subheadline": "See the people and the food that make our community stronger.", "cta_headline": "Join Us in Feeding Our Community", "cta_sub": "Your donation or volunteer time makes a direct difference. Come help us stock our shelves or serve a meal.", "footer_tagline": "We provide groceries and hot meals to anyone in need in Seattle's Rainier Valley.", "programs_0_title": "Grocery Distribution", "programs_0_desc": "Every Tuesday and Thursday, we open our doors for everyone to pick out their own groceries. You choose what works for your family. We often have fresh fruit and vegetables, dairy, and bread.", "programs_1_title": "Hot Meal Service", "programs_1_desc": "On Tuesdays and Thursdays, we also serve hot, ready-to-eat meals. These are made with care by our volunteers. Come by for a nutritious lunch.", "programs_2_title": "Kids' Packs", "programs_2_desc": "We offer weekend food packs specifically for children. These are simple, kid-friendly meals to help them through Saturday and Sunday. We partner with local schools to distribute them.", "gallery_label_1": "Volunteers sorting food", "gallery_label_2": "Fresh produce display", "gallery_label_3": "Neighbors picking groceries", "gallery_label_4": "Hot meal service line", "gallery_label_5": "Kids' Packs ready to go"}, "es": {"hero_headline": "Food for Every Neighbor", "hero_headline_accent": "Seattle Since 2016", "hero_subheadline": "We hand out fresh produce, pantry staples, and hot meals to anyone who needs them. Visit us on Tuesdays and Thursdays at 10am. Come eat with us.", "programs_headline": "What We Offer Our Neighbors", "programs_subheadline": "We provide groceries and hot meals through our main distributions and special programs.", "about_headline": "Neighbors Helping Neighbors in Rainier Valley", "about_paragraph_1": "We started in 2016 because too many people in our Rainier Valley neighborhood didn't have enough to eat. Seattle is a great city, but the cost of living means many families struggle. We fill the gap by providing free, accessible food to anyone who walks through our doors.", "about_paragraph_2": "Our doors are open twice a week thanks to over 25 volunteers who show up regularly. They sort donations, pack bags, and serve meals. Last year, we provided food for over 150 families each week.", "gallery_headline": "Faces of the Food Bank", "gallery_subheadline": "See the people and the food that make our community stronger.", "cta_headline": "Join Us in Feeding Our Community", "cta_sub": "Your donation or volunteer time makes a direct difference. Come help us stock our shelves or serve a meal.", "footer_tagline": "We provide groceries and hot meals to anyone in need in Seattle's Rainier Valley.", "programs_0_title": "Grocery Distribution", "programs_0_desc": "Every Tuesday and Thursday, we open our doors for everyone to pick out their own groceries. You choose what works for your family. We often have fresh fruit and vegetables, dairy, and bread.", "programs_1_title": "Hot Meal Service", "programs_1_desc": "On Tuesdays and Thursdays, we also serve hot, ready-to-eat meals. These are made with care by our volunteers. Come by for a nutritious lunch.", "programs_2_title": "Kids' Packs", "programs_2_desc": "We offer weekend food packs specifically for children. These are simple, kid-friendly meals to help them through Saturday and Sunday. We partner with local schools to distribute them.", "gallery_label_1": "Volunteers sorting food", "gallery_label_2": "Fresh produce display", "gallery_label_3": "Neighbors picking groceries", "gallery_label_4": "Hot meal service line", "gallery_label_5": "Kids' Packs ready to go"}, "vi": {"hero_headline": "Food for Every Neighbor", "hero_headline_accent": "Seattle Since 2016", "hero_subheadline": "We hand out fresh produce, pantry staples, and hot meals to anyone who needs them. Visit us on Tuesdays and Thursdays at 10am. Come eat with us.", "programs_headline": "What We Offer Our Neighbors", "programs_subheadline": "We provide groceries and hot meals through our main distributions and special programs.", "about_headline": "Neighbors Helping Neighbors in Rainier Valley", "about_paragraph_1": "We started in 2016 because too many people in our Rainier Valley neighborhood didn't have enough to eat. Seattle is a great city, but the cost of living means many families struggle. We fill the gap by providing free, accessible food to anyone who walks through our doors.", "about_paragraph_2": "Our doors are open twice a week thanks to over 25 volunteers who show up regularly. They sort donations, pack bags, and serve meals. Last year, we provided food for over 150 families each week.", "gallery_headline": "Faces of the Food Bank", "gallery_subheadline": "See the people and the food that make our community stronger.", "cta_headline": "Join Us in Feeding Our Community", "cta_sub": "Your donation or volunteer time makes a direct difference. Come help us stock our shelves or serve a meal.", "footer_tagline": "We provide groceries and hot meals to anyone in need in Seattle's Rainier Valley.", "programs_0_title": "Grocery Distribution", "programs_0_desc": "Every Tuesday and Thursday, we open our doors for everyone to pick out their own groceries. You choose what works for your family. We often have fresh fruit and vegetables, dairy, and bread.", "programs_1_title": "Hot Meal Service", "programs_1_desc": "On Tuesdays and Thursdays, we also serve hot, ready-to-eat meals. These are made with care by our volunteers. Come by for a nutritious lunch.", "programs_2_title": "Kids' Packs", "programs_2_desc": "We offer weekend food packs specifically for children. These are simple, kid-friendly meals to help them through Saturday and Sunday. We partner with local schools to distribute them.", "gallery_label_1": "Volunteers sorting food", "gallery_label_2": "Fresh produce display", "gallery_label_3": "Neighbors picking groceries", "gallery_label_4": "Hot meal service line", "gallery_label_5": "Kids' Packs ready to go"}, "so": {"hero_headline": "Food for Every Neighbor", "hero_headline_accent": "Seattle Since 2016", "hero_subheadline": "We hand out fresh produce, pantry staples, and hot meals to anyone who needs them. Visit us on Tuesdays and Thursdays at 10am. Come eat with us.", "programs_headline": "What We Offer Our Neighbors", "programs_subheadline": "We provide groceries and hot meals through our main distributions and special programs.", "about_headline": "Neighbors Helping Neighbors in Rainier Valley", "about_paragraph_1": "We started in 2016 because too many people in our Rainier Valley neighborhood didn't have enough to eat. Seattle is a great city, but the cost of living means many families struggle. We fill the gap by providing free, accessible food to anyone who walks through our doors.", "about_paragraph_2": "Our doors are open twice a week thanks to over 25 volunteers who show up regularly. They sort donations, pack bags, and serve meals. Last year, we provided food for over 150 families each week.", "gallery_headline": "Faces of the Food Bank", "gallery_subheadline": "See the people and the food that make our community stronger.", "cta_headline": "Join Us in Feeding Our Community", "cta_sub": "Your donation or volunteer time makes a direct difference. Come help us stock our shelves or serve a meal.", "footer_tagline": "We provide groceries and hot meals to anyone in need in Seattle's Rainier Valley.", "programs_0_title": "Grocery Distribution", "programs_0_desc": "Every Tuesday and Thursday, we open our doors for everyone to pick out their own groceries. You choose what works for your family. We often have fresh fruit and vegetables, dairy, and bread.", "programs_1_title": "Hot Meal Service", "programs_1_desc": "On Tuesdays and Thursdays, we also serve hot, ready-to-eat meals. These are made with care by our volunteers. Come by for a nutritious lunch.", "programs_2_title": "Kids' Packs", "programs_2_desc": "We offer weekend food packs specifically for children. These are simple, kid-friendly meals to help them through Saturday and Sunday. We partner with local schools to distribute them.", "gallery_label_1": "Volunteers sorting food", "gallery_label_2": "Fresh produce display", "gallery_label_3": "Neighbors picking groceries", "gallery_label_4": "Hot meal service line", "gallery_label_5": "Kids' Packs ready to go"}};
+
 let currentLang = 'en';
 const ORG_NAME = 'Rainier Valley Food Bank';
 const MADE_BY_EMAIL = 'hello@inovare.site';
@@ -214,6 +229,13 @@ function applyLang(lang) {
     const key = el.dataset.i18n;
     if (strings[key]) el.textContent = strings[key];
   });
+  const aiStrings = AI_I18N[lang];
+  if (aiStrings) {
+    document.querySelectorAll('[data-i18n-ai]').forEach(el => {
+      const key = el.dataset.i18nAi;
+      if (aiStrings[key]) el.textContent = aiStrings[key];
+    });
+  }
   document.documentElement.lang = lang;
   document.querySelectorAll('.lang-btn').forEach(btn => {
     const active = btn.dataset.lang === lang;
@@ -238,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <span>Preview site built for <strong>${ORG_NAME}</strong> by GiveBack</span>
     </div>
     <a href="mailto:${MADE_BY_EMAIL}?subject=I want this website - ${encodeURIComponent(ORG_NAME)}&body=Hi, I viewed my preview site and I am interested. Please reach out." class="preview-banner-cta">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2-2-2H4c-1.1 0-2 .9-2 2z"/><polyline points="22,6 12,12 2,6"/></svg>
       Claim This Website
     </a>`;
   document.body.prepend(banner);
