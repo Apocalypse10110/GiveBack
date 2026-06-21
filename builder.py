@@ -69,21 +69,12 @@ GH_HEADERS = {
     'X-GitHub-Api-Version': '2022-11-28',
 }
 
-# Contents API rejects requests once the base64 payload gets too large
-# (observed cutoff is between 48,000 and 50,000 base64 chars). Anything
-# at or above this threshold gets routed through the Git Data API instead.
-# NOTE: the Git Data API blob endpoint turns out to ALSO have a ceiling
-# somewhere above ~50,000 base64 chars but below ~98,000 — discovered
-# when the inline multilingual AI_I18N JSON pushed index.html that big.
-# That's why AI_I18N now ships as a separate i18n.json file instead of
-# being embedded inline — see I18N_SPLIT_DELIMITER below.
+# Contents API rejects requests once the request body gets too large
+# (observed cutoff is roughly 46,000-50,000 raw bytes). This turned out
+# to affect the Git Data API blob endpoint equally — not just Contents
+# API — so files over this size route through the chunked-commit
+# workaround (push_large_file_to_repo) instead of any single big request.
 CONTENTS_API_SAFE_LIMIT = 45000
-
-# fill_template() returns the page HTML with the AI_I18N JSON appended
-# behind this delimiter, rather than embedding it inline in the HTML
-# (see note above). split_html_and_i18n() splits it back apart so the
-# two pieces can be pushed to GitHub as separate, smaller files.
-I18N_SPLIT_DELIMITER = '\n<!--GIVEBACK_I18N_SPLIT-->\n'
 
 MADE_BY_NAME  = 'GiveBack'
 MADE_BY_URL   = f'https://github.com/{GH_ACTOR}'
@@ -461,6 +452,13 @@ def fill_template(org: dict, copy: dict, images: list, translations: dict) -> st
         'MADE_BY_URL':   MADE_BY_URL,
         'MADE_BY_EMAIL': MADE_BY_EMAIL,
 
+        # AI multilingual content (consumed by the page's applyLang() JS).
+        # Embedded inline rather than as a separate file — now that
+        # large files route through the chunked-commit workaround, total
+        # page size no longer matters, so there's no upside to the extra
+        # moving parts a separate fetched file added.
+        'AI_I18N_JSON': ai_i18n_json,
+
         # Gemini copy
         'META_DESCRIPTION':    copy.get('meta_description', ''),
         'HERO_HEADLINE':       copy.get('hero_headline', ''),
@@ -518,24 +516,7 @@ def fill_template(org: dict, copy: dict, images: list, translations: dict) -> st
     if remaining:
         log.warning(f'Unfilled slots in template: {remaining}')
 
-    # AI_I18N is appended behind a delimiter rather than embedded inline —
-    # see I18N_SPLIT_DELIMITER note above. split_html_and_i18n() splits
-    # this back apart for local preview and for deploy_to_github() to
-    # push as two separate, smaller files.
-    return html + I18N_SPLIT_DELIMITER + ai_i18n_json
-
-
-def split_html_and_i18n(composite: str) -> tuple:
-    """
-    Splits the fill_template() return value back into (html, i18n_json).
-    Falls back to treating the whole thing as html with empty i18n if the
-    delimiter isn't found — keeps old pre-this-fix demo_html rows in the
-    DB from crashing deploy_site() instead of erroring.
-    """
-    if I18N_SPLIT_DELIMITER in composite:
-        html, i18n_json = composite.split(I18N_SPLIT_DELIMITER, 1)
-        return html, i18n_json
-    return composite, '{}'
+    return html
 
 
 # ── GitHub API deployment ──────────────────────────────────────────────────────
@@ -597,80 +578,13 @@ def create_github_repo(repo_name: str, org_name: str) -> dict:
         return gh_post('/user/repos', payload)
 
 
-def push_large_file_to_repo(repo_name: str, path: str, content: str, message: str) -> None:
+def push_small_file(repo_name: str, path: str, content: str, message: str) -> None:
     """
-    For files too large for the Contents API (observed cutoff is between
-    48,000-50,000 base64 chars — roughly 36-37KB of raw UTF-8 content),
-    use the Git Data API instead: create a blob, read the current tree,
-    layer a new tree on top with our file added/updated, wrap it in a
-    new commit, then fast-forward the branch ref to point at it.
-
-    This is the same end result as push_file_to_repo() (file ends up
-    committed on GITHUB_PAGES_BRANCH) but goes through the lower-level
-    Git plumbing API, which has no equivalent payload-size restriction.
+    The plain, single-request Contents API push. Only safe for content
+    confirmed to encode under CONTENTS_API_SAFE_LIMIT — callers should
+    go through push_file_to_repo(), which checks size and routes here
+    or to the chunked path automatically.
     """
-    # 1. Get the current branch ref (latest commit SHA)
-    ref_resp = gh_get(f'/repos/{GH_ACTOR}/{repo_name}/git/ref/heads/{GITHUB_PAGES_BRANCH}')
-    ref_resp.raise_for_status()
-    latest_commit_sha = ref_resp.json()['object']['sha']
-
-    # 2. Get that commit to find its tree SHA
-    commit_resp = requests.get(
-        f'{GH_API}/repos/{GH_ACTOR}/{repo_name}/git/commits/{latest_commit_sha}',
-        headers=GH_HEADERS, timeout=15
-    )
-    commit_resp.raise_for_status()
-    base_tree_sha = commit_resp.json()['tree']['sha']
-
-    # 3. Create a blob with our file content
-    blob_resp = gh_post(f'/repos/{GH_ACTOR}/{repo_name}/git/blobs', {
-        'content':  base64.b64encode(content.encode('utf-8')).decode('ascii'),
-        'encoding': 'base64',
-    })
-    blob_sha = blob_resp['sha']
-
-    # 4. Create a new tree with this file added/updated, layered on the
-    #    existing tree so we don't disturb any other files in the repo
-    tree_resp = gh_post(f'/repos/{GH_ACTOR}/{repo_name}/git/trees', {
-        'base_tree': base_tree_sha,
-        'tree': [{
-            'path': path,
-            'mode': '100644',
-            'type': 'blob',
-            'sha':  blob_sha,
-        }],
-    })
-    new_tree_sha = tree_resp['sha']
-
-    # 5. Create a new commit pointing at the new tree
-    new_commit_resp = gh_post(f'/repos/{GH_ACTOR}/{repo_name}/git/commits', {
-        'message': message,
-        'tree':    new_tree_sha,
-        'parents': [latest_commit_sha],
-    })
-    new_commit_sha = new_commit_resp['sha']
-
-    # 6. Move the branch ref to point at the new commit
-    gh_patch(f'/repos/{GH_ACTOR}/{repo_name}/git/refs/heads/{GITHUB_PAGES_BRANCH}', {
-        'sha': new_commit_sha,
-    })
-
-
-def push_file_to_repo(repo_name: str, path: str, content: str, message: str) -> None:
-    """
-    Creates or updates a single file in the repo.
-
-    Routes through the Contents API for small files (the normal, simple
-    path) or the Git Data API for large files, since the Contents API
-    starts returning a generic GitHub "Whoa there!" 400 once the base64
-    payload crosses roughly 48,000-50,000 characters.
-    """
-    encoded_size = len(base64.b64encode(content.encode('utf-8')))
-    if encoded_size >= CONTENTS_API_SAFE_LIMIT:
-        log.info(f'  -> {path} is {encoded_size:,} base64 chars, using Git Data API')
-        push_large_file_to_repo(repo_name, path, content, message)
-        return
-
     # Check if the file exists so we can include the sha for updates
     check = gh_get(f'/repos/{GH_ACTOR}/{repo_name}/contents/{path}')
     payload = {
@@ -682,6 +596,102 @@ def push_file_to_repo(repo_name: str, path: str, content: str, message: str) -> 
         payload['sha'] = check.json()['sha']  # required for updates
 
     gh_put(f'/repos/{GH_ACTOR}/{repo_name}/contents/{path}', payload)
+
+
+def chunk_text(content: str, max_chars: int = 38000) -> list:
+    """
+    Splits a string into pieces that are each safely under max_chars when
+    UTF-8 encoded — small enough to clear CONTENTS_API_SAFE_LIMIT with
+    headroom. Splits on the encoded bytes (not the raw character count)
+    so a chunk boundary can never land in the middle of a multi-byte
+    UTF-8 character.
+    """
+    encoded = content.encode('utf-8')
+    chunks = []
+    start = 0
+    while start < len(encoded):
+        end = min(start + max_chars, len(encoded))
+        # Back off until we're not splitting a multi-byte UTF-8 sequence
+        while end < len(encoded) and (encoded[end] & 0xC0) == 0x80:
+            end -= 1
+        chunks.append(encoded[start:end].decode('utf-8'))
+        start = end
+    return chunks
+
+
+def push_large_file_to_repo(repo_name: str, path: str, content: str, message: str) -> None:
+    """
+    KNOWN GITHUB BUG / QUIRK (discovered during GiveBack development,
+    June 2026): the GitHub Contents API — AND the Git Data API blob
+    endpoint — both reject requests with a generic, non-JSON "Whoa
+    there!" 400 error page once the request body crosses roughly
+    46,000-50,000 raw bytes. This is NOT GitHub's documented size limit
+    (their docs say up to ~100MB via Git Data API, ~1MB via Contents
+    API). It affects every GitHub REST write endpoint we tried — Git
+    Data API blob creation included, confirmed the hard way today —
+    so it looks like an edge/WAF-layer rule, not an API-layer one.
+
+    Workaround: since plain Contents API pushes are confirmed reliable
+    under ~38-40KB, large files get split into multiple small commits,
+    stored as numbered chunk files (index.part0.html.txt, index.part1...)
+    alongside a tiny real index.html that fetches and reassembles them
+    client-side on load. Every individual API call stays inside the
+    known-safe zone regardless of the total page size.
+    """
+    chunks = chunk_text(content, max_chars=38000)
+    log.info(f'  -> {path} is large ({len(content):,} chars), splitting into {len(chunks)} chunk(s)')
+
+    base, ext = os.path.splitext(path)
+    chunk_paths = []
+    for i, chunk in enumerate(chunks):
+        chunk_path = f'{base}.part{i}{ext}.txt'
+        push_small_file(repo_name, chunk_path, chunk, f'{message} (part {i+1}/{len(chunks)})')
+        chunk_paths.append(os.path.basename(chunk_path))
+
+    # The real index.html is a tiny loader that fetches each chunk (as
+    # plain text, same-origin, no CORS issues on GitHub Pages) and
+    # writes the reassembled page in place. Judges and visitors see a
+    # normal, fully-rendered page — the splitting is invisible.
+    loader_html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Loading…</title>
+<style>html,body{{margin:0;background:#0B1D3A;height:100%}}</style>
+</head>
+<body>
+<script>
+(async function() {{
+  const parts = {json.dumps(chunk_paths)};
+  let html = '';
+  for (const p of parts) {{
+    const res = await fetch(p);
+    html += await res.text();
+  }}
+  document.open();
+  document.write(html);
+  document.close();
+}})();
+</script>
+</body>
+</html>"""
+    push_small_file(repo_name, path, loader_html, message)
+
+
+def push_file_to_repo(repo_name: str, path: str, content: str, message: str) -> None:
+    """
+    Creates or updates a single file in the repo.
+
+    Routes through the plain Contents API for small files, or the
+    chunked-commit workaround for large files — see the comment in
+    push_large_file_to_repo() for why this split exists.
+    """
+    encoded_size = len(base64.b64encode(content.encode('utf-8')))
+    if encoded_size >= CONTENTS_API_SAFE_LIMIT:
+        push_large_file_to_repo(repo_name, path, content, message)
+        return
+
+    push_small_file(repo_name, path, content, message)
 
 
 def enable_github_pages(repo_name: str) -> str:
@@ -721,15 +731,9 @@ def deploy_to_github(repo_name: str, org_name: str, html: str) -> str:
     MAIN_REPO = 'GiveBack'
     folder = f'built_websites/{repo_name}'
 
-    html, i18n_json = split_html_and_i18n(html)
-
     log.info(f'  -> Pushing index.html to {folder}/')
     push_file_to_repo(MAIN_REPO, f'{folder}/index.html', html,
                       f'Add site for {org_name}')
-
-    log.info(f'  -> Pushing i18n.json to {folder}/')
-    push_file_to_repo(MAIN_REPO, f'{folder}/i18n.json', i18n_json,
-                      f'Add translations for {org_name}')
 
     favicon_path = os.path.join(os.path.dirname(TEMPLATE_PATH), 'favicon.svg')
     with open(favicon_path, 'r') as fav:
@@ -750,6 +754,30 @@ ownership and customize it at any time.*
 
     live_url = f'https://{GH_ACTOR}.github.io/GiveBack/{folder}/'
     return live_url
+
+
+def wait_for_pages_live(url: str, timeout: int = 45, interval: int = 3) -> bool:
+    """
+    Polls a freshly-deployed GitHub Pages URL until it stops 404ing.
+    GitHub Pages typically takes 10-30 seconds to propagate a fresh
+    push, so opening the link immediately after deploy_site() returns
+    often shows a 404 even though the deploy itself succeeded.
+
+    Returns True once the page is live, or False if it's still not up
+    after `timeout` seconds (caller can decide what to tell the user
+    in that case — the link will still go live shortly after).
+    """
+    elapsed = 0
+    while elapsed < timeout:
+        try:
+            resp = requests.get(url, timeout=10)
+            if resp.status_code == 200:
+                return True
+        except requests.RequestException:
+            pass  # transient DNS/connection hiccups during propagation are normal
+        time.sleep(interval)
+        elapsed += interval
+    return False
 
 # ── Telegram notification ──────────────────────────────────────────────────────
 
@@ -806,31 +834,21 @@ def build_site(org_id: int, dry_run: bool = False) -> dict:
     images = fetch_pexels_images(org.get('category', 'default'), count=8)
     log.info(f'  ✓ {len(images)} images sourced')
 
-    # Fill the template — returns HTML with the i18n JSON appended behind
-    # a delimiter (see I18N_SPLIT_DELIMITER) rather than embedded inline
-    html_composite = fill_template(org, copy, images, translations)
-    html, i18n_json = split_html_and_i18n(html_composite)
-    log.info(f'  ✓ Template filled ({len(html):,} chars, i18n {len(i18n_json):,} chars)')
+    # Fill the template
+    html = fill_template(org, copy, images, translations)
+    log.info(f'  ✓ Template filled ({len(html):,} chars)')
 
-    # Save to DB and local file so the UI can preview it. The DB keeps
-    # the full composite (html + delimiter + i18n_json) since deploy_site()
-    # needs both pieces later; the local file gets clean HTML only.
+    # Save to DB and local file so the UI can preview it
     execute(
         "UPDATE orgs SET demo_html=?, demo_built_at=?, pipeline_stage='built' WHERE id=?",
-        (html_composite, datetime.now().isoformat(), org_id)
+        (html, datetime.now().isoformat(), org_id)
     )
 
-    # Also write locally for easy inspection during dev. Note: the local
-    # copy's language switcher won't show AI-translated content if you
-    # open this file directly (file:// fetch('i18n.json') is blocked by
-    # the browser) — only the deployed GitHub Pages version will. Static
-    # UI chrome (nav/buttons) still works fine locally either way.
+    # Also write locally for easy inspection during dev
     safe_name = re.sub(r'[^a-z0-9]', '_', org['name'].lower())
     local_path = f'generated/{safe_name}.html'
     with open(local_path, 'w', encoding='utf-8') as f:
         f.write(html)
-    with open(f'generated/{safe_name}.i18n.json', 'w', encoding='utf-8') as f:
-        f.write(i18n_json)
     log.info(f'  ✓ Saved locally to {local_path}')
 
     # Telegram ping so I know to open the Streamlit UI and review
@@ -850,6 +868,10 @@ def deploy_site(org_id: int) -> str:
     Called by the Streamlit UI after the human clicks "Approve & Deploy".
     Pushes the already-generated HTML to GitHub and activates Pages.
     Returns the live URL.
+
+    Waits for GitHub Pages to actually finish propagating before
+    returning, so the URL handed back is ready to open immediately
+    instead of 404ing for the first 10-20 seconds after a fresh push.
     """
     org = fetch_one('SELECT * FROM orgs WHERE id = ?', (org_id,))
     if not org or not org.get('demo_html'):
@@ -860,6 +882,13 @@ def deploy_site(org_id: int) -> str:
 
     repo_name = slugify(org['name'])
     live_url  = deploy_to_github(repo_name, org['name'], org['demo_html'])
+
+    log.info('  -> Waiting for GitHub Pages to finish propagating...')
+    is_live = wait_for_pages_live(live_url)
+    if is_live:
+        log.info('  ✓ Confirmed live')
+    else:
+        log.warning('  ⚠ Still propagating after 45s — link will work shortly')
 
     execute(
         "UPDATE orgs SET demo_url=?, github_repo=?, pipeline_stage='deployed' WHERE id=?",
